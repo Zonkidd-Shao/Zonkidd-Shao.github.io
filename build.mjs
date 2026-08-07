@@ -416,7 +416,7 @@ function renderCategories(allPosts, customNav) {
     if (list) parts.push(`<ul class="tag-posts">${list}</ul>`);
     if (childHtml) parts.push(`<div class="cat-children">${childHtml}</div>`);
     const subBadge = depth === 0 && children.length ? `<span class="cat-children-count">${children.length} 个子分类</span>` : '';
-    return `<div class="tag-group cat-group cat-depth-${Math.min(depth, 3)}" id="${escapeHtml(id)}" data-collapsed="false">
+    return `<div class="tag-group cat-group cat-depth-${Math.min(depth, 3)}" id="${escapeHtml(id)}" data-collapsed="true">
       <button class="group-toggle" type="button" aria-expanded="true">
         <span class="group-title"><span class="tag-name-inner">${escapeHtml(node.name)}</span> <span class="tag-count">${count}</span>${subBadge}</span>
         <span class="group-arrow" aria-hidden="true"></span>
@@ -426,8 +426,17 @@ function renderCategories(allPosts, customNav) {
   }
   const topLevel = sortedChildren(root);
   const groups = topLevel.map((c) => renderNode(c, 0)).join('\n  ');
-  const chips = topLevel
-    .map((node) => `<a class="tag-chip" href="#${encodeURIComponent(categoryId(node.path))}">${escapeHtml(node.name)} <em>${subtreePostCount(node)}</em></a>`)
+  // 收集所有节点（含二三级）→ 胶囊显示完整路径
+  const allChipNodes = [];
+  (function collectChips(node) {
+    for (const c of node.children.values()) {
+      const label = c.path.join(' / ');
+      allChipNodes.push({ id: categoryId(c.path), label, count: subtreePostCount(c), depth: c.path.length });
+      collectChips(c);
+    }
+  })(root);
+  const chips = allChipNodes
+    .map((n) => `<a class="tag-chip tag-chip-l${Math.min(n.depth, 3)}" href="#${encodeURIComponent(n.id)}">${escapeHtml(n.label)} <em>${n.count}</em></a>`)
     .join(' ');
   let nodeCount = 0;
   (function cnt(n) { for (const c of n.children.values()) { nodeCount += 1; cnt(c); } })(root);

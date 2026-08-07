@@ -518,6 +518,9 @@ a:hover { text-decoration: none; }
 
 .tag-cloud { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 44px; }
 .tag-cloud .tag-chip { font-size: 14px; padding: 6px 16px; }
+/* 二三级胶囊用较小字号和微妙色调区分层级 */
+.tag-chip-l2 { font-size: 13px !important; padding: 5px 13px !important; opacity: 0.85; }
+.tag-chip-l3 { font-size: 12px !important; padding: 4px 11px !important; opacity: 0.75; }
 
 .tag-group {
   margin-bottom: 28px;

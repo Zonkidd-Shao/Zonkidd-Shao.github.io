@@ -165,9 +165,6 @@
     const isCategories = /分类/.test(pageTitle) || location.pathname.endsWith('categories.html');
     const isTags = /标签/.test(pageTitle) || location.pathname.endsWith('tags.html');
 
-    const isCategories = /分类/.test(pageTitle) || location.pathname.endsWith('categories.html');
-    const isTags = /标签/.test(pageTitle) || location.pathname.endsWith('tags.html');
-
     // 恢复保存的折叠状态（分类页 / 标签页通用）
     collapseGroups.forEach(function (group) {
       const toggle = group.querySelector('.group-toggle');
