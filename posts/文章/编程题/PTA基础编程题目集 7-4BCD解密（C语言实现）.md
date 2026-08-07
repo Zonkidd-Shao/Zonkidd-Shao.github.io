@@ -2,7 +2,7 @@
 title: PTA基础编程题目集 7-4BCD解密（C语言实现）
 date: 2026-08-07
 tags: PTA, C语言, 编程题, 算法
-category: 算法题解
+category: PTA基础编程题目集/编程题/C语言实现
 summary: 本文是 PTA 编程题“7-4 BCD 解密”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示把"被误当成二进制解析的十进制整数"还原回正确 BCD 表示的思路。
 weight: 104
 ---

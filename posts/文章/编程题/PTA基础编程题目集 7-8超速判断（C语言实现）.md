@@ -2,7 +2,7 @@
 title: PTA基础编程题目集 7-8超速判断（C语言实现）
 date: 2026-08-07
 tags: PTA, C语言, 编程题, 算法
-category: 算法题解
+category: PTA基础编程题目集/编程题/C语言实现
 summary: 本文是 PTA 编程题“7-8 超速判断”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示用简单 if-else 分支判断车速是否超过 60 mph 并按指定格式输出。
 weight: 108
 ---

@@ -2,7 +2,7 @@
 title: PTA基础编程题目集 7-5表格输出（C语言实现）
 date: 2026-08-07
 tags: PTA, C语言, 编程题, 算法
-category: 算法题解
+category: PTA基础编程题目集/编程题/C语言实现
 summary: 本文是 PTA 编程题“7-5 表格输出”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 printf 严格对齐输出多行列表内容的格式控制。
 weight: 105
 ---

@@ -265,9 +265,15 @@ a:hover { text-decoration: none; }
   color: var(--primary-2);
   background: rgba(139, 92, 246, 0.1);
   border: 1px solid rgba(139, 92, 246, 0.2);
-  padding: 1px 9px;
+  padding: 2px 10px;
   border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
 }
+.cc-seg { white-space: nowrap; }
+.cc-sep { opacity: 0.4; font-weight: 400; font-size: 11px; }
 .card-title { font-size: 19px; font-weight: 700; line-height: 1.45; }
 .card-title a { color: var(--text); }
 .card-title a:hover { color: var(--primary); }
@@ -320,6 +326,25 @@ a:hover { text-decoration: none; }
   flex-wrap: wrap;
 }
 .post-meta .dot { color: var(--border); }
+.post-category {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.post-category a {
+  color: var(--primary-2);
+  font-weight: 600;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  padding: 2px 11px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+.post-category a:hover { background: var(--gradient); color: #fff; border-color: transparent; }
+.post-category .crumb-sep { opacity: 0.4; font-size: 12px; color: var(--text-secondary); }
 .post-tags { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
 
 .tag-chip {
@@ -506,6 +531,28 @@ a:hover { text-decoration: none; }
 .tag-group:hover {
   box-shadow: var(--shadow-hover);
   border-color: rgba(99, 102, 241, 0.35);
+}
+
+/* ---------------- 树形分类（最多 4 级） ---------------- */
+.cat-group .group-content { max-height: 30000px; }
+.cat-children {
+  padding: 6px 0 8px 20px;
+  margin-left: 6px;
+  border-left: 2px solid rgba(99, 102, 241, 0.18);
+}
+.cat-children .tag-group { margin-bottom: 12px; box-shadow: none; }
+.cat-children .group-toggle { padding: 12px 18px; }
+.cat-children .tag-name-inner { font-size: 15.5px; }
+.cat-children .tag-count { font-size: 11px; padding: 1px 8px; }
+.cat-children .tag-posts li { padding: 7px 4px; }
+.cat-children-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid var(--border);
+  padding: 1px 9px;
+  border-radius: 999px;
 }
 
 .group-toggle {

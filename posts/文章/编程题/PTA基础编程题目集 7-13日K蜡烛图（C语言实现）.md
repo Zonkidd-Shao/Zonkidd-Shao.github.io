@@ -2,7 +2,7 @@
 title: PTA基础编程题目集 7-13日K蜡烛图（C语言实现）
 date: 2026-08-07
 tags: PTA, C语言, 编程题, 算法
-category: 算法题解
+category: PTA基础编程题目集/编程题/C语言实现
 summary: 本文是 PTA 编程题“7-13 日K蜡烛图”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示基于 Open/High/Low/Close 四个价格判断蜡烛颜色类型及上下影线有无的多重比较方法。
 weight: 113
 ---

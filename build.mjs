@@ -9,7 +9,8 @@
  *   title:    文章标题（必填）
  *   date:     发布日期，格式 YYYY-MM-DD（必填，默认 1970-01-01）
  *   tags:     标签，逗号分隔（可选）
- *   category: 分类，一个（可选，默认"未分类"）
+ *   category: 分类路径，支持 1~4 级，用 / 分隔（可选，默认"未分类"）
+ *             例：category: 学习/编程/C语言/PTA （最多取前 4 级）
  *   summary:  摘要 / 副标题（可选，不填则自动截取正文前 120 字）
  *   pinned:   是否置顶 true/false（可选，默认 false）。置顶文章永远排在最前
  *   weight:   自定义排序权重（可选，数字越小越靠前，默认 9999）。排序优先级：pinned → weight → date
@@ -145,6 +146,20 @@ function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+/* ---------------- 分类路径工具（支持 1~4 级，用 / 分隔） ---------------- */
+function parseCategoryPath(cat) {
+  if (!cat) return ['未分类'];
+  const segs = cat.split('/').map((s) => s.trim()).filter(Boolean);
+  if (segs.length === 0) return ['未分类'];
+  return segs.slice(0, 4);
+}
+function categoryId(path) { return path.join('/'); }
+function subtreePostCount(node) {
+  let n = node.posts.length;
+  for (const c of node.children.values()) n += subtreePostCount(c);
+  return n;
+}
+
 /* ---------------- 页面模板 ---------------- */
 function layout({ title, prefix, body, activeNav = '', customNav = [] }) {
   const navItems = [
@@ -232,8 +247,12 @@ function postCard(post, prefix) {
     .map((t) => `<span class="card-tag">${escapeHtml(t)}</span>`)
     .join('');
   const pinnedBadge = post.pinned ? '<span class="pinned-badge" title="置顶文章">📌 置顶</span>' : '';
+  const catPath = post.categoryPath && post.categoryPath.length ? post.categoryPath : ['未分类'];
+  const catHtml = catPath
+    .map((seg, i) => `<span class="cc-seg">${escapeHtml(seg)}</span>` + (i < catPath.length - 1 ? '<span class="cc-sep" aria-hidden="true">/</span>' : ''))
+    .join('');
   return `<article class="post-card">
-  <div class="card-meta">${pinnedBadge}<time>${formatDate(post.date)}</time><span class="card-category">${escapeHtml(post.category || '')}</span></div>
+  <div class="card-meta">${pinnedBadge}<time>${formatDate(post.date)}</time><span class="card-category" title="${escapeHtml(catPath.join(' / '))}">${catHtml}</span></div>
   <h2 class="card-title"><a href="${prefix}posts/${post.slug}.html">${escapeHtml(post.title)}</a></h2>
   <p class="card-summary">${escapeHtml(post.summary)}</p>
   ${tags ? `<div class="card-tags">${tags}</div>` : ''}
@@ -271,6 +290,13 @@ function renderPost(post, customNav) {
   const tags = (post.tags || []).map((t) => tagChip(t, '../')).join(' ');
   const prev = post.prev ? `<a class="nav-post prev" href="../posts/${post.prev.slug}.html">← ${escapeHtml(post.prev.title)}</a>` : '<span></span>';
   const next = post.next ? `<a class="nav-post next" href="../posts/${post.next.slug}.html">${escapeHtml(post.next.title)} →</a>` : '<span></span>';
+  const catPath = post.categoryPath && post.categoryPath.length ? post.categoryPath : ['未分类'];
+  const catBreadcrumb = catPath
+    .map((seg, i) => {
+      const sub = catPath.slice(0, i + 1);
+      return `<a href="../categories.html#${encodeURIComponent(sub.join('/'))}">${escapeHtml(seg)}</a>`;
+    })
+    .join('<span class="crumb-sep" aria-hidden="true">/</span>');
   const body = `
 <article class="post-page">
   <div class="container post-container">
@@ -281,6 +307,7 @@ function renderPost(post, customNav) {
         <span class="dot">·</span>
         <span>${post.readingTime} 分钟阅读</span>
       </div>
+      <div class="post-category">${catBreadcrumb}</div>
       ${tags ? `<div class="post-tags">${tags}</div>` : ''}
     </header>
     <div class="post-content markdown-body">
@@ -358,42 +385,57 @@ function renderTags(allPosts, customNav) {
 }
 
 function renderCategories(allPosts, customNav) {
-  const catMap = new Map();
+  // 构建分类树：{ name, path, posts, children: Map }
+  const root = { name: '', path: [], posts: [], children: new Map() };
   for (const p of allPosts) {
-    const cat = p.category || '未分类';
-    if (!catMap.has(cat)) catMap.set(cat, []);
-    catMap.get(cat).push(p);
+    const path = p.categoryPath && p.categoryPath.length ? p.categoryPath : ['未分类'];
+    let node = root;
+    for (const seg of path) {
+      if (!node.children.has(seg)) {
+        node.children.set(seg, { name: seg, path: [...node.path, seg], posts: [], children: new Map() });
+      }
+      node = node.children.get(seg);
+    }
+    node.posts.push(p);
   }
-  const sortedCats = [...catMap.entries()].sort((a, b) => b[1].length - a[1].length);
-  const groups = sortedCats
-    .map(([cat, posts]) => {
-      const list = posts
-        .map(
-          (p) => `<li>
-            ${p.pinned ? '<span class="pinned-pin" title="置顶">📌</span> ' : ''}<a href="posts/${p.slug}.html">${escapeHtml(p.title)}</a>
-            <time>${formatDate(p.date)}</time>
-          </li>`
-        )
-        .join('');
-      return `<div class="tag-group" id="${encodeURIComponent(cat)}" data-collapsed="true">
-        <button class="group-toggle" type="button" aria-expanded="false">
-          <span class="group-title"><span class="tag-name-inner">${escapeHtml(cat)}</span> <span class="tag-count">${posts.length}</span></span>
-          <span class="group-arrow" aria-hidden="true"></span>
-        </button>
-        <div class="group-content">
-          <ul class="tag-posts">${list}</ul>
-        </div>
-      </div>`;
-    })
-    .join('\n  ');
-  const chips = sortedCats
-    .map(([cat, posts]) => `<a class="tag-chip" href="#${encodeURIComponent(cat)}">${escapeHtml(cat)} <em>${posts.length}</em></a>`)
+  function sortedChildren(node) {
+    return [...node.children.values()].sort((a, b) => {
+      const diff = subtreePostCount(b) - subtreePostCount(a);
+      return diff !== 0 ? diff : a.name.localeCompare(b.name, 'zh-Hans-CN');
+    });
+  }
+  function renderNode(node, depth) {
+    const id = categoryId(node.path);
+    const children = sortedChildren(node);
+    const count = subtreePostCount(node);
+    const list = node.posts
+      .map((p) => `<li>${p.pinned ? '<span class="pinned-pin" title="置顶">📌</span> ' : ''}<a href="posts/${p.slug}.html">${escapeHtml(p.title)}</a><time>${formatDate(p.date)}</time></li>`)
+      .join('');
+    const childHtml = children.map((c) => renderNode(c, depth + 1)).join('\n  ');
+    const parts = [];
+    if (list) parts.push(`<ul class="tag-posts">${list}</ul>`);
+    if (childHtml) parts.push(`<div class="cat-children">${childHtml}</div>`);
+    const subBadge = depth === 0 && children.length ? `<span class="cat-children-count">${children.length} 个子分类</span>` : '';
+    return `<div class="tag-group cat-group cat-depth-${Math.min(depth, 3)}" id="${escapeHtml(id)}" data-collapsed="false">
+      <button class="group-toggle" type="button" aria-expanded="true">
+        <span class="group-title"><span class="tag-name-inner">${escapeHtml(node.name)}</span> <span class="tag-count">${count}</span>${subBadge}</span>
+        <span class="group-arrow" aria-hidden="true"></span>
+      </button>
+      <div class="group-content">${parts.join('')}</div>
+    </div>`;
+  }
+  const topLevel = sortedChildren(root);
+  const groups = topLevel.map((c) => renderNode(c, 0)).join('\n  ');
+  const chips = topLevel
+    .map((node) => `<a class="tag-chip" href="#${encodeURIComponent(categoryId(node.path))}">${escapeHtml(node.name)} <em>${subtreePostCount(node)}</em></a>`)
     .join(' ');
+  let nodeCount = 0;
+  (function cnt(n) { for (const c of n.children.values()) { nodeCount += 1; cnt(c); } })(root);
   const body = `
 <section class="section page-head">
   <div class="container">
     <h1 class="page-title">分类</h1>
-    <p class="page-desc">按内容方向浏览文章，共 ${sortedCats.length} 个分类。点击分类标题或胶囊可聚焦查看该分组的文章。</p>
+    <p class="page-desc">按内容方向浏览文章，共 ${nodeCount} 个分类目录（最多 4 级）。点击分类标题可展开/收起子分类，点击顶部胶囊可快速定位。</p>
   </div>
 </section>
 <section class="section">
@@ -463,11 +505,13 @@ function readPosts() {
       const words = stripHtml(html).split(/\s+/).filter(Boolean).length;
       const pinned = fm.pinned === 'true' || fm.pinned === true;
       const weight = Number.isFinite(+fm.weight) && fm.weight !== '' && fm.weight != null ? +fm.weight : 9999;
+      const categoryPath = parseCategoryPath(fm.category);
       return {
         slug: slugify(relPath),
         title: fm.title || slugify(relPath),
         date: fm.date || '1970-01-01',
-        category: fm.category || '未分类',
+        category: categoryPath.join('/'),
+        categoryPath,
         tags,
         summary: fm.summary || excerpt(html, 120),
         html,

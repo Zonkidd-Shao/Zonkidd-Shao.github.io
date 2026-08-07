@@ -2,7 +2,7 @@
 title: PTA基础编程题目集 7-34通讯录的录入与显示（C语言实现）
 date: 2026-08-07
 tags: PTA, C语言, 编程题, 算法
-category: 算法题解
+category: PTA基础编程题目集/编程题/C语言实现
 summary: 本文是 PTA 编程题"7-34 通讯录的录入与显示"的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `struct Contact` 结构体（name、birthday、gender、fixedPhone、mobilePhone）数组一次性录入 N 条通讯录记录，再依次处理 K 次查询，对编号 0~N-1 内按"姓名 固话 手机 性别 生日"格式输出，否则输出 `Not Found`。
 weight: 134
 ---

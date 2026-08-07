@@ -165,155 +165,178 @@
     const isCategories = /分类/.test(pageTitle) || location.pathname.endsWith('categories.html');
     const isTags = /标签/.test(pageTitle) || location.pathname.endsWith('tags.html');
 
-    let focusActiveId = null;
-    let backBtn = null;
+    const isCategories = /分类/.test(pageTitle) || location.pathname.endsWith('categories.html');
+    const isTags = /标签/.test(pageTitle) || location.pathname.endsWith('tags.html');
 
+    // 恢复保存的折叠状态（分类页 / 标签页通用）
     collapseGroups.forEach(function (group) {
       const toggle = group.querySelector('.group-toggle');
       if (!toggle) return;
-
-      // 恢复保存的折叠状态
       const groupId = group.id;
-      const collapsed = groupId && savedState[pageKey + ':' + groupId];
-      if (collapsed) setCollapsed(group, true, false);
+      if (groupId && savedState[pageKey + ':' + groupId]) setCollapsed(group, true, false);
+    });
 
-      // 点击分组标题：根据是否在聚焦模式决定行为
-      toggle.addEventListener('click', function (e) {
-        // 如果当前点击的分组就是聚焦的分组 → 正常折叠/展开
-        if (focusActiveId && focusActiveId === groupId) {
+    if (isCategories) {
+      /* ---- 分类页：树形交互。点击标题 = 展开/收起该级，无聚焦模式 ---- */
+      collapseGroups.forEach(function (group) {
+        const toggle = group.querySelector('.group-toggle');
+        if (!toggle) return;
+        toggle.addEventListener('click', function () {
           const isCollapsed = group.dataset.collapsed === 'true';
           setCollapsed(group, !isCollapsed, true);
-          return;
-        }
-        // 其他情况（不在聚焦 or 聚焦其他分组）→ 切换/进入聚焦模式
-        e.preventDefault();
-        enterFocusMode(groupId, true);
-      });
-    });
-
-    // 动态插入「显示全部」返回按钮（聚焦模式时出现）
-    function ensureBackBtn() {
-      if (backBtn) return backBtn;
-      if (!groupWrap) return null;
-      backBtn = document.createElement('div');
-      backBtn.className = 'focus-back-bar';
-      const label = isCategories ? '显示全部分类' : (isTags ? '显示全部标签' : '显示全部');
-      backBtn.innerHTML =
-        '<button type="button" class="focus-back-btn" aria-label="显示全部">' +
-          '<span class="focus-back-icon" aria-hidden="true">←</span> ' +
-          '<span class="focus-back-label">' + label + '</span> ' +
-          '<span class="focus-active-name"></span>' +
-        '</button>';
-      groupWrap.parentNode.insertBefore(backBtn, groupWrap);
-      backBtn.querySelector('.focus-back-btn').addEventListener('click', function () {
-        exitFocusMode(true);
-      });
-      return backBtn;
-    }
-
-    // 进入聚焦模式：只显示指定分组，其他隐藏
-    function enterFocusMode(groupId, updateHash) {
-      if (!groupId) return;
-      const target = document.getElementById(groupId);
-      if (!target || !target.classList.contains('tag-group')) return;
-
-      focusActiveId = groupId;
-      if (groupWrap) groupWrap.classList.add('focus-mode');
-
-      // 其他分组隐藏 + 当前分组强制显示并展开
-      collapseGroups.forEach(function (g) {
-        if (g.id === groupId) {
-          g.classList.remove('focus-hidden');
-          g.classList.add('focus-active');
-          if (g.dataset.collapsed === 'true') setCollapsed(g, false, false);
-        } else {
-          g.classList.add('focus-hidden');
-          g.classList.remove('focus-active');
-        }
+        });
       });
 
-      // 显示返回按钮 + 填入激活分组名
-      const bar = ensureBackBtn();
-      if (bar) {
-        bar.style.display = '';
-        const nameEl = bar.querySelector('.focus-active-name');
-        if (nameEl) {
-          const titleEl = target.querySelector('.tag-name-inner');
-          nameEl.textContent = '｜当前：' + (titleEl ? titleEl.textContent.trim() : groupId);
+      function expandPath(group) {
+        let el = group;
+        while (el && el !== document.body) {
+          if (el.classList && el.classList.contains('tag-group') && el.dataset.collapsed === 'true') {
+            setCollapsed(el, false, false);
+          }
+          el = el.parentElement;
         }
       }
 
-      // 滚动到分组位置
-      try {
-        const rect = target.getBoundingClientRect();
-        if (rect.top < 100 || rect.top > 400) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      } catch (e) { /* ignore */ }
-
-      // 更新 URL hash
-      if (updateHash) {
-        const newHash = '#' + encodeURIComponent(groupId);
-        if (location.hash !== newHash) {
-          try {
-            history.replaceState(null, '', newHash);
-          } catch (e) { location.hash = newHash; }
-        }
-      }
-    }
-
-    // 退出聚焦模式：显示所有分组
-    function exitFocusMode(updateHash) {
-      focusActiveId = null;
-      if (groupWrap) groupWrap.classList.remove('focus-mode');
-
-      collapseGroups.forEach(function (g) {
-        g.classList.remove('focus-hidden');
-        g.classList.remove('focus-active');
-        // 退出聚焦时全部恢复为默认折叠状态
-        setCollapsed(g, true, false);
+      document.querySelectorAll('.tag-cloud .tag-chip[href^="#"]').forEach(function (chip) {
+        chip.addEventListener('click', function (e) {
+          const hash = chip.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          e.preventDefault();
+          const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+          if (!target) return;
+          expandPath(target);
+          try { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (err) { /* ignore */ }
+          try { history.replaceState(null, '', hash); } catch (err) { location.hash = hash; }
+        });
       });
 
-      // 隐藏返回按钮
-      if (backBtn) backBtn.style.display = 'none';
+      function applyCatHash() {
+        if (location.hash && location.hash.length > 1) {
+          const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+          if (target) {
+            expandPath(target);
+            try { target.scrollIntoView({ block: 'start' }); } catch (err) { /* ignore */ }
+          }
+        }
+      }
+      applyCatHash();
+      window.addEventListener('hashchange', applyCatHash);
+    } else {
+      /* ---- 标签页：聚焦模式（点击分组标题仅显示该分组） ---- */
+      let focusActiveId = null;
+      let backBtn = null;
 
-      // 清空 hash
-      if (updateHash && location.hash) {
+      collapseGroups.forEach(function (group) {
+        const toggle = group.querySelector('.group-toggle');
+        if (!toggle) return;
+        toggle.addEventListener('click', function (e) {
+          if (focusActiveId && focusActiveId === group.id) {
+            const isCollapsed = group.dataset.collapsed === 'true';
+            setCollapsed(group, !isCollapsed, true);
+            return;
+          }
+          e.preventDefault();
+          enterFocusMode(group.id, true);
+        });
+      });
+
+      function ensureBackBtn() {
+        if (backBtn) return backBtn;
+        if (!groupWrap) return null;
+        backBtn = document.createElement('div');
+        backBtn.className = 'focus-back-bar';
+        const label = isTags ? '显示全部标签' : '显示全部';
+        backBtn.innerHTML =
+          '<button type="button" class="focus-back-btn" aria-label="显示全部">' +
+            '<span class="focus-back-icon" aria-hidden="true">←</span> ' +
+            '<span class="focus-back-label">' + label + '</span> ' +
+            '<span class="focus-active-name"></span>' +
+          '</button>';
+        groupWrap.parentNode.insertBefore(backBtn, groupWrap);
+        backBtn.querySelector('.focus-back-btn').addEventListener('click', function () {
+          exitFocusMode(true);
+        });
+        return backBtn;
+      }
+
+      function enterFocusMode(groupId, updateHash) {
+        if (!groupId) return;
+        const target = document.getElementById(groupId);
+        if (!target || !target.classList.contains('tag-group')) return;
+        focusActiveId = groupId;
+        if (groupWrap) groupWrap.classList.add('focus-mode');
+        collapseGroups.forEach(function (g) {
+          if (g.id === groupId) {
+            g.classList.remove('focus-hidden');
+            g.classList.add('focus-active');
+            if (g.dataset.collapsed === 'true') setCollapsed(g, false, false);
+          } else {
+            g.classList.add('focus-hidden');
+            g.classList.remove('focus-active');
+          }
+        });
+        const bar = ensureBackBtn();
+        if (bar) {
+          bar.style.display = '';
+          const nameEl = bar.querySelector('.focus-active-name');
+          if (nameEl) {
+            const titleEl = target.querySelector('.tag-name-inner');
+            nameEl.textContent = '｜当前：' + (titleEl ? titleEl.textContent.trim() : groupId);
+          }
+        }
         try {
-          history.replaceState(null, '', location.pathname + location.search);
-        } catch (e) { location.hash = ''; }
-      }
-    }
-
-    // 点击 tag-cloud 胶囊：进入对应分组的聚焦模式
-    document.querySelectorAll('.tag-cloud .tag-chip[href^="#"]').forEach(function (chip) {
-      chip.addEventListener('click', function (e) {
-        const hash = chip.getAttribute('href');
-        if (!hash || hash.length < 2) return;
-        e.preventDefault();
-        const id = hash.slice(1);
-        enterFocusMode(id, true);
-      });
-    });
-
-    // 页面加载带 hash 的 URL 时进入聚焦模式
-    function applyHashFocus() {
-      if (location.hash && location.hash.length > 1) {
-        const id = location.hash.slice(1);
-        const target = document.getElementById(id);
-        if (target && target.classList.contains('tag-group')) {
-          enterFocusMode(id, false);
-          return;
+          const rect = target.getBoundingClientRect();
+          if (rect.top < 100 || rect.top > 400) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } catch (e) { /* ignore */ }
+        if (updateHash) {
+          const newHash = '#' + encodeURIComponent(groupId);
+          if (location.hash !== newHash) {
+            try { history.replaceState(null, '', newHash); } catch (e) { location.hash = newHash; }
+          }
         }
       }
-      // 无 hash 或无效 hash → 确保退出
-      if (focusActiveId) exitFocusMode(false);
-    }
-    applyHashFocus();
 
-    // 监听 hash 变化（浏览器前进/后退）
-    window.addEventListener('hashchange', function () {
+      function exitFocusMode(updateHash) {
+        focusActiveId = null;
+        if (groupWrap) groupWrap.classList.remove('focus-mode');
+        collapseGroups.forEach(function (g) {
+          g.classList.remove('focus-hidden');
+          g.classList.remove('focus-active');
+          const groupId = g.id;
+          if (groupId && savedState[pageKey + ':' + groupId]) {
+            setCollapsed(g, true, false);
+          }
+        });
+        if (backBtn) backBtn.style.display = 'none';
+        if (updateHash && location.hash) {
+          try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { location.hash = ''; }
+        }
+      }
+
+      document.querySelectorAll('.tag-cloud .tag-chip[href^="#"]').forEach(function (chip) {
+        chip.addEventListener('click', function (e) {
+          const hash = chip.getAttribute('href');
+          if (!hash || hash.length < 2) return;
+          e.preventDefault();
+          enterFocusMode(hash.slice(1), true);
+        });
+      });
+
+      function applyHashFocus() {
+        if (location.hash && location.hash.length > 1) {
+          const id = location.hash.slice(1);
+          const target = document.getElementById(id);
+          if (target && target.classList.contains('tag-group')) {
+            enterFocusMode(id, false);
+            return;
+          }
+        }
+        if (focusActiveId) exitFocusMode(false);
+      }
       applyHashFocus();
-    });
+      window.addEventListener('hashchange', function () { applyHashFocus(); });
+    }
   }
 })();
