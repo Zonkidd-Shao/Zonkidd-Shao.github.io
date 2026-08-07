@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文是 PTA 编程题'7-36 复数四则运算'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将两个复数 C1=a1+b1i、C2=a2+b2i 按 +、−、×、÷ 四则运算公式计算结果，并通过 `printComplex` 函数按'保留一位小数、实部虚部接近 0 时省略、全 0 时输出 0.0'的格式化规则输出完整运算表达式。">
+<title>PTA基础编程题目集 7-36复数四则运算（C语言实现）</title>
+
+
+<link rel="canonical" href="https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-36%E5%A4%8D%E6%95%B0%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/scss/style.min.59c5eb617b2b83358d0baf163162325d5249a2be44239b430beb29a87c1ddbe4.css"><meta property='og:title' content="PTA基础编程题目集 7-36复数四则运算（C语言实现）">
+<meta property='og:description' content="本文是 PTA 编程题'7-36 复数四则运算'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将两个复数 C1=a1+b1i、C2=a2+b2i 按 +、−、×、÷ 四则运算公式计算结果，并通过 `printComplex` 函数按'保留一位小数、实部虚部接近 0 时省略、全 0 时输出 0.0'的格式化规则输出完整运算表达式。">
+<meta property='og:url' content='https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-36%E5%A4%8D%E6%95%B0%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/'>
+<meta property='og:site_name' content='Zonkidd 的技术博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PTA' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='编程题' /><meta property='article:tag' content='算法' /><meta property='article:published_time' content='2026-08-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-08-07T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="PTA基础编程题目集 7-36复数四则运算（C语言实现）">
+<meta name="twitter:description" content="本文是 PTA 编程题'7-36 复数四则运算'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将两个复数 C1=a1+b1i、C2=a2+b2i 按 +、−、×、÷ 四则运算公式计算结果，并通过 `printComplex` 函数按'保留一位小数、实部虚部接近 0 时省略、全 0 时输出 0.0'的格式化规则输出完整运算表达式。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Zonkidd 的技术博客</a></h1>
+            <h2 class="site-description">记录代码、探索技术、分享思考</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav class="toc-nav" id="TableOfContents">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-printcomplexa-b-格式化输出函数">1. <code>printComplex(a, b)</code> 格式化输出函数</a></li>
+        <li><a href="#2-printopa1b1-op-a2b2-ab-整行表达式">2. <code>printOp(a1,b1, op, a2,b2, a,b)</code> 整行表达式</a></li>
+        <li><a href="#3-主函数-main">3. 主函数 main</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-36%E5%A4%8D%E6%95%B0%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-36复数四则运算（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题&#39;7-36 复数四则运算&#39;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将两个复数 C1=a1&#43;b1i、C2=a2&#43;b2i 按 &#43;、−、×、÷ 四则运算公式计算结果，并通过 `printComplex` 函数按&#39;保留一位小数、实部虚部接近 0 时省略、全 0 时输出 0.0&#39;的格式化规则输出完整运算表达式。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        7 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+
+    
+    <aside class="article-toc">
+        <details>
+            <summary>
+                <div class="article-toc-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    <span>Table of contents</span>
+                </div>
+            </summary>
+            <nav class="toc-nav">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-printcomplexa-b-格式化输出函数">1. <code>printComplex(a, b)</code> 格式化输出函数</a></li>
+        <li><a href="#2-printopa1b1-op-a2b2-ab-整行表达式">2. <code>printOp(a1,b1, op, a2,b2, a,b)</code> 整行表达式</a></li>
+        <li><a href="#3-主函数-main">3. 主函数 main</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </details>
+    </aside>
+    
+
+    <section class="article-content">
+    
+    
+    
+    <blockquote>
+        <p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-36 复数四则运算&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将两个复数 C1=a1+b1i、C2=a2+b2i 按 +、−、×、÷ 四则运算公式计算结果，并通过 <code>printComplex</code> 函数按&quot;保留一位小数、实部虚部接近 0 时省略、全 0 时输出 0.0&quot;的格式化规则输出完整运算表达式。</p>
+
+    </blockquote>
+<h2 id="题目描述">题目描述
+</h2><p>本题要求编写程序，计算2个复数的和、差、积、商。</p>
+<h3 id="输入格式">输入格式：
+</h3><p>输入在一行中按照a1 b1 a2 b2的格式给出2个复数C1=a1+b1i和C2=a2+b2i的实部和虚部。题目保证C2不为0。</p>
+<h3 id="输出格式">输出格式：
+</h3><p>分别在4行中按照(a1+b1i) 运算符 (a2+b2i) = 结果的格式顺序输出2个复数的和、差、积、商，数字精确到小数点后1位。如果结果的实部或者虚部为0，则不输出。如果结果为0，则输出0.0。</p>
+<h3 id="输入样例">输入样例：
+</h3><pre tabindex="0"><code class="language-in" data-lang="in">2 3.08 -2.04 5.06
+</code></pre><pre tabindex="0"><code class="language-in" data-lang="in">1 1 -1 -1.01
+</code></pre><h3 id="输出样例">输出样例：
+</h3><pre tabindex="0"><code class="language-out" data-lang="out">(2.0+3.1i) + (-2.0+5.1i) = 8.1i
+(2.0-2.0i) - (-2.0+5.1i) = 4.0-2.0i
+(2.0+3.1i) * (-2.0+5.1i) = -19.7+3.8i
+(2.0+3.1i) / (-2.0+5.1i) = 0.4-0.6i
+</code></pre><pre tabindex="0"><code class="language-out" data-lang="out">(1.0+1.0i) + (-1.0-1.0i) = 0.0
+(1.0+1.0i) - (-1.0-1.0i) = 2.0+2.0i
+(1.0+1.0i) * (-1.0-1.0i) = -2.0i
+(1.0+1.0i) / (-1.0-1.0i) = -1.0
+</code></pre><h2 id="解题思路">解题思路
+</h2><p>这道题的核心是<strong>复数四则运算公式 + 统一格式化输出函数 + 精度为 0.05 的&quot;判近 0&quot;阈值</strong>。首先写一个通用 <code>printComplex(a, b)</code> 函数按规则输出 a+bi：</p>
+<ul>
+<li>实部、虚部的绝对值都 &lt; 0.05 → 视作 0，输出 <code>&quot;0.0&quot;</code></li>
+<li>仅实部接近 0 → 输出 <code>&quot;%.1fi&quot;</code>（只用虚部，自带正号要特别处理：如果虚部是负则自带负号、正则 printf 会有 + 号吗？看下面分析）</li>
+<li>仅虚部接近 0 → 输出 <code>&quot;%.1f&quot;</code>（只用实部）</li>
+<li>两者都不为 0：如果虚部 b&gt;0 → <code>&quot;%.1f+%.1fi&quot;</code>；如果 b&lt;0 → <code>&quot;%.1f%.1fi&quot;</code>（b 自带负号，不用额外写 +）
+然后再写一个 <code>printOp(...)</code> 函数统一输出&quot;左操作数 运算符 右操作数 = 结果&quot;的完整表达式。
+主程序读入 a1,b1,a2,b2 四个 double，分别按公式计算 +、−、×、÷ 的结果 (a,b)，每行依次调用 <code>printOp</code> 即可。</li>
+</ul>
+<h3 id="核心问题分析">核心问题分析
+</h3><ol>
+<li><strong>复数运算公式</strong>（C1=a1+b1i，C2=a2+b2i）：
+<ul>
+<li>加法：(a1+a2) + (b1+b2)i</li>
+<li>减法：(a1−a2) + (b1−b2)i</li>
+<li>乘法：(a1·a2 − b1·b2) + (a1·b2 + a2·b1)i</li>
+<li>除法：分母 = a2² + b2²（C2 不为 0，保证分母 &gt;0）；
+实部 = (a1·a2 + b1·b2) / 分母；
+虚部 = (b1·a2 − a1·b2) / 分母。</li>
+</ul>
+</li>
+<li><strong>格式化输出（关键）</strong>：保留 1 位小数后，实际数值如果在 −0.05 到 +0.05 之间（即四舍五入为 0.0），就判定&quot;不输出该部分&quot;：
+<ul>
+<li><code>fabs(a) &lt; 0.05</code> 表示实部四舍五入为 0.0</li>
+<li><code>fabs(b) &lt; 0.05</code> 表示虚部四舍五入为 0.0</li>
+<li>判断组合：
+<ul>
+<li>两者都 &lt; 0.05 → <code>printf(&quot;0.0&quot;)</code></li>
+<li>仅实部 &lt; 0.05 → 直接 <code>printf(&quot;%.1fi&quot;, b)</code>，但要注意 b&gt;0 时格式 %.1fi 会打印 <code>8.1i</code> 正确；b&lt;0 时会打 <code>-2.0i</code> 也对（带负号），没问题</li>
+<li>仅虚部 &lt; 0.05 → <code>printf(&quot;%.1f&quot;, a)</code> 正确</li>
+<li>两者都 ≥ 0.05：需要区分虚部正负号
+<ul>
+<li>b &gt; 0 → <code>&quot;%.1f+%.1fi&quot;</code>（显式写 +，因为 %.1f 不打正号）</li>
+<li>b &lt; 0 → <code>&quot;%.1f%.1fi&quot;</code>（b 为负，格式自动打负号，如 4.0-2.0i）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>完整表达式格式</strong>：
+<ul>
+<li>每一行形式为 <code>(C1_string) op (C2_string) = result_string</code></li>
+<li>其中 C1、C2、结果三者的格式完全相同，都调用 <code>printComplex</code> 即可统一</li>
+<li>为避免重复代码，写 <code>printOp(a1, b1, op, a2, b2, a, b)</code> 先打 <code>(</code>，再打印 C1，再打 <code>) op (</code>，打印 C2，再打 <code>) = </code>，最后打印结果，换行。</li>
+</ul>
+</li>
+<li><strong>样例一对照</strong>：
+<ul>
+<li>输入：a1=2, b1=3.08, a2=−2.04, b2=5.06</li>
+<li>四舍五入到 1 位小数：a1→2.0, b1→3.1, a2→−2.0, b2→5.1</li>
+<li>加法：(2.0+3.1i) + (−2.0+5.1i) → a=0, b=8.2 → 实部近似 0 → 输出 <code>8.1i</code> ✓</li>
+<li>减法、乘法、除法同理与样例匹配。</li>
+</ul>
+</li>
+</ol>
+<h3 id="算法原理说明">算法原理说明
+</h3><ol>
+<li>读 a1, b1, a2, b2（四 double）</li>
+<li>加法：a=a1+a2, b=b1+b2 → printOp(a1,b1,&rsquo;+&rsquo;,a2,b2,a,b)</li>
+<li>减法：a=a1−a2, b=b1−b2 → printOp(&hellip;, &lsquo;-&rsquo;, &hellip;)</li>
+<li>乘法：a=a1·a2−b1·b2, b=a1·b2+a2·b1 → printOp(&hellip;, &lsquo;*&rsquo;, &hellip;)</li>
+<li>除法：den=a2²+b2²；a=(a1·a2+b1·b2)/den；b=(b1·a2−a1·b2)/den → printOp(&hellip;, &lsquo;/&rsquo;, &hellip;)</li>
+</ol>
+<h3 id="具体计算步骤">具体计算步骤
+</h3><ol>
+<li>输入 4 个 double</li>
+<li>按 +、−、×、÷ 依次计算每一对 (a,b)</li>
+<li>每次打印完整表达式（复用 <code>printComplex</code> 格式化 3 次）</li>
+<li>输出换行，结束</li>
+</ol>
+<h2 id="代码部分实现">代码部分实现
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;       // 标准输入输出：scanf、printf</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;math.h&gt;        // 数学函数：fabs（浮点数取绝对值）</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 格式化输出一个复数 a+bi
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 规则：保留 1 位小数；实部/虚部&#34;接近 0&#34;（abs&lt;0.05）的部分不输出；两者都 0 输出 0.0
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printComplex</span>(<span style="color:#66d9ef">double</span> a, <span style="color:#66d9ef">double</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fabs</span>(a) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">fabs</span>(b) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span>) {      <span style="color:#75715e">// 两者四舍五入后均为 0
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;0.0&#34;</span>);                           <span style="color:#75715e">// 输出 0.0
+</span></span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fabs</span>(a) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span>) {                 <span style="color:#75715e">// 仅实部约为 0，只输出虚部
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%.1fi&#34;</span>, b);                      <span style="color:#75715e">// %.1f 处理虚部符号（正自动不带+、负自带-）
+</span></span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fabs</span>(b) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span>) {                 <span style="color:#75715e">// 仅虚部约为 0，只输出实部
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%.1f&#34;</span>, a);                       <span style="color:#75715e">// 实部格式
+</span></span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {                           <span style="color:#75715e">// 两者均不为 0，且虚部为正
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%.1f+%.1fi&#34;</span>, a, b);              <span style="color:#75715e">// 中间显式写 + 号（%.1f 不打印正号）
+</span></span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {                                      <span style="color:#75715e">// 两者均不为 0，且虚部为负
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%.1f%.1fi&#34;</span>, a, b);               <span style="color:#75715e">// b 为负，格式自动输出负号
+</span></span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 打印一行完整的运算表达式：(a1+b1i) op (a2+b2i) = 结果(a+bi)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// op 是运算符字符：&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printOp</span>(<span style="color:#66d9ef">double</span> a1, <span style="color:#66d9ef">double</span> b1, <span style="color:#66d9ef">char</span> op, <span style="color:#66d9ef">double</span> a2, <span style="color:#66d9ef">double</span> b2, <span style="color:#66d9ef">double</span> a, <span style="color:#66d9ef">double</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;(&#34;</span>);                                  <span style="color:#75715e">// 左括号
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printComplex</span>(a1, b1);                         <span style="color:#75715e">// 打印左操作数复数
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;) %c (&#34;</span>, op);                         <span style="color:#75715e">// 右括号、空格、运算符、空格、左括号
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printComplex</span>(a2, b2);                         <span style="color:#75715e">// 打印右操作数复数
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;) = &#34;</span>);                               <span style="color:#75715e">// 右括号、空格、等号、空格
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printComplex</span>(a, b);                           <span style="color:#75715e">// 打印结果复数
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);                                 <span style="color:#75715e">// 一行结束换行
+</span></span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> a1, b1, a2, b2;                        <span style="color:#75715e">// 两个复数 C1=a1+b1i、C2=a2+b2i 的实虚部
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%lf %lf %lf %lf&#34;</span>, <span style="color:#f92672">&amp;</span>a1, <span style="color:#f92672">&amp;</span>b1, <span style="color:#f92672">&amp;</span>a2, <span style="color:#f92672">&amp;</span>b2); <span style="color:#75715e">// 读入四个 double
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> a, b;          <span style="color:#75715e">// 每次运算结果的实部 a 与虚部 b
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 加法：(a1+a2) + (b1+b2)i
+</span></span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> a1 <span style="color:#f92672">+</span> a2;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> b1 <span style="color:#f92672">+</span> b2;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printOp</span>(a1, b1, <span style="color:#e6db74">&#39;+&#39;</span>, a2, b2, a, b);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 减法：(a1-a2) + (b1-b2)i
+</span></span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> a1 <span style="color:#f92672">-</span> a2;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> b1 <span style="color:#f92672">-</span> b2;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printOp</span>(a1, b1, <span style="color:#e6db74">&#39;-&#39;</span>, a2, b2, a, b);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 乘法：(a1*a2 - b1*b2) + (a1*b2 + a2*b1)i
+</span></span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> a1 <span style="color:#f92672">*</span> a2 <span style="color:#f92672">-</span> b1 <span style="color:#f92672">*</span> b2;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> a1 <span style="color:#f92672">*</span> b2 <span style="color:#f92672">+</span> a2 <span style="color:#f92672">*</span> b1;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printOp</span>(a1, b1, <span style="color:#e6db74">&#39;*&#39;</span>, a2, b2, a, b);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 除法：分子分母同乘 C2 的共轭 (a2-b2i)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> denom <span style="color:#f92672">=</span> a2 <span style="color:#f92672">*</span> a2 <span style="color:#f92672">+</span> b2 <span style="color:#f92672">*</span> b2;  <span style="color:#75715e">// 分母：|C2|^2 = a2^2 + b2^2（题目保证 C2≠0，故分母 &gt; 0）
+</span></span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> (a1 <span style="color:#f92672">*</span> a2 <span style="color:#f92672">+</span> b1 <span style="color:#f92672">*</span> b2) <span style="color:#f92672">/</span> denom;   <span style="color:#75715e">// 实部 = (a1*a2 + b1*b2)/分母
+</span></span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> (b1 <span style="color:#f92672">*</span> a2 <span style="color:#f92672">-</span> a1 <span style="color:#f92672">*</span> b2) <span style="color:#f92672">/</span> denom;   <span style="color:#75715e">// 虚部 = (b1*a2 - a1*b2)/分母
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printOp</span>(a1, b1, <span style="color:#e6db74">&#39;/&#39;</span>, a2, b2, a, b);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// 程序正常结束
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="代码流程说明">代码流程说明
+</h2><h3 id="1-printcomplexa-b-格式化输出函数">1. <code>printComplex(a, b)</code> 格式化输出函数
+</h3><ul>
+<li>双阈值：<code>fabs(a)&lt;0.05</code>、<code>fabs(b)&lt;0.05</code>
+<ul>
+<li>两者都成立 → <code>0.0</code></li>
+<li>仅实部 0 → <code>%.1fi</code></li>
+<li>仅虚部 0 → <code>%.1f</code></li>
+<li>都非 0：b&gt;0 打 <code>%.1f+%.1fi</code>；b&lt;0 打 <code>%.1f%.1fi</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-printopa1b1-op-a2b2-ab-整行表达式">2. <code>printOp(a1,b1, op, a2,b2, a,b)</code> 整行表达式
+</h3><ul>
+<li><code>printf(&quot;(&quot;) → printComplex(a1,b1) → &quot;) op (&quot; → printComplex(a2,b2) → &quot;) = &quot; → printComplex(a,b) → &quot;\n&quot;</code></li>
+</ul>
+<h3 id="3-主函数-main">3. 主函数 main
+</h3><ul>
+<li><code>scanf(&quot;%lf %lf %lf %lf&quot;, &amp;a1, &amp;b1, &amp;a2, &amp;b2)</code> 读 4 个 double</li>
+<li>加法：a=a1+a2, b=b1+b2 → 调 printOp(&rsquo;+&rsquo;)</li>
+<li>减法：a=a1−a2, b=b1−b2 → 调 printOp(&rsquo;-&rsquo;)</li>
+<li>乘法：a=a1a2−b1b2, b=a1b2+a2b1 → 调 printOp(&rsquo;*&rsquo;)</li>
+<li>除法：den=a2²+b2²；a=(a1a2+b1b2)/den；b=(b1a2−a1b2)/den → 调 printOp(&rsquo;/')</li>
+<li><code>return 0</code></li>
+</ul>
+<h2 id="代码流程图">代码流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始\nmain()"] --> B["scanf 读 a1,b1,a2,b2"]
+  B --> C["加法：a=a1+a2,b=b1+b2\nprintOp +"]
+  C --> D["减法：a=a1-a2,b=b1-b2\nprintOp -"]
+  D --> E["乘法：a=a1a2-b1b2, b=a1b2+a2b1\nprintOp *"]
+  E --> F["除法：den=a2²+b2²\na=(a1a2+b1b2)/den\nb=(b1a2-a1b2)/den\nprintOp /"]
+  F --> G["return 0"]
+  G --> H["结束"]</pre><h2 id="解题流程图">解题流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始"] --> B["输入 4 个实数 a1 b1 a2 b2（C1=a1+b1i，C2=a2+b2i）"]
+  B --> C["按 +、-、*、/ 顺序做 4 次运算"]
+  C --> D["对每个运算结果(a,b)，与 C1、C2 一起传入打印函数"]
+  D --> E["格式化函数 printComplex：按 1 位小数 + 近 0 不输出规则输出 a+bi"]
+  E --> F["每次运算输出一行：(C1) op (C2) = 结果"]
+  F --> G{"4 次运算都完成?"}
+  G -- "否" --> C
+  G -- "是" --> H["结束"]</pre>
+</section>
+
+
+    <footer class="article-meta article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pta/">PTA</a>
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/">编程题</a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside>
+    <h2 class="section-title">Related content</h2>
+    <div class="subsection-list">
+        <div class="article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-10%E8%AE%A1%E7%AE%97%E5%B7%A5%E8%B5%84c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-10计算工资（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-11%E5%88%86%E6%AE%B5%E8%AE%A1%E7%AE%97%E5%B1%85%E6%B0%91%E6%B0%B4%E8%B4%B9c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-11分段计算居民水费（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-12%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9A%84%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97%E5%99%A8c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-12两个数的简单计算器（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-13%E6%97%A5k%E8%9C%A1%E7%83%9B%E5%9B%BEc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-13日K蜡烛图（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-14%E6%B1%82%E6%95%B4%E6%95%B0%E6%AE%B5%E5%92%8Cc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-14求整数段和（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+
+        <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Zonkidd 的技术博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+
+
+
+<script type="module">
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script>
+
+    <div class="mermaid-modal" id="mermaid-modal">
+    <div class="mermaid-modal-header">
+        <div class="mermaid-modal-controls">
+            <button data-zoom="-1">− Zoom Out</button>
+            <button data-zoom="0">Reset (100%)</button>
+            <button data-zoom="1">+ Zoom In</button>
+            <button data-zoom="fit">Fit to Screen</button>
+        </div>
+        <button class="mermaid-modal-close" id="mermaid-modal-close">✕ Close (Esc)</button>
+    </div>
+    <div class="mermaid-modal-body" id="mermaid-modal-body">
+        <div class="mermaid-modal-content" id="mermaid-modal-content"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script type="module">
+import { initMermaidPage } from '\/ts\/mermaid.js';
+initMermaidPage({"darkTheme":"dark","darkThemeVariables":{},"htmlLabels":true,"lightTheme":"default","lightThemeVariables":{},"look":"classic","securityLevel":"strict","transparentBackground":false});
+</script>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/ts/main.1ff1e5fdc4e178ed422e50aa407526dc552f26342d729343fded19416194382c.js" defer></script>
+
+
+    </body>
+</html>

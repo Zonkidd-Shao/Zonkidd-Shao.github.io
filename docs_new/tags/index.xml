@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Tags on Zonkidd 的技术博客</title>
+        <link>https://zonkidd-shao.github.io/tags/</link>
+        <description>Recent content in Tags on Zonkidd 的技术博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Fri, 07 Aug 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://zonkidd-shao.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+            <title>C语言</title>
+            <link>https://zonkidd-shao.github.io/tags/c%E8%AF%AD%E8%A8%80/</link>
+            <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+            <guid>https://zonkidd-shao.github.io/tags/c%E8%AF%AD%E8%A8%80/</guid>
+            <description></description>
+        </item><item>
+            <title>PTA</title>
+            <link>https://zonkidd-shao.github.io/tags/pta/</link>
+            <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+            <guid>https://zonkidd-shao.github.io/tags/pta/</guid>
+            <description></description>
+        </item><item>
+            <title>函数题</title>
+            <link>https://zonkidd-shao.github.io/tags/%E5%87%BD%E6%95%B0%E9%A2%98/</link>
+            <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+            <guid>https://zonkidd-shao.github.io/tags/%E5%87%BD%E6%95%B0%E9%A2%98/</guid>
+            <description></description>
+        </item><item>
+            <title>算法</title>
+            <link>https://zonkidd-shao.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+            <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+            <guid>https://zonkidd-shao.github.io/tags/%E7%AE%97%E6%B3%95/</guid>
+            <description></description>
+        </item><item>
+            <title>编程题</title>
+            <link>https://zonkidd-shao.github.io/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/</link>
+            <pubDate>Fri, 07 Aug 2026 00:00:00 +0000</pubDate>
+            <guid>https://zonkidd-shao.github.io/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/</guid>
+            <description></description>
+        </item></channel>
+</rss>

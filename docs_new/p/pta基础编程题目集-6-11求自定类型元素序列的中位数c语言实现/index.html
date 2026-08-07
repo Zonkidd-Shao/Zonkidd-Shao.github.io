@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文是 PTA 函数题“6-11 求自定类型元素序列的中位数”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示希尔排序后取中间元素求中位数的实现方法。">
+<title>PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）</title>
+
+
+<link rel="canonical" href="https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-11%E6%B1%82%E8%87%AA%E5%AE%9A%E7%B1%BB%E5%9E%8B%E5%85%83%E7%B4%A0%E5%BA%8F%E5%88%97%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/scss/style.min.59c5eb617b2b83358d0baf163162325d5249a2be44239b430beb29a87c1ddbe4.css"><meta property='og:title' content="PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）">
+<meta property='og:description' content="本文是 PTA 函数题“6-11 求自定类型元素序列的中位数”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示希尔排序后取中间元素求中位数的实现方法。">
+<meta property='og:url' content='https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-11%E6%B1%82%E8%87%AA%E5%AE%9A%E7%B1%BB%E5%9E%8B%E5%85%83%E7%B4%A0%E5%BA%8F%E5%88%97%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/'>
+<meta property='og:site_name' content='Zonkidd 的技术博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PTA' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='函数题' /><meta property='article:tag' content='算法' /><meta property='article:published_time' content='2026-08-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-08-07T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）">
+<meta name="twitter:description" content="本文是 PTA 函数题“6-11 求自定类型元素序列的中位数”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示希尔排序后取中间元素求中位数的实现方法。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Zonkidd 的技术博客</a></h1>
+            <h2 class="site-description">记录代码、探索技术、分享思考</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav class="toc-nav" id="TableOfContents">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a></li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#函数部分实现">函数部分实现</a></li>
+    <li><a href="#完整代码实现">完整代码实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-主函数读数据">1. 主函数：读数据</a></li>
+        <li><a href="#2-median-函数希尔排序降序">2. Median 函数：希尔排序（降序）</a></li>
+        <li><a href="#3-取中位数">3. 取中位数</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E5%87%BD%E6%95%B0%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(2, 60%, 84%); color: hsl(2, 60%, 15%);">
+                PTA基础编程题目集/函数题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-11%E6%B1%82%E8%87%AA%E5%AE%9A%E7%B1%BB%E5%9E%8B%E5%85%83%E7%B4%A0%E5%BA%8F%E5%88%97%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 函数题“6-11 求自定类型元素序列的中位数”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示希尔排序后取中间元素求中位数的实现方法。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        4 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+
+    
+    <aside class="article-toc">
+        <details>
+            <summary>
+                <div class="article-toc-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    <span>Table of contents</span>
+                </div>
+            </summary>
+            <nav class="toc-nav">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a></li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#函数部分实现">函数部分实现</a></li>
+    <li><a href="#完整代码实现">完整代码实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-主函数读数据">1. 主函数：读数据</a></li>
+        <li><a href="#2-median-函数希尔排序降序">2. Median 函数：希尔排序（降序）</a></li>
+        <li><a href="#3-取中位数">3. 取中位数</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </details>
+    </aside>
+    
+
+    <section class="article-content">
+    
+    
+    
+    <blockquote>
+        <p><strong>摘要</strong>：本文是 PTA 函数题“6-11 求自定类型元素序列的中位数”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示希尔排序后取中间元素求中位数的实现方法。</p>
+
+    </blockquote>
+<h2 id="题目描述">题目描述
+</h2><p>本题要求实现一个函数，求N个集合元素A[]的中位数，即序列中第⌊(N+1)/2⌋大的元素。其中集合元素的类型为自定义的ElementType。</p>
+<p>函数接口定义：
+ElementType Median( ElementType A[], int N );
+其中给定集合元素存放在数组A[]中，正整数N是数组元素个数。该函数须返回N个A[]元素的中位数，其值也必须是ElementType类型。</p>
+<p>裁判测试程序样例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAXN 10
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">float</span> ElementType;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ElementType <span style="color:#a6e22e">Median</span>( ElementType A[], <span style="color:#66d9ef">int</span> N );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span> ()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    ElementType A[MAXN];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> N, i;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>N);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ( i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span>N; i<span style="color:#f92672">++</span> )
+</span></span><span style="display:flex;"><span>        scanf(<span style="color:#e6db74">&#34;%f&#34;</span>, <span style="color:#f92672">&amp;</span>A[i]);
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;%.2f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, Median(A, N));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 你的代码将被嵌在这里 */</span>
+</span></span></code></pre></div><p>输入样例：</p>
+<pre tabindex="0"><code class="language-in" data-lang="in">3
+12.3 34 -5
+</code></pre><p>输出样例：</p>
+<pre tabindex="0"><code class="language-out" data-lang="out">12.30
+</code></pre><h2 id="解题思路">解题思路
+</h2><p>这道题的核心是<strong>求 N 个元素的中位数</strong>。题目定义的中位数是&quot;第 ⌊(N+1)/2⌋ 大的元素&quot;，等价于把数组降序排列后，取下标为 (N-1)/2（整数除法向下取整）的元素。</p>
+<h3 id="核心问题分析">核心问题分析
+</h3><ol>
+<li><strong>排序选择</strong>：中位数的最直接求法是&quot;先排序再取中间&quot;。由于 PTA 函数题往往对时间复杂度有要求（N 可能较大），选择 O(N^1.3) 左右的希尔排序比简单插入/冒泡 O(N²) 更稳妥。</li>
+<li><strong>降序 or 升序</strong>：题目要求的是&quot;第 k 大&quot;，用降序排序后 A[(N-1)/2] 正好对应第 ⌊(N+1)/2⌋ 大的元素。若用升序则需要计算转换下标。</li>
+<li><strong>希尔排序增量</strong>：采用经典的&quot;折半增量序列&quot;gap = N/2 → gap/=2 → &hellip; → gap=1。gap=1 时退化为普通插入排序，但此时数组已基本有序。</li>
+</ol>
+<h3 id="算法原理说明">算法原理说明
+</h3><p>希尔排序（Shell Sort，降序）+ 取中间位：</p>
+<ol>
+<li>初始 gap = N/2。</li>
+<li>对每个 gap，把数组分成 gap 组（按下标 mod gap 分组），对每组做&quot;降序插入排序&quot;：
+<ul>
+<li>i 从 gap 到 N-1：temp = A[i] 暂存</li>
+<li>j = i，当 j ≥ gap 且 A[j-gap] &lt; temp 时：A[j] = A[j-gap]，j -= gap</li>
+<li>A[j] = temp</li>
+</ul>
+</li>
+<li>gap /= 2，重复直到 gap = 0 退出。</li>
+<li>排序结束后 return A[(N-1)/2]（降序下第 ⌊(N+1)/2⌋ 大）。</li>
+</ol>
+<h3 id="具体计算步骤">具体计算步骤
+</h3><ol>
+<li>gap = N / 2</li>
+<li>while gap &gt; 0：
+<ul>
+<li>i 从 gap 到 N-1：
+<ul>
+<li>temp = A[i]</li>
+<li>j 从 i 开始，while j ≥ gap &amp;&amp; A[j-gap] &lt; temp → A[j] = A[j-gap]; j -= gap</li>
+<li>A[j] = temp</li>
+</ul>
+</li>
+<li>gap /= 2</li>
+</ul>
+</li>
+<li>return A[(N-1)/2]</li>
+</ol>
+<h2 id="函数部分实现">函数部分实现
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* 6-11 求自定类型元素序列的中位数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 函数：Median
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 功能：返回 N 个元素中的中位数（第 ⌊(N+1)/2⌋ 大）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 参数：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *   A[] — 自定类型数组
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *   N   — 元素个数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 返回值：中位数（ElementType）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 实现原理：希尔排序（降序）后取 A[(N-1)/2]。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *   - 增量 gap = N/2 起，每次 gap/=2，直到 gap=0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *   - 每个 gap 下按间隔分组做降序插入排序
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *   - 排序后 A[(N-1)/2] 即为所求
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 时间复杂度 O(N^1.3)，空间复杂度 O(1)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>ElementType <span style="color:#a6e22e">Median</span>( ElementType A[], <span style="color:#66d9ef">int</span> N )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i, j, gap;
+</span></span><span style="display:flex;"><span>    ElementType temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 希尔排序（降序）：时间复杂度约 O(N^1.3)，可通大 N 时限 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (gap <span style="color:#f92672">=</span> N <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; gap <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; gap <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>) {           <span style="color:#75715e">/* 增量序列：每次折半 */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> gap; i <span style="color:#f92672">&lt;</span> N; i<span style="color:#f92672">++</span>) {                  <span style="color:#75715e">/* 从 gap 开始向后扫描 */</span>
+</span></span><span style="display:flex;"><span>            temp <span style="color:#f92672">=</span> A[i];                             <span style="color:#75715e">/* 暂存当前元素 */</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">/* 降序插入：若前一个增量位置的元素更小，则后移 */</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&gt;=</span> gap <span style="color:#f92672">&amp;&amp;</span> A[j <span style="color:#f92672">-</span> gap] <span style="color:#f92672">&lt;</span> temp; j <span style="color:#f92672">-=</span> gap)
+</span></span><span style="display:flex;"><span>                A[j] <span style="color:#f92672">=</span> A[j <span style="color:#f92672">-</span> gap];
+</span></span><span style="display:flex;"><span>            A[j] <span style="color:#f92672">=</span> temp;                             <span style="color:#75715e">/* 放入正确位置 */</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 降序排列后，A[(N-1)/2] 恰好是第 ⌊(N+1)/2⌋ 大的元素 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> A[(N <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="完整代码实现">完整代码实现
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* 6-11 求自定类型元素序列的中位数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 题目：实现函数 Median(A[], N)，返回 N 个元素的中位数。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 实现原理：先排序再取中间元素。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *           这里用希尔排序把数组降序排列，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *           排序后中位数位于下标 (N-1)/2（向下取整，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> *           对奇数/偶数长度都适用，偶数时取中间偏左者）。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 时间复杂度 O(N^1.3)（希尔），空间复杂度 O(1)。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAXN 10
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">float</span> ElementType;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ElementType <span style="color:#a6e22e">Median</span>( ElementType A[], <span style="color:#66d9ef">int</span> N );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span> ()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    ElementType A[MAXN];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> N, i;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>N);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ( i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> N; i<span style="color:#f92672">++</span> )
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%f&#34;</span>, <span style="color:#f92672">&amp;</span>A[i]);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%.2f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">Median</span>(A, N));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 希尔排序（降序）后返回中位数 */</span>
+</span></span><span style="display:flex;"><span>ElementType <span style="color:#a6e22e">Median</span>( ElementType A[], <span style="color:#66d9ef">int</span> N )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i, j, gap;
+</span></span><span style="display:flex;"><span>    ElementType temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 希尔排序（降序）：时间复杂度约 O(N^1.3)，可通大 N 时限 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (gap <span style="color:#f92672">=</span> N <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; gap <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; gap <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>) {           <span style="color:#75715e">/* 增量序列：每次折半 */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> gap; i <span style="color:#f92672">&lt;</span> N; i<span style="color:#f92672">++</span>) {                  <span style="color:#75715e">/* 从 gap 开始向后扫描 */</span>
+</span></span><span style="display:flex;"><span>            temp <span style="color:#f92672">=</span> A[i];                             <span style="color:#75715e">/* 暂存当前元素 */</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">/* 降序插入：若前一个增量位置的元素更小，则后移 */</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&gt;=</span> gap <span style="color:#f92672">&amp;&amp;</span> A[j <span style="color:#f92672">-</span> gap] <span style="color:#f92672">&lt;</span> temp; j <span style="color:#f92672">-=</span> gap)
+</span></span><span style="display:flex;"><span>                A[j] <span style="color:#f92672">=</span> A[j <span style="color:#f92672">-</span> gap];
+</span></span><span style="display:flex;"><span>            A[j] <span style="color:#f92672">=</span> temp;                             <span style="color:#75715e">/* 放入正确位置 */</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 降序排列后，A[(N-1)/2] 恰好是第 ⌊(N+1)/2⌋ 大的元素 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> A[(N <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="代码流程说明">代码流程说明
+</h2><h3 id="1-主函数读数据">1. 主函数：读数据
+</h3><ul>
+<li>读入 N，再读入 N 个 float 存入 A[0..N-1]</li>
+<li>调用 Median 后 %.2f 输出</li>
+</ul>
+<h3 id="2-median-函数希尔排序降序">2. Median 函数：希尔排序（降序）
+</h3><ul>
+<li>gap = N/2；当 gap &gt; 0 时：
+<ul>
+<li>外层 i = gap..N-1：每个待插入元素
+<ul>
+<li>temp = A[i]</li>
+<li>j 从 i 向前走 gap 步：若 A[j-gap] &lt; temp（更小，降序不合法）则后移，直到 j&lt;gap 或找到更大/相等元素</li>
+<li>A[j] = temp</li>
+</ul>
+</li>
+<li>gap /= 2</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-取中位数">3. 取中位数
+</h3><ul>
+<li>return A[(N-1)/2]</li>
+</ul>
+<h2 id="代码流程图">代码流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始\nMedian(A, N)"] --> B["gap = N/2"]
+  B --> C{"gap > 0 ?"}
+  C -- "是" --> D["i = gap"]
+  D --> E{"i < N ?"}
+  E -- "是" --> F["temp = A[i]\nj = i"]
+  F --> G{"j>=gap &&\nA[j-gap]<temp ?"}
+  G -- "是" --> H["A[j] = A[j-gap]\nj -= gap"]
+  H --> G
+  G -- "否" --> I["A[j] = temp\ni++"]
+  I --> E
+  E -- "否" --> J["gap /= 2"]
+  J --> C
+  C -- "否" --> K["return A[(N-1)/2]"]
+  K --> L["结束"]</pre><h2 id="解题流程图">解题流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始"] --> B["读入 N 和数组 A"]
+  B --> C["希尔排序（降序）"]
+  C --> D["排序完成"]
+  D --> E["取下标 (N-1)/2 的元素"]
+  E --> F["输出该元素"]
+  F --> G["结束"]</pre>
+</section>
+
+
+    <footer class="article-meta article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pta/">PTA</a>
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E5%87%BD%E6%95%B0%E9%A2%98/">函数题</a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside>
+    <h2 class="section-title">Related content</h2>
+    <div class="subsection-list">
+        <div class="article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-10%E9%98%B6%E4%B9%98%E8%AE%A1%E7%AE%97%E5%8D%87%E7%BA%A7%E7%89%88c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 6-10阶乘计算升级版（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-12%E5%88%A4%E6%96%AD%E5%A5%87%E5%81%B6%E6%80%A7c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 6-12判断奇偶性（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-13%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BEc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 6-13折半查找（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-2%E5%A4%9A%E9%A1%B9%E5%BC%8F%E6%B1%82%E5%80%BCc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 6-2多项式求值（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-6-3%E7%AE%80%E5%8D%95%E6%B1%82%E5%92%8Cc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 6-3简单求和（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+
+        <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Zonkidd 的技术博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+
+
+
+<script type="module">
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script>
+
+    <div class="mermaid-modal" id="mermaid-modal">
+    <div class="mermaid-modal-header">
+        <div class="mermaid-modal-controls">
+            <button data-zoom="-1">− Zoom Out</button>
+            <button data-zoom="0">Reset (100%)</button>
+            <button data-zoom="1">+ Zoom In</button>
+            <button data-zoom="fit">Fit to Screen</button>
+        </div>
+        <button class="mermaid-modal-close" id="mermaid-modal-close">✕ Close (Esc)</button>
+    </div>
+    <div class="mermaid-modal-body" id="mermaid-modal-body">
+        <div class="mermaid-modal-content" id="mermaid-modal-content"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script type="module">
+import { initMermaidPage } from '\/ts\/mermaid.js';
+initMermaidPage({"darkTheme":"dark","darkThemeVariables":{},"htmlLabels":true,"lightTheme":"default","lightThemeVariables":{},"look":"classic","securityLevel":"strict","transparentBackground":false});
+</script>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/ts/main.1ff1e5fdc4e178ed422e50aa407526dc552f26342d729343fded19416194382c.js" defer></script>
+
+
+    </body>
+</html>
