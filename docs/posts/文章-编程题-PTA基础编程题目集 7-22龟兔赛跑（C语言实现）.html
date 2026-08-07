@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-22龟兔赛跑（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-22龟兔赛跑（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>3 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-22 龟兔赛跑&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过逐分钟模拟（乌龟匀速前进、兔子每跑 10 分钟检查一次并可能休息 30 分钟）的过程模拟法，最终比较 T 分钟后两者距离并按格式输出胜者及距离。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>乌龟与兔子进行赛跑，跑场是一个矩型跑道，跑道边可以随地进行休息。乌龟每分钟可以前进3米，兔子每分钟前进9米；兔子嫌乌龟跑得慢，觉得肯定能跑赢乌龟，于是，每跑10分钟回头看一下乌龟，若发现自己超过乌龟，就在路边休息，每次休息30分钟，否则继续跑10分钟；而乌龟非常努力，一直跑，不休息。假定乌龟与兔子在同一起点同一时刻开始起跑，请问T分钟后乌龟和兔子谁跑得快？</p>
+<h3>输入格式：</h3>
+<p>输入在一行中给出比赛时间T（分钟）。</p>
+<h3>输出格式：</h3>
+<p>在一行中输出比赛的结果：乌龟赢输出@<em>@，兔子赢输出^</em>^，平局则输出-_-；后跟1空格，再输出胜利者跑完的距离（平局输出乌龟或兔子跑完的距离均可）。</p>
+<h3>输入样例：</h3>
+<pre><code class="hljs language-in">242
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">@_@ 726
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>按分钟为单位的过程模拟</strong>：乌龟每分钟 +3 米（始终跑）；兔子存在&quot;跑 10 分钟 → 判断 → 要么继续跑 10 分钟、要么休息 30 分钟&quot;的状态机。使用 <code>run_time</code> 记录当前连续跑了几分钟，<code>rest_time</code> 记录剩余休息分钟数，逐分钟推进到 T 分钟，再比较距离。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>乌龟行为</strong>：始终匀速跑，每分钟 3 米。T 分钟后距离 = 3 × T，直接公式即可，但为了和兔子统一，模拟中同样每分钟 +3。</li>
+<li><strong>兔子行为（状态机）</strong>：<ul>
+<li><strong>运行态</strong>：每分钟跑 +9 米，<code>run_time++</code>；当 <code>run_time == 10</code> 时，检查是否 <code>rabbit &gt; turtle</code>：<ul>
+<li>若超过 → 切换到&quot;休息态&quot;，<code>rest_time = 30</code>，<code>run_time = 0</code></li>
+<li>若未超过 → 继续跑，<code>run_time = 0</code>（开始新的一段 10 分钟）</li>
+</ul>
+</li>
+<li><strong>休息态</strong>：不跑，每分钟 <code>rest_time--</code>，到 0 时回到&quot;运行态&quot;</li>
+</ul>
+</li>
+<li><strong>最终判定</strong>：比较 <code>rabbit</code> 和 <code>turtle</code>：<ul>
+<li>rabbit &gt; turtle → <code>^_^ rabbit</code></li>
+<li>turtle &gt; rabbit → <code>@_@ turtle</code></li>
+<li>相等 → <code>-_- turtle</code>（题目说平局输出任一个距离均可）</li>
+</ul>
+</li>
+</ol>
+<h3>算法原理说明</h3>
+<p>逐分钟 for 循环 <code>for (t=1; t&lt;=T; t++)</code>：</p>
+<ul>
+<li>先无条件 <code>turtle += 3</code>（乌龟一直跑）</li>
+<li>若 <code>rest_time &gt; 0</code>：兔子休息，<code>rest_time--</code></li>
+<li>否则：兔子跑步，<code>rabbit += 9; run_time++</code>；若 <code>run_time == 10</code>，则判断是否切换休息，然后 <code>run_time = 0</code></li>
+<li>最后比较两者距离，按规定符号+距离输出</li>
+</ul>
+<h3>具体计算步骤</h3>
+<ol>
+<li>读入 T</li>
+<li>初始化 <code>turtle=0, rabbit=0, rest_time=0, run_time=0</code></li>
+<li><code>for (int t = 1; t &lt;= T; t++)</code>：<ul>
+<li><code>turtle += 3</code></li>
+<li>若 <code>rest_time &gt; 0</code> → <code>rest_time--</code></li>
+<li>否则：<ul>
+<li><code>rabbit += 9; run_time++</code></li>
+<li>若 <code>run_time == 10</code>：<ul>
+<li>若 <code>rabbit &gt; turtle</code> → <code>rest_time = 30</code></li>
+<li><code>run_time = 0</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>比较 rabbit 与 turtle，按格式输出对应表情符号和距离</li>
+<li>return 0</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> <span class="hljs-comment">// 引入标准输入输出头文件，提供 scanf、printf</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> <span class="hljs-comment">// 主函数入口</span>
+{
+    <span class="hljs-type">int</span> T; <span class="hljs-comment">// T 为比赛总时间（分钟）</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;T); <span class="hljs-comment">// 从标准输入读取比赛时间 T</span>
+    
+    <span class="hljs-type">int</span> turtle = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 乌龟累计跑过的距离（米），初始 0</span>
+    <span class="hljs-type">int</span> rabbit = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 兔子累计跑过的距离（米），初始 0</span>
+    <span class="hljs-type">int</span> rest_time = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 兔子当前剩余休息时间（分钟），&gt;0 表示处于休息态</span>
+    <span class="hljs-type">int</span> run_time = <span class="hljs-number">0</span>;   <span class="hljs-comment">// 兔子当前连续跑步时间（分钟），每到 10 分钟触发一次检查</span>
+    
+    <span class="hljs-comment">// 以分钟为单位，逐分钟模拟 T 分钟内的比赛过程</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> t = <span class="hljs-number">1</span>; t &lt;= T; t++) {
+        turtle += <span class="hljs-number">3</span>;  <span class="hljs-comment">// 乌龟每分钟跑 3 米（永不休息）</span>
+        
+        <span class="hljs-keyword">if</span> (rest_time &gt; <span class="hljs-number">0</span>) {
+            rest_time--;  <span class="hljs-comment">// 兔子在休息，每分钟剩余休息时间减 1</span>
+        } <span class="hljs-keyword">else</span> {
+            rabbit += <span class="hljs-number">9</span>;  <span class="hljs-comment">// 兔子在跑步，每分钟跑 9 米</span>
+            run_time++;   <span class="hljs-comment">// 连续跑步时间累加</span>
+            
+            <span class="hljs-comment">// 每累计跑满 10 分钟，回头检查并决定是否休息</span>
+            <span class="hljs-keyword">if</span> (run_time == <span class="hljs-number">10</span>) {
+                <span class="hljs-keyword">if</span> (rabbit &gt; turtle) {
+                    rest_time = <span class="hljs-number">30</span>;  <span class="hljs-comment">// 超过乌龟，切换到休息态，休息 30 分钟</span>
+                }
+                run_time = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 重置连续跑步计时，开始新一段</span>
+            }
+        }
+    }
+    
+    <span class="hljs-comment">// 比较 T 分钟后两者距离，按要求输出结果</span>
+    <span class="hljs-keyword">if</span> (rabbit &gt; turtle) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;^_^ %d\n&quot;</span>, rabbit);  <span class="hljs-comment">// 兔子赢：^_^ + 兔子距离</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (turtle &gt; rabbit) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;@_@ %d\n&quot;</span>, turtle);  <span class="hljs-comment">// 乌龟赢：@_@ + 乌龟距离</span>
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;-_- %d\n&quot;</span>, turtle);  <span class="hljs-comment">// 平局：-_- + 任一距离均可，此处取乌龟</span>
+    }
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">// 程序正常结束，返回 0</span>
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 变量声明与输入</h3>
+<ul>
+<li><code>int T</code>：总比赛分钟数</li>
+<li><code>int turtle = 0</code>、<code>int rabbit = 0</code>：两者累计米数</li>
+<li><code>int rest_time = 0</code>：兔子剩余休息分钟（0 表示不休息）</li>
+<li><code>int run_time = 0</code>：兔子本轮连续跑步分钟数</li>
+<li><code>scanf(&quot;%d&quot;, &amp;T)</code> 读入 T</li>
+</ul>
+<h3>2. 逐分钟模拟 T 分钟</h3>
+<ul>
+<li><strong>乌龟</strong>：<code>turtle += 3</code>，每分钟无条件加 3 米</li>
+<li><strong>兔子</strong>：<ul>
+<li>若 <code>rest_time &gt; 0</code> → 休息，<code>rest_time--</code></li>
+<li>否则 → 跑步：<code>rabbit += 9; run_time++</code><ul>
+<li>若 <code>run_time == 10</code>：<ul>
+<li>若 <code>rabbit &gt; turtle</code> → <code>rest_time = 30</code>（进入 30 分钟休息）</li>
+<li><code>run_time = 0</code>（重置跑步计时）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>3. 结果输出</h3>
+<ul>
+<li>rabbit &gt; turtle → <code>^_^ rabbit</code></li>
+<li>turtle &gt; rabbit → <code>@_@ turtle</code></li>
+<li>相等 → <code>-_- turtle</code>（平局取任一均可）</li>
+</ul>
+<h3>4. 返回</h3>
+<ul>
+<li><code>return 0</code></li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 T\nturtle=0, rabbit=0\nrest=0, run=0&quot;]
+  B --&gt; C[&quot;t=1&quot;]
+  C --&gt; D{&quot;t &lt;= T?&quot;}
+  D -- &quot;否&quot; --&gt; P[&quot;比较 rabbit vs turtle&quot;]
+  D -- &quot;是&quot; --&gt; E[&quot;turtle += 3&quot;]
+  E --&gt; F{&quot;rest_time &gt; 0?&quot;}
+  F -- &quot;是&quot; --&gt; G[&quot;rest_time--&quot;]
+  F -- &quot;否&quot; --&gt; H[&quot;rabbit += 9\nrun_time++&quot;]
+  H --&gt; I{&quot;run_time == 10?&quot;}
+  I -- &quot;否&quot; --&gt; N
+  I -- &quot;是&quot; --&gt; J{&quot;rabbit &gt; turtle?&quot;}
+  J -- &quot;是&quot; --&gt; K[&quot;rest_time = 30&quot;]
+  J -- &quot;否&quot; --&gt; L[&quot;继续跑&quot;]
+  K --&gt; M[&quot;run_time = 0&quot;]
+  L --&gt; M
+  M --&gt; N[&quot;t++&quot;]
+  G --&gt; N
+  N --&gt; D
+  P --&gt; Q{&quot;rabbit&gt;turtle?&quot;}
+  Q -- &quot;是&quot; --&gt; R[&quot;printf ^_^ rabbit&quot;]
+  Q -- &quot;否&quot; --&gt; S{&quot;turtle&gt;rabbit?&quot;}
+  S -- &quot;是&quot; --&gt; T[&quot;printf @_@ turtle&quot;]
+  S -- &quot;否&quot; --&gt; U[&quot;printf -_- turtle&quot;]
+  R --&gt; V[&quot;return 0&quot;]
+  T --&gt; V
+  U --&gt; V
+  V --&gt; W[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 T\nturtle=0, rabbit=0\nrest=0, run=0&quot;]
+  B --&gt; C[&quot;t=1&quot;]
+  C --&gt; D{&quot;t &lt;= T?&quot;}
+  D -- &quot;否&quot; --&gt; P[&quot;比较 rabbit vs turtle&quot;]
+  D -- &quot;是&quot; --&gt; E[&quot;turtle += 3&quot;]
+  E --&gt; F{&quot;rest_time &gt; 0?&quot;}
+  F -- &quot;是&quot; --&gt; G[&quot;rest_time--&quot;]
+  F -- &quot;否&quot; --&gt; H[&quot;rabbit += 9\nrun_time++&quot;]
+  H --&gt; I{&quot;run_time == 10?&quot;}
+  I -- &quot;否&quot; --&gt; N
+  I -- &quot;是&quot; --&gt; J{&quot;rabbit &gt; turtle?&quot;}
+  J -- &quot;是&quot; --&gt; K[&quot;rest_time = 30&quot;]
+  J -- &quot;否&quot; --&gt; L[&quot;继续跑&quot;]
+  K --&gt; M[&quot;run_time = 0&quot;]
+  L --&gt; M
+  M --&gt; N[&quot;t++&quot;]
+  G --&gt; N
+  N --&gt; D
+  P --&gt; Q{&quot;rabbit&gt;turtle?&quot;}
+  Q -- &quot;是&quot; --&gt; R[&quot;printf ^_^ rabbit&quot;]
+  Q -- &quot;否&quot; --&gt; S{&quot;turtle&gt;rabbit?&quot;}
+  S -- &quot;是&quot; --&gt; T[&quot;printf @_@ turtle&quot;]
+  S -- &quot;否&quot; --&gt; U[&quot;printf -_- turtle&quot;]
+  R --&gt; V[&quot;return 0&quot;]
+  T --&gt; V
+  U --&gt; V
+  V --&gt; W[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入比赛时间 T（分钟）&quot;]
+  B --&gt; C[&quot;初始化：乌龟/兔子距离=0，兔子无休息、未跑&quot;]
+  C --&gt; D[&quot;逐分钟 t=1..T 模拟&quot;]
+  D --&gt; E[&quot;乌龟 +3 米（始终跑）&quot;]
+  E --&gt; F{&quot;兔子正在休息?&quot;}
+  F -- &quot;是&quot; --&gt; G[&quot;休息时间 -1 分钟&quot;]
+  F -- &quot;否&quot; --&gt; H[&quot;兔子 +9 米，跑步计时+1&quot;]
+  H --&gt; I{&quot;连续跑满 10 分钟?&quot;}
+  I -- &quot;否&quot; --&gt; J[&quot;进入下一分钟&quot;]
+  I -- &quot;是&quot; --&gt; K{&quot;兔子距离 &gt; 乌龟距离?&quot;}
+  K -- &quot;是&quot; --&gt; L[&quot;切换休息 30 分钟&quot;]
+  K -- &quot;否&quot; --&gt; M[&quot;继续下一段 10 分钟&quot;]
+  L --&gt; N[&quot;重置跑步计时&quot;]
+  M --&gt; N
+  N --&gt; J
+  G --&gt; J
+  J --&gt; O{&quot;T 分钟到?&quot;}
+  O -- &quot;否&quot; --&gt; D
+  O -- &quot;是&quot; --&gt; P[&quot;比较最终距离&quot;]
+  P --&gt; Q{&quot;谁跑得远?&quot;}
+  Q -- &quot;兔子&quot; --&gt; R[&quot;输出 ^_^ + 兔子距离&quot;]
+  Q -- &quot;乌龟&quot; --&gt; S[&quot;输出 @_@ + 乌龟距离&quot;]
+  Q -- &quot;平局&quot; --&gt; T[&quot;输出 -_- + 距离&quot;]
+  R --&gt; U[&quot;结束&quot;]
+  S --&gt; U
+  T --&gt; U">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入比赛时间 T（分钟）&quot;]
+  B --&gt; C[&quot;初始化：乌龟/兔子距离=0，兔子无休息、未跑&quot;]
+  C --&gt; D[&quot;逐分钟 t=1..T 模拟&quot;]
+  D --&gt; E[&quot;乌龟 +3 米（始终跑）&quot;]
+  E --&gt; F{&quot;兔子正在休息?&quot;}
+  F -- &quot;是&quot; --&gt; G[&quot;休息时间 -1 分钟&quot;]
+  F -- &quot;否&quot; --&gt; H[&quot;兔子 +9 米，跑步计时+1&quot;]
+  H --&gt; I{&quot;连续跑满 10 分钟?&quot;}
+  I -- &quot;否&quot; --&gt; J[&quot;进入下一分钟&quot;]
+  I -- &quot;是&quot; --&gt; K{&quot;兔子距离 &gt; 乌龟距离?&quot;}
+  K -- &quot;是&quot; --&gt; L[&quot;切换休息 30 分钟&quot;]
+  K -- &quot;否&quot; --&gt; M[&quot;继续下一段 10 分钟&quot;]
+  L --&gt; N[&quot;重置跑步计时&quot;]
+  M --&gt; N
+  N --&gt; J
+  G --&gt; J
+  J --&gt; O{&quot;T 分钟到?&quot;}
+  O -- &quot;否&quot; --&gt; D
+  O -- &quot;是&quot; --&gt; P[&quot;比较最终距离&quot;]
+  P --&gt; Q{&quot;谁跑得远?&quot;}
+  Q -- &quot;兔子&quot; --&gt; R[&quot;输出 ^_^ + 兔子距离&quot;]
+  Q -- &quot;乌龟&quot; --&gt; S[&quot;输出 @_@ + 乌龟距离&quot;]
+  Q -- &quot;平局&quot; --&gt; T[&quot;输出 -_- + 距离&quot;]
+  R --&gt; U[&quot;结束&quot;]
+  S --&gt; U
+  T --&gt; U</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-23币值转换（C语言实现）.html">← PTA基础编程题目集 7-23币值转换（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现）.html">PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

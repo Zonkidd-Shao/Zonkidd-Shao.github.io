@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-24约分最简分式（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-24约分最简分式（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>2 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-24 约分最简分式&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 <code>scanf(&quot;%d/%d&quot;)</code> 解析&quot;分子/分母&quot;格式输入，并通过辗转相除法（欧几里得算法）求最大公约数 gcd，再将分子分母同除以 gcd 得到最简分式的方法。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>分数可以表示为分子/分母的形式。编写一个程序，要求用户输入一个分数，然后将其约分为最简分式。最简分式是指分子和分母不具有可以约分的成分了。如6/12可以被约分为1/2。当分子大于分母时，不需要表达为整数又分数的形式，即11/8还是11/8；而当分子分母相等时，仍然表达为1/1的分数形式。</p>
+<h3>输入格式：</h3>
+<p>输入在一行中给出一个分数，分子和分母中间以斜杠/分隔，如：12/34表示34分之12。分子和分母都是正整数（不包含0，如果不清楚正整数的定义的话）。</p>
+<p>提示：</p>
+<p>对于C语言，在scanf的格式字符串中加入/，让scanf来处理这个斜杠。
+对于Python语言，用a,b=map(int, input().split(&#39;/&#39;))这样的代码来处理这个斜杠。</p>
+<h3>输出格式：</h3>
+<p>在一行中输出这个分数对应的最简分式，格式与输入的相同，即采用分子/分母的形式表示分数。如
+5/6表示6分之5。</p>
+<h3>输入样例：</h3>
+<pre><code class="hljs language-in">66/120
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">11/20
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>求最大公约数（gcd）再做整数除法约分</strong>：用辗转相除法（欧几里得算法）求分子、分母的最大公约数 d，然后最简分式 = (分子/d) / (分母/d)。由于 gcd(a,b)=gcd(b,a)，且辗转相除法天然保证得到正整数，直接即可。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>格式解析</strong>：输入是&quot;分子/分母&quot;形式，C 语言 <code>scanf(&quot;%d/%d&quot;, &amp;a, &amp;b)</code> 中格式串里的 <code>/</code> 会与输入中的 <code>/</code> 严格匹配，从而直接得到两个整数，无需手动分割字符串。</li>
+<li><strong>约分本质</strong>：最简分式 = 分子分母同除以两者的最大公约数（Greatest Common Divisor, gcd）。gcd 是能同时整除分子和分母的最大正整数，除以它后二者不再有公共因数。</li>
+<li><strong>辗转相除法（欧几里得算法）</strong>：原理是 <code>gcd(a, b) = gcd(b, a mod b)</code>，反复迭代直到余数为 0，此时的除数即为 gcd。时间复杂度 O(log min(a,b))，效率极高。</li>
+<li><strong>特殊情况统一处理</strong>：<ul>
+<li>分子 &gt; 分母（如 11/8）：题目要求不化为带分数，直接输出即可，无需额外分支。</li>
+<li>分子 = 分母（如 5/5）：gcd=5，约分后 1/1，同样由一般流程得到，无需特判。</li>
+<li>分子、分母都是正整数：无需处理 0 或负数。</li>
+</ul>
+</li>
+</ol>
+<h3>算法原理说明</h3>
+<p>设输入分数 a/b：</p>
+<ol>
+<li>求 d = gcd(a, b)（辗转相除）</li>
+<li>最简分子 = a / d，最简分母 = b / d</li>
+<li>按 <code>&quot;%d/%d\n&quot;</code> 格式输出</li>
+</ol>
+<p>辗转相除法步骤示例（以 66/120 为例）：</p>
+<ul>
+<li>gcd(120, 66)：120 % 66 = 54 → gcd(66, 54)</li>
+<li>gcd(66, 54)：66 % 54 = 12 → gcd(54, 12)</li>
+<li>gcd(54, 12)：54 % 12 = 6 → gcd(12, 6)</li>
+<li>gcd(12, 6)：12 % 6 = 0 → gcd = 6</li>
+<li>66/6 = 11，120/6 = 20 → 结果 11/20</li>
+</ul>
+<h3>具体计算步骤</h3>
+<ol>
+<li><code>scanf(&quot;%d/%d&quot;, &amp;numerator, &amp;denominator);</code> 读取分子分母</li>
+<li><code>d = gcd(numerator, denominator)</code> 求最大公约数</li>
+<li><code>simplified_num = numerator / d; simplified_den = denominator / d;</code></li>
+<li><code>printf(&quot;%d/%d\n&quot;, simplified_num, simplified_den);</code></li>
+<li>return 0</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span> <span class="hljs-comment">// 引入标准输入输出头文件，提供 scanf、printf</span></span>
+
+<span class="hljs-comment">// 辗转相除法（欧几里得算法）求两个正整数的最大公约数</span>
+<span class="hljs-comment">// 原理：gcd(a, b) = gcd(b, a mod b)，直到余数为 0 时，当前除数即为最大公约数</span>
+<span class="hljs-type">int</span> <span class="hljs-title function_">gcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span> {
+    <span class="hljs-keyword">while</span> (b != <span class="hljs-number">0</span>) { <span class="hljs-comment">// 当余数 b 不为 0 时继续迭代</span>
+        <span class="hljs-type">int</span> temp = b;       <span class="hljs-comment">// 保存当前除数 b，作为下一轮的被除数 a</span>
+        b = a % b;          <span class="hljs-comment">// 计算 a 除以 b 的余数，作为下一轮的除数 b</span>
+        a = temp;           <span class="hljs-comment">// 将原除数 b 赋给 a，成为下一轮的被除数</span>
+    }
+    <span class="hljs-keyword">return</span> a;               <span class="hljs-comment">// 当 b==0 时，a 即为两数的最大公约数</span>
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> { <span class="hljs-comment">// 主函数入口</span>
+    <span class="hljs-type">int</span> numerator, denominator; <span class="hljs-comment">// numerator 为分子，denominator 为分母</span>
+    <span class="hljs-comment">// 按&quot;分子/分母&quot;格式读取，格式串中的 &#x27;/&#x27; 会匹配输入中的 &#x27;/&#x27; 并自动跳过</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d/%d&quot;</span>, &amp;numerator, &amp;denominator);
+    
+    <span class="hljs-comment">// 求出分子和分母的最大公约数（公约数），用于后续约分</span>
+    <span class="hljs-type">int</span> common_divisor = gcd(numerator, denominator);
+    
+    <span class="hljs-comment">// 分子分母同时除以最大公约数，得到最简分式的分子和分母</span>
+    <span class="hljs-type">int</span> simplified_num = numerator / common_divisor;
+    <span class="hljs-type">int</span> simplified_den = denominator / common_divisor;
+    
+    <span class="hljs-comment">// 按&quot;分子/分母&quot;格式输出最简分式</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d/%d\n&quot;</span>, simplified_num, simplified_den);
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">// 程序正常结束，返回 0</span>
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 自定义函数 <code>gcd(a, b)</code></h3>
+<ul>
+<li>输入：两个正整数 a、b（分子分母任意顺序均可，gcd(a,b)=gcd(b,a)）</li>
+<li>过程：<code>while (b != 0)</code> 循环执行 <code>temp=b; b=a%b; a=temp</code></li>
+<li>输出：当 b=0 时的 a，即两数的最大公约数</li>
+</ul>
+<h3>2. 主函数变量与输入</h3>
+<ul>
+<li><code>int numerator, denominator</code>：存储分子、分母</li>
+<li><code>scanf(&quot;%d/%d&quot;, ...)</code>：利用格式串中的 <code>/</code> 精确匹配输入斜杠</li>
+</ul>
+<h3>3. 约分计算</h3>
+<ul>
+<li><code>common_divisor = gcd(numerator, denominator)</code> 得最大公约数</li>
+<li><code>simplified_num = numerator / common_divisor</code>：最简分子</li>
+<li><code>simplified_den = denominator / common_divisor</code>：最简分母</li>
+</ul>
+<h3>4. 输出</h3>
+<ul>
+<li><code>printf(&quot;%d/%d\n&quot;, simplified_num, simplified_den)</code> 按格式输出</li>
+</ul>
+<h3>5. 返回</h3>
+<ul>
+<li><code>return 0</code></li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;scanf %d/%d\n读取分子、分母&quot;]
+  B --&gt; C[&quot;调用 gcd(num, den)\n求最大公约数 d&quot;]
+  C --&gt; D[&quot;sub_gcd 开始\n(a=num, b=den)&quot;]
+  D --&gt; E{&quot;b != 0?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;temp = b\nb = a % b\na = temp&quot;]
+  F --&gt; E
+  E -- &quot;否&quot; --&gt; G[&quot;return a 作为 d&quot;]
+  G --&gt; H[&quot;简化分子 = num / d\n简化分母 = den / d&quot;]
+  H --&gt; I[&quot;printf %d/%d&quot;]
+  I --&gt; J[&quot;return 0&quot;]
+  J --&gt; K[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;scanf %d/%d\n读取分子、分母&quot;]
+  B --&gt; C[&quot;调用 gcd(num, den)\n求最大公约数 d&quot;]
+  C --&gt; D[&quot;sub_gcd 开始\n(a=num, b=den)&quot;]
+  D --&gt; E{&quot;b != 0?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;temp = b\nb = a % b\na = temp&quot;]
+  F --&gt; E
+  E -- &quot;否&quot; --&gt; G[&quot;return a 作为 d&quot;]
+  G --&gt; H[&quot;简化分子 = num / d\n简化分母 = den / d&quot;]
+  H --&gt; I[&quot;printf %d/%d&quot;]
+  I --&gt; J[&quot;return 0&quot;]
+  J --&gt; K[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入分数 a/b（分子/分母）&quot;]
+  B --&gt; C[&quot;求 g = gcd(a, b)（辗转相除法）&quot;]
+  C --&gt; D[&quot;最简分子 = a / g&quot;]
+  D --&gt; E[&quot;最简分母 = b / g&quot;]
+  E --&gt; F[&quot;输出 最简分子/最简分母&quot;]
+  F --&gt; G[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入分数 a/b（分子/分母）&quot;]
+  B --&gt; C[&quot;求 g = gcd(a, b)（辗转相除法）&quot;]
+  C --&gt; D[&quot;最简分子 = a / g&quot;]
+  D --&gt; E[&quot;最简分母 = b / g&quot;]
+  E --&gt; F[&quot;输出 最简分子/最简分母&quot;]
+  F --&gt; G[&quot;结束&quot;]</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-25念数字（C语言题解）.html">← PTA基础编程题目集 7-25念数字（C语言题解）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-23币值转换（C语言实现）.html">PTA基础编程题目集 7-23币值转换（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

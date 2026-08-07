@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-9用天平找小球（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-9用天平找小球（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>1 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题“7-9 用天平找小球”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示三球中通过两两相等比较唯一找出&quot;重量不同者&quot;的最简分支法。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>三个球A、B、C，大小形状相同且其中有一个球与其他球重量不同。要求找出这个不一样的球。</p>
+<h3>输入格式：</h3>
+<p>输入在一行中给出3个正整数，顺序对应球A、B、C的重量。</p>
+<h3>输出格式：</h3>
+<p>在一行中输出唯一的那个不一样的球。</p>
+<h3>输入样例：</h3>
+<pre><code class="hljs language-in">1 1 2
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">C
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>利用&quot;有且只有一个异类&quot;这一前提，做最多两次相等比较即可锁定</strong>。</p>
+<h3>核心问题分析</h3>
+<p>前提为&quot;三个数里恰好两个相等、一个不同&quot;，因此：</p>
+<ol>
+<li>若 a == b → 不同者必为 C</li>
+<li>否则 (a != b) → 异类在 A/B 中；再用 a == c 判断：<ul>
+<li>若 a == c → 异类是 B（因为 A 与 C 相同）</li>
+<li>否则 → 异类是 A（因为 B、C 都是另一个值）</li>
+</ul>
+</li>
+</ol>
+<h3>算法原理说明</h3>
+<p>经典的 if-else if-else 三级分支：</p>
+<ul>
+<li>if (a == b) → 输出 C</li>
+<li>else if (a == c) → 输出 B</li>
+<li>else → 输出 A
+（因为 a≠b 且 a≠c 时，b、c 必定相等，异类就是 A）</li>
+</ul>
+<h3>具体计算步骤</h3>
+<ol>
+<li>读入 a, b, c</li>
+<li>比较 a==b? → C</li>
+<li>否则 a==c? → B</li>
+<li>否则 → A</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span>  <span class="hljs-comment">// 引入标准输入输出头文件</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>  <span class="hljs-comment">// 主函数</span>
+{
+    <span class="hljs-type">int</span> a, b, c;  <span class="hljs-comment">// 定义三个球的重量变量</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;a, &amp;b, &amp;c);  <span class="hljs-comment">// 读入三个球的重量</span>
+    
+    <span class="hljs-keyword">if</span> (a == b) {  <span class="hljs-comment">// 如果A和B重量相同</span>
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;C\n&quot;</span>);  <span class="hljs-comment">// 则C是不一样的球</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (a == c) {  <span class="hljs-comment">// 如果A和C重量相同</span>
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;B\n&quot;</span>);  <span class="hljs-comment">// 则B是不一样的球</span>
+    } <span class="hljs-keyword">else</span> {  <span class="hljs-comment">// A与B、C都不同</span>
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;A\n&quot;</span>);  <span class="hljs-comment">// 则A是不一样的球</span>
+    }
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;  <span class="hljs-comment">// 返回0表示程序正常结束</span>
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 变量与输入</h3>
+<ul>
+<li>int a, b, c; scanf 读入三个球的重量（顺序对应 A、B、C）。</li>
+</ul>
+<h3>2. 三级比较分支</h3>
+<ul>
+<li><strong>a == b</strong> → C 必为异类（题目保证只有一个异类）</li>
+<li><strong>否则 a == c</strong> → B 必为异类</li>
+<li><strong>否则</strong> → A 必为异类（此时 b、c 必然相等）</li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 a, b, c&quot;]
+  B --&gt; C{&quot;a == b ?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;输出 C&quot;]
+  C -- &quot;否&quot; --&gt; E{&quot;a == c ?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;输出 B&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;输出 A&quot;]
+  D --&gt; H[&quot;return 0&quot;]
+  F --&gt; H
+  G --&gt; H
+  H --&gt; I[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 a, b, c&quot;]
+  B --&gt; C{&quot;a == b ?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;输出 C&quot;]
+  C -- &quot;否&quot; --&gt; E{&quot;a == c ?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;输出 B&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;输出 A&quot;]
+  D --&gt; H[&quot;return 0&quot;]
+  F --&gt; H
+  G --&gt; H
+  H --&gt; I[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 A、B、C 三球重量&quot;]
+  B --&gt; C[&quot;A 和 B 相等?&quot;]
+  C -- &quot;是&quot; --&gt; D[&quot;异类 = C&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;A 和 C 相等?&quot;]
+  E -- &quot;是&quot; --&gt; F[&quot;异类 = B&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;异类 = A&quot;]
+  D --&gt; H[&quot;输出异类字母&quot;]
+  F --&gt; H
+  G --&gt; H
+  H --&gt; I[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 A、B、C 三球重量&quot;]
+  B --&gt; C[&quot;A 和 B 相等?&quot;]
+  C -- &quot;是&quot; --&gt; D[&quot;异类 = C&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;A 和 C 相等?&quot;]
+  E -- &quot;是&quot; --&gt; F[&quot;异类 = B&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;异类 = A&quot;]
+  D --&gt; H[&quot;输出异类字母&quot;]
+  F --&gt; H
+  G --&gt; H
+  H --&gt; I[&quot;结束&quot;]</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-10计算工资（C语言实现）.html">← PTA基础编程题目集 7-10计算工资（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-8超速判断（C语言实现）.html">PTA基础编程题目集 7-8超速判断（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-25念数字（C语言题解） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-25念数字（C语言题解）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>2 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-25 念数字&quot;的深度题解（C 语言），涵盖题目描述、输入输出格式及 C 语言实现，讲解如何将整数以字符串读入、利用字符数组编码特性建立数字到拼音的映射表 <code>pinyin[10]</code>，并通过 <code>first</code> 标志统一处理正/负/零以及&quot;行末不出多余空格&quot;的格式控制；文末附复杂度分析、常见易错点与多组测试用例。</p>
+</blockquote>
+<h1>PTA 7-25 念数字（C语言）——字符串遍历与映射表</h1>
+<h2>前言</h2>
+<p>这道题要求把一个整数逐位转换成对应的拼音。例如，<code>123</code> 要输出为 <code>yi er san</code>；如果输入的是负数，还需要先输出 <code>fu</code>。</p>
+<p>题目看似简单，但有两个细节很容易出错：</p>
+<ol>
+<li>负号不能按照普通数字处理；</li>
+<li>相邻拼音之间需要有空格，行末却不能多出空格。</li>
+</ol>
+<p>使用字符串读取整数，可以直接逐个处理字符，不必进行除法取位，也能自然地处理负号。</p>
+<h2>题目描述</h2>
+<p>输入一个整数，输出组成这个整数的每个数字所对应的拼音。若整数为负数，先输出负号对应的拼音 <code>fu</code>。</p>
+<p>数字与拼音的对应关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>数字</th>
+<th>拼音</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>ling</td>
+</tr>
+<tr>
+<td>1</td>
+<td>yi</td>
+</tr>
+<tr>
+<td>2</td>
+<td>er</td>
+</tr>
+<tr>
+<td>3</td>
+<td>san</td>
+</tr>
+<tr>
+<td>4</td>
+<td>si</td>
+</tr>
+<tr>
+<td>5</td>
+<td>wu</td>
+</tr>
+<tr>
+<td>6</td>
+<td>liu</td>
+</tr>
+<tr>
+<td>7</td>
+<td>qi</td>
+</tr>
+<tr>
+<td>8</td>
+<td>ba</td>
+</tr>
+<tr>
+<td>9</td>
+<td>jiu</td>
+</tr>
+</tbody></table>
+<h3>输入格式</h3>
+<p>在一行中输入一个整数。该整数可能是负数、零或正数。</p>
+<h3>输出格式</h3>
+<p>在一行中输出该整数对应的拼音，各拼音之间用一个空格分隔，行末不能有多余空格。</p>
+<h3>输入样例</h3>
+<pre><code class="hljs language-text">-600
+</code></pre><h3>输出样例</h3>
+<pre><code class="hljs language-text">fu liu ling ling
+</code></pre><h2>解题思路</h2>
+<h3>1. 将整数当作字符串读取</h3>
+<p>如果使用整数类型读取，还需要通过取模、除法等操作分离每一位，并额外处理数字顺序。直接使用字符数组读取会更方便：字符串中的每个字符本身就是一位数字。</p>
+<p>例如，输入 <code>-600</code> 后，字符数组中的内容依次为：</p>
+<pre><code class="hljs language-text">&#x27;-&#x27;  &#x27;6&#x27;  &#x27;0&#x27;  &#x27;0&#x27;  &#x27;\0&#x27;
+</code></pre><p>其中 <code>\0</code> 是 C 字符串末尾的结束标志。</p>
+<h3>2. 使用数组建立数字与拼音的映射</h3>
+<p>按照 <code>0</code> 到 <code>9</code> 的顺序保存所有拼音：</p>
+<pre><code class="hljs language-c"><span class="hljs-type">const</span> <span class="hljs-type">char</span> *pinyin[] = {
+    <span class="hljs-string">&quot;ling&quot;</span>, <span class="hljs-string">&quot;yi&quot;</span>, <span class="hljs-string">&quot;er&quot;</span>, <span class="hljs-string">&quot;san&quot;</span>, <span class="hljs-string">&quot;si&quot;</span>,
+    <span class="hljs-string">&quot;wu&quot;</span>, <span class="hljs-string">&quot;liu&quot;</span>, <span class="hljs-string">&quot;qi&quot;</span>, <span class="hljs-string">&quot;ba&quot;</span>, <span class="hljs-string">&quot;jiu&quot;</span>
+};
+</code></pre><p>数字字符减去字符 <code>&#39;0&#39;</code>，就能得到对应的整数下标。例如：</p>
+<pre><code class="hljs language-c"><span class="hljs-string">&#x27;6&#x27;</span> - <span class="hljs-string">&#x27;0&#x27;</span> == <span class="hljs-number">6</span>
+</code></pre><p>因此，<code>pinyin[num[i] - &#39;0&#39;]</code> 就是当前数字对应的拼音。</p>
+<h3>3. 单独处理负号</h3>
+<p>如果第一个字符是 <code>-</code>，先输出 <code>fu</code>，然后从下标 <code>1</code> 开始遍历数字部分；否则从下标 <code>0</code> 开始遍历。</p>
+<h3>4. 控制输出空格</h3>
+<p>用变量 <code>first</code> 标记是否还没有输出任何内容：</p>
+<ul>
+<li>输出第一项时不加空格；</li>
+<li>从第二项开始，先输出一个空格，再输出当前拼音。</li>
+</ul>
+<p>这种写法可以统一处理正数、负数和零，避免在行末输出多余空格。</p>
+<h2>完整代码</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> {
+    <span class="hljs-type">char</span> num[<span class="hljs-number">100</span>];
+    <span class="hljs-type">const</span> <span class="hljs-type">char</span> *pinyin[] = {
+        <span class="hljs-string">&quot;ling&quot;</span>, <span class="hljs-string">&quot;yi&quot;</span>, <span class="hljs-string">&quot;er&quot;</span>, <span class="hljs-string">&quot;san&quot;</span>, <span class="hljs-string">&quot;si&quot;</span>,
+        <span class="hljs-string">&quot;wu&quot;</span>, <span class="hljs-string">&quot;liu&quot;</span>, <span class="hljs-string">&quot;qi&quot;</span>, <span class="hljs-string">&quot;ba&quot;</span>, <span class="hljs-string">&quot;jiu&quot;</span>
+    };
+
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%99s&quot;</span>, num);
+
+    <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-type">int</span> first = <span class="hljs-number">1</span>;
+
+    <span class="hljs-keyword">if</span> (num[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;-&#x27;</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fu&quot;</span>);
+        i = <span class="hljs-number">1</span>;
+        first = <span class="hljs-number">0</span>;
+    }
+
+    <span class="hljs-keyword">for</span> (; num[i] != <span class="hljs-string">&#x27;\0&#x27;</span>; i++) {
+        <span class="hljs-keyword">if</span> (!first) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; &quot;</span>);
+        }
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, pinyin[num[i] - <span class="hljs-string">&#x27;0&#x27;</span>]);
+        first = <span class="hljs-number">0</span>;
+    }
+
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre><h2>代码解析</h2>
+<h3>限制输入长度</h3>
+<pre><code class="hljs language-c"><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%99s&quot;</span>, num);
+</code></pre><p>字符数组最多容纳 99 个输入字符，最后一个位置留给字符串结束标志 <code>\0</code>。相比直接使用 <code>%s</code>，这种写法可以避免输入过长导致数组越界。</p>
+<h3>处理负数</h3>
+<pre><code class="hljs language-c"><span class="hljs-keyword">if</span> (num[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;-&#x27;</span>) {
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fu&quot;</span>);
+    i = <span class="hljs-number">1</span>;
+    first = <span class="hljs-number">0</span>;
+}
+</code></pre><p>输出 <code>fu</code> 后，将遍历起点改为 <code>1</code>，跳过负号。此时已经输出过一项，因此把 <code>first</code> 设为 <code>0</code>，后续数字拼音前会自动补上空格。</p>
+<h3>查表输出拼音</h3>
+<pre><code class="hljs language-c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, pinyin[num[i] - <span class="hljs-string">&#x27;0&#x27;</span>]);
+</code></pre><p>这里利用数字字符在字符编码中连续排列的特点，将字符转换为 <code>0</code> 到 <code>9</code> 的数组下标，再访问对应的拼音字符串。</p>
+<h2>复杂度分析</h2>
+<p>设输入整数包含 <code>n</code> 个字符：</p>
+<ul>
+<li>时间复杂度：<code>O(n)</code>，每个字符只处理一次；</li>
+<li>空间复杂度：<code>O(n)</code>，字符数组用于保存输入内容。拼音映射表的大小固定，可视为常量空间。</li>
+</ul>
+<h2>常见易错点</h2>
+<h3>1. <code>fu</code> 后忘记输出空格</h3>
+<p>错误结果可能变成：</p>
+<pre><code class="hljs language-text">fuliu ling ling
+</code></pre><p>负号同样属于一个输出项，后面的第一个数字拼音与它之间也必须有空格。</p>
+<h3>2. 行末多输出一个空格</h3>
+<p>不要在每个拼音后都无条件输出空格。可以像本文一样，在除第一项以外的每一项之前输出空格。</p>
+<h3>3. 将负号拿去查表</h3>
+<p>表达式 <code>num[i] - &#39;0&#39;</code> 只适用于数字字符。遍历前必须判断并跳过 <code>-</code>。</p>
+<h3>4. 忽略输入为零的情况</h3>
+<p>输入 <code>0</code> 时也需要输出：</p>
+<pre><code class="hljs language-text">ling
+</code></pre><p>字符串遍历法无需增加特殊分支，就能正确处理零。</p>
+<h2>更多测试</h2>
+<h3>测试一：正数</h3>
+<p>输入：</p>
+<pre><code class="hljs language-text">1234
+</code></pre><p>输出：</p>
+<pre><code class="hljs language-text">yi er san si
+</code></pre><h3>测试二：零</h3>
+<p>输入：</p>
+<pre><code class="hljs language-text">0
+</code></pre><p>输出：</p>
+<pre><code class="hljs language-text">ling
+</code></pre><h3>测试三：负数中含有多个零</h3>
+<p>输入：</p>
+<pre><code class="hljs language-text">-1002
+</code></pre><p>输出：</p>
+<pre><code class="hljs language-text">fu yi ling ling er
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 变量声明与输入</h3>
+<ul>
+<li><code>char num[100]</code>：保存输入字符串（含负号和数字）</li>
+<li><code>const char *pinyin[10]</code>：数字 0~9 → 拼音字符串的映射表</li>
+<li><code>int i = 0</code>：当前遍历下标</li>
+<li><code>int first = 1</code>：是否还未输出任何内容（1 表示下一次输出是第一项）</li>
+<li><code>scanf(&quot;%99s&quot;, num)</code>：读字符串，最多 99 字符（防止越界）</li>
+</ul>
+<h3>2. 负号处理</h3>
+<ul>
+<li>若 <code>num[0] == &#39;-&#39;</code> → <code>printf(&quot;fu&quot;); i = 1; first = 0;</code></li>
+</ul>
+<h3>3. 遍历数字字符输出拼音</h3>
+<ul>
+<li><code>for (; num[i] != &#39;\0&#39;; i++)</code><ul>
+<li><code>!first</code> → 先 <code>printf(&quot; &quot;)</code>（除第一项外，各项前加空格）</li>
+<li><code>printf(&quot;%s&quot;, pinyin[num[i]-&#39;0&#39;])</code> → 查表输出拼音</li>
+<li><code>first = 0</code> → 之后再有输出就不是第一项了</li>
+</ul>
+</li>
+</ul>
+<h3>4. 换行返回</h3>
+<ul>
+<li><code>printf(&quot;\n&quot;); return 0;</code></li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;num[100], pinyin[10]\nscanf %99s 读 num\nfirst=1, i=0&quot;]
+  B --&gt; C{&quot;num[0]=='-'?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;printf fu\ni=1, first=0&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;for(i..num[i]!='\\0')&quot;]
+  D --&gt; E
+  E --&gt; F{&quot;num[i]!='\\0'?&quot;}
+  F -- &quot;否&quot; --&gt; L[&quot;printf 换行\nreturn 0&quot;]
+  F -- &quot;是&quot; --&gt; G{&quot;!first?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;printf 空格&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;printf pinyin[num[i]-'0']\nfirst=0&quot;]
+  H --&gt; I
+  I --&gt; J[&quot;i++&quot;]
+  J --&gt; F
+  L --&gt; M[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;num[100], pinyin[10]\nscanf %99s 读 num\nfirst=1, i=0&quot;]
+  B --&gt; C{&quot;num[0]=='-'?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;printf fu\ni=1, first=0&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;for(i..num[i]!='\\0')&quot;]
+  D --&gt; E
+  E --&gt; F{&quot;num[i]!='\\0'?&quot;}
+  F -- &quot;否&quot; --&gt; L[&quot;printf 换行\nreturn 0&quot;]
+  F -- &quot;是&quot; --&gt; G{&quot;!first?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;printf 空格&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;printf pinyin[num[i]-'0']\nfirst=0&quot;]
+  H --&gt; I
+  I --&gt; J[&quot;i++&quot;]
+  J --&gt; F
+  L --&gt; M[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入一个整数（含负/零/正），以字符串形式读入&quot;]
+  B --&gt; C[&quot;建立 0~9 到拼音字符串的映射表&quot;]
+  C --&gt; D[&quot;first 标记 = 1（下一次输出是第一项）&quot;]
+  D --&gt; E{&quot;首字符是 '-'?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;输出 'fu'；跳过负号从下标 1 开始遍历；first=0&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;从下标 0 开始遍历数字&quot;]
+  F --&gt; G
+  G --&gt; H[&quot;逐位处理数字字符&quot;]
+  H --&gt; I{&quot;是否第一个输出项?&quot;}
+  I -- &quot;是&quot; --&gt; J[&quot;直接输出拼音（不前置空格）；first=0&quot;]
+  I -- &quot;否&quot; --&gt; K[&quot;先输出空格；再输出拼音；first=0&quot;]
+  J --&gt; L[&quot;继续下一位&quot;]
+  K --&gt; L
+  L --&gt; M{&quot;所有数字处理完毕?&quot;}
+  M -- &quot;否&quot; --&gt; H
+  M -- &quot;是&quot; --&gt; N[&quot;换行&quot;]
+  N --&gt; O[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入一个整数（含负/零/正），以字符串形式读入&quot;]
+  B --&gt; C[&quot;建立 0~9 到拼音字符串的映射表&quot;]
+  C --&gt; D[&quot;first 标记 = 1（下一次输出是第一项）&quot;]
+  D --&gt; E{&quot;首字符是 '-'?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;输出 'fu'；跳过负号从下标 1 开始遍历；first=0&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;从下标 0 开始遍历数字&quot;]
+  F --&gt; G
+  G --&gt; H[&quot;逐位处理数字字符&quot;]
+  H --&gt; I{&quot;是否第一个输出项?&quot;}
+  I -- &quot;是&quot; --&gt; J[&quot;直接输出拼音（不前置空格）；first=0&quot;]
+  I -- &quot;否&quot; --&gt; K[&quot;先输出空格；再输出拼音；first=0&quot;]
+  J --&gt; L[&quot;继续下一位&quot;]
+  K --&gt; L
+  L --&gt; M{&quot;所有数字处理完毕?&quot;}
+  M -- &quot;否&quot; --&gt; H
+  M -- &quot;是&quot; --&gt; N[&quot;换行&quot;]
+  N --&gt; O[&quot;结束&quot;]</div>
+<h2>总结</h2>
+<p>本题的核心是&quot;字符到数组下标&quot;的转换。把整数作为字符串读取后，只需处理负号、遍历数字字符并查表输出即可。<code>first</code> 标记则解决了空格分隔问题，使输出格式更稳定。这个思路也适用于字符分类、编码转换和简单词法处理等题目。</p>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-25念数字（C语言实现）.html">← PTA基础编程题目集 7-25念数字（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-24约分最简分式（C语言实现）.html">PTA基础编程题目集 7-24约分最简分式（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

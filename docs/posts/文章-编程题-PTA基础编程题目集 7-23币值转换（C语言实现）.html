@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-23币值转换（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-23币值转换（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>3 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-23 币值转换&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过两个映射数组 <code>num[]</code>（数字 a-j 对应 0-9）和 <code>unit[]</code>（S/B/Q/W/Y 对应拾/佰/仟/万/亿）逐位处理字符串，并结合&quot;零&quot;补位规则与大单位（万/亿）保留规则，将整数金额转换为中文大写（简化拼音表示）的实现方法。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>输入一个整数（位数不超过9位）代表一个人民币值（单位为元），请转换成财务要求的大写中文格式。如23108元，转换后变成&quot;贰万叁仟壹百零捌&quot;元。为了简化输出，用小写英文字母a-j顺序代表大写数字0-9，用S、B、Q、W、Y分别代表拾、百、仟、万、亿。于是23108元应被转换输出为&quot;cWdQbBai&quot;元。</p>
+<h3>输入格式：</h3>
+<p>输入在一行中给出一个不超过9位的非负整数。</p>
+<h3>输出格式：</h3>
+<p>在一行中输出转换后的结果。注意&quot;零&quot;的用法必须符合中文习惯。</p>
+<h3>输入样例：</h3>
+<pre><code class="hljs language-in">813227345
+</code></pre><pre><code class="hljs language-in">6900
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">iYbQdBcScWhQdBeSf
+</code></pre><pre><code class="hljs language-out">gQjB
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>逐位处理 + 数字/单位双映射 + 中文&quot;零&quot;规则 + 大单位（万/亿）保留</strong>：将输入作为字符串逐位遍历，用两个数组分别映射数字字符（a-j 对应 0-9）和位权单位（S/B/Q/W/Y 对应拾/佰/仟/万/亿）；重点处理两类情况：非零数字间有零时补一个 a（零），万/亿位即使该段有零也要保留大单位。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>映射表</strong>：<ul>
+<li>数字映射 <code>num[] = &quot;abcdefghij&quot;</code>：<code>num[d]</code> 即数字 d（0-9）对应的字符。如 0→a、1→b、…、9→j。</li>
+<li>单位映射 <code>unit[]</code> 从右往左（个位 pos=0）依次是：pos0=个位（无单位）、pos1=S（拾）、pos2=B（佰）、pos3=Q（仟）、pos4=W（万）、pos5=S（拾）、pos6=B（佰）、pos7=Q（仟）、pos8=Y（亿）。</li>
+</ul>
+</li>
+<li><strong>中文&quot;零&quot;规则（相邻非零间有隔位）</strong>：<ul>
+<li>两个非零数字之间如果存在至少一位 0，需要且只需要输出一个&quot;零&quot;（a）。</li>
+<li>用 <code>last_non_zero</code> 记录上一个非零数字的位权 pos。当当前位数字 <code>d≠0</code> 且 <code>last_non_zero - pos &gt; 1</code> 时，先追加一个 <code>a</code>（零），再输出当前数字+单位。</li>
+</ul>
+</li>
+<li><strong>大单位万(W)/亿(Y)必须保留（即使该段有零）</strong>：<ul>
+<li>位权 pos 是 4 的倍数且 pos&gt;0（即 pos=4 万、pos=8 亿）时，即使当前位是 0，只要前面出现过非零数字且位置在该大单位左侧（<code>last_non_zero &gt; pos</code>），也要输出对应的 <code>W</code> 或 <code>Y</code>，防止&quot;八万&quot;被写成&quot;八&quot;等错误。</li>
+</ul>
+</li>
+<li><strong>特殊输入 0</strong>：如果输入就是 <code>&quot;0&quot;</code>，直接输出 <code>&quot;a&quot;</code>。不参与主循环（主循环会跳过全零导致输出空串）。</li>
+<li><strong>个位 pos=0 无单位</strong>：非零个位只输出数字字符，不输出单位。</li>
+</ol>
+<h3>算法原理说明</h3>
+<p>将输入按字符串读入，从左到右按字符遍历（高位到低位）：</p>
+<ul>
+<li>计算当前数字 <code>d = s[i]-&#39;0&#39;</code> 和位权 <code>pos = len-1-i</code>（个位为 0）。</li>
+<li>若 <code>d ≠ 0</code>：<ul>
+<li>若与上一个非零之间隔了至少一位（<code>last_non_zero - pos &gt; 1</code>），先输出一个&quot;零&quot; <code>num[0]</code>；</li>
+<li>再输出 <code>num[d]</code>，若 pos&gt;0 再输出 <code>unit[pos]</code>；</li>
+<li>更新 <code>last_non_zero = pos</code>。</li>
+</ul>
+</li>
+<li>若 <code>d == 0</code>：<ul>
+<li>仅当 pos 是万/亿位（pos%4==0 且 pos&gt;0）且左侧曾经出现过非零时，输出 <code>W</code> 或 <code>Y</code>（万/亿大单位要保留）。</li>
+</ul>
+</li>
+<li>特殊：输入为 <code>&quot;0&quot;</code> 直接输出 <code>&quot;a&quot;</code>。</li>
+</ul>
+<p>以输入 <code>23108</code>（即 cWdQbBai）为例：</p>
+<ul>
+<li>len=5，各位 pos 依次为 4,3,2,1,0</li>
+<li>s[0]=&#39;2&#39;(pos4): d≠0, last=-1 → 输出 <code>c</code>(2) + <code>W</code>(pos4单位) → &quot;cW&quot;，last=4</li>
+<li>s[1]=&#39;3&#39;(pos3): d≠0, last-pos=1 → 无零，输出 <code>d</code>(3)+<code>Q</code> → &quot;cWdQ&quot;，last=3</li>
+<li>s[2]=&#39;1&#39;(pos2): d≠0, last-pos=1 → 无零，输出 <code>b</code>(1)+<code>B</code> → &quot;cWdQbB&quot;，last=2</li>
+<li>s[3]=&#39;0&#39;(pos1): d=0，pos1 不是 4 的倍数，跳过</li>
+<li>s[4]=&#39;8&#39;(pos0): d≠0, last-pos=2-0=2&gt;1 → 先补 <code>a</code>(零)，再输出 <code>i</code>(8)，pos=0 无单位 → &quot;cWdQbBai&quot; ✓</li>
+</ul>
+<h3>具体计算步骤</h3>
+<ol>
+<li><code>scanf(&quot;%s&quot;, s); len = strlen(s);</code></li>
+<li>特判：<code>strcmp(s, &quot;0&quot;) == 0</code> → 输出 <code>&quot;a\n&quot;</code>，直接 return 0</li>
+<li>初始化 <code>result[100] = &quot;&quot;</code>，<code>res_idx = 0</code>，<code>last_non_zero = -1</code></li>
+<li><code>for (int i = 0; i &lt; len; i++)</code>：<ul>
+<li><code>d = s[i] - &#39;0&#39;; pos = len - 1 - i;</code></li>
+<li>若 <code>d != 0</code>：<ul>
+<li>若 <code>last_non_zero != -1 &amp;&amp; last_non_zero - pos &gt; 1</code> → <code>result[res_idx++] = num[0]</code>（补零）</li>
+<li><code>result[res_idx++] = num[d]</code></li>
+<li>若 <code>pos &gt; 0</code> → <code>result[res_idx++] = unit[pos]</code></li>
+<li><code>last_non_zero = pos</code></li>
+</ul>
+</li>
+<li>否则（d==0）：<ul>
+<li>若 <code>pos % 4 == 0 &amp;&amp; pos &gt; 0 &amp;&amp; last_non_zero != -1 &amp;&amp; last_non_zero &gt; pos</code> → <code>result[res_idx++] = unit[pos]</code>（保留万/亿大单位）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>result[res_idx] = &#39;\0&#39;; printf(&quot;%s\n&quot;, result);</code></li>
+<li>return 0</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span>   <span class="hljs-comment">// 引入标准输入输出头文件，提供 scanf、printf</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span>  <span class="hljs-comment">// 引入字符串处理头文件，提供 strlen、strcmp</span></span>
+
+<span class="hljs-comment">// 数字映射：num[0]=&#x27;a&#x27; 代表 0, num[1]=&#x27;b&#x27; 代表 1, ..., num[9]=&#x27;j&#x27; 代表 9</span>
+<span class="hljs-type">char</span> num[] = <span class="hljs-string">&quot;abcdefghij&quot;</span>; 
+<span class="hljs-comment">// 单位映射：按&quot;从右往左&quot;的位权 pos 排列：pos0 个位(无单位 &#x27;\0&#x27;), pos1 拾&#x27;S&#x27;, pos2 佰&#x27;B&#x27;, pos3 仟&#x27;Q&#x27;, pos4 万&#x27;W&#x27;, pos5 拾&#x27;S&#x27;, pos6 佰&#x27;B&#x27;, pos7 仟&#x27;Q&#x27;, pos8 亿&#x27;Y&#x27;</span>
+<span class="hljs-type">char</span> unit[] = {<span class="hljs-string">&#x27;\0&#x27;</span>, <span class="hljs-string">&#x27;S&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;Q&#x27;</span>, <span class="hljs-string">&#x27;W&#x27;</span>, <span class="hljs-string">&#x27;S&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;Q&#x27;</span>, <span class="hljs-string">&#x27;Y&#x27;</span>}; 
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>
+{
+    <span class="hljs-type">char</span> s[<span class="hljs-number">20</span>];     <span class="hljs-comment">// 存储输入字符串（非负整数，最多 9 位 + 结束符）</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, s); <span class="hljs-comment">// 以字符串形式读取输入金额</span>
+    <span class="hljs-type">int</span> len = <span class="hljs-built_in">strlen</span>(s); <span class="hljs-comment">// len 为数字总位数</span>
+    
+    <span class="hljs-comment">// 特判：输入为 &quot;0&quot; 时直接输出 &quot;a&quot;，主循环会把零全部跳过，得到空串</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(s, <span class="hljs-string">&quot;0&quot;</span>) == <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a\n&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    
+    <span class="hljs-type">char</span> result[<span class="hljs-number">100</span>] = {<span class="hljs-number">0</span>}; <span class="hljs-comment">// 存储转换后的结果字符串</span>
+    <span class="hljs-type">int</span> res_idx = <span class="hljs-number">0</span>;         <span class="hljs-comment">// result 数组的当前写入位置</span>
+    <span class="hljs-type">int</span> last_non_zero = <span class="hljs-number">-1</span>;  <span class="hljs-comment">// 记录上一个非零数字的位权 pos（个位为 0，向左递增）</span>
+    
+    <span class="hljs-comment">// 从左向右（高位到低位）遍历输入的每一位数字</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+        <span class="hljs-type">int</span> d = s[i] - <span class="hljs-string">&#x27;0&#x27;</span>;        <span class="hljs-comment">// 当前字符对应的数字（0-9）</span>
+        <span class="hljs-type">int</span> pos = len - <span class="hljs-number">1</span> - i;      <span class="hljs-comment">// 当前数字的位权：个位为 0，十位为 1，…，最高位为 len-1</span>
+        
+        <span class="hljs-keyword">if</span> (d != <span class="hljs-number">0</span>) {
+            <span class="hljs-comment">// 如果当前非零数字与上一个非零数字之间至少隔了一位（即中间存在 0），需要补一个&quot;零&quot;(num[0]=&#x27;a&#x27;)</span>
+            <span class="hljs-comment">// 例如 101（佰-拾-个）：百位(非零) 与个位(非零) 之间 pos 差为 2-0=2&gt;1 → 补零</span>
+            <span class="hljs-keyword">if</span> (last_non_zero != <span class="hljs-number">-1</span> &amp;&amp; last_non_zero - pos &gt; <span class="hljs-number">1</span>) {
+                result[res_idx++] = num[<span class="hljs-number">0</span>]; 
+            }
+            <span class="hljs-comment">// 添加当前数字对应的字符</span>
+            result[res_idx++] = num[d];
+            <span class="hljs-comment">// 添加对应的单位：个位 pos=0 时单位为 &#x27;\0&#x27;，不添加</span>
+            <span class="hljs-keyword">if</span> (pos &gt; <span class="hljs-number">0</span>) {
+                result[res_idx++] = unit[pos];
+            }
+            last_non_zero = pos; <span class="hljs-comment">// 更新最近一个非零数字的位权</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 当前数字为 0 时的特殊处理</span>
+            <span class="hljs-comment">// 对于&quot;万&quot;(pos=4)和&quot;亿&quot;(pos=8)这样的大单位：即使当前位是 0，也需要保留单位</span>
+            <span class="hljs-comment">// 条件：pos 是 4 的倍数且 &gt; 0（万或亿），并且该大单位左侧出现过非零数字（last_non_zero &gt; pos）</span>
+            <span class="hljs-keyword">if</span> (pos % <span class="hljs-number">4</span> == <span class="hljs-number">0</span> &amp;&amp; pos &gt; <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">if</span> (last_non_zero != <span class="hljs-number">-1</span> &amp;&amp; last_non_zero &gt; pos) {
+                    result[res_idx++] = unit[pos]; <span class="hljs-comment">// 写入 W 或 Y</span>
+                }
+            }
+        }
+    }
+    
+    result[res_idx] = <span class="hljs-string">&#x27;\0&#x27;</span>; <span class="hljs-comment">// 手动添加字符串结束标志</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, result); <span class="hljs-comment">// 输出转换结果</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <span class="hljs-comment">// 程序正常结束，返回 0</span>
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 映射数组与输入</h3>
+<ul>
+<li><code>char num[] = &quot;abcdefghij&quot;</code>：数字 0-9 → 字符 a-j</li>
+<li><code>char unit[]</code>：位权 pos（个=0）→ 单位字符（拾S佰B仟Q万W亿Y），pos0 为 <code>\0</code> 不输出</li>
+<li><code>char s[20]</code> 存输入字符串，<code>len = strlen(s)</code> 得总位数</li>
+</ul>
+<h3>2. 特判输入为 0</h3>
+<ul>
+<li><code>strcmp(s, &quot;0&quot;) == 0</code> → 直接 <code>printf(&quot;a\n&quot;)</code> 并 return</li>
+</ul>
+<h3>3. 逐位处理（高位到低位）</h3>
+<ul>
+<li>初始化 <code>result=&quot;&quot;</code>、<code>res_idx=0</code>、<code>last_non_zero=-1</code></li>
+<li><code>for (i=0; i&lt;len; i++)</code>：<ul>
+<li><code>d = s[i]-&#39;0&#39;</code>，<code>pos = len-1-i</code></li>
+<li><strong>非零 d</strong>：<ul>
+<li>若与上一个非零之间 pos 差 &gt;1 → 先补零字符 <code>num[0]</code></li>
+<li>再追加 <code>num[d]</code>，pos&gt;0 时追加 <code>unit[pos]</code></li>
+<li>更新 <code>last_non_zero = pos</code></li>
+</ul>
+</li>
+<li><strong>零 d</strong>：<ul>
+<li>仅当 pos 为万/亿（pos%4==0, pos&gt;0）且左侧有非零时，追加 <code>W</code> 或 <code>Y</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>4. 输出结果</h3>
+<ul>
+<li><code>result[res_idx] = &#39;\0&#39;</code>，<code>printf(&quot;%s\n&quot;, result)</code></li>
+</ul>
+<h3>5. 返回</h3>
+<ul>
+<li><code>return 0</code></li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;scanf 字符串 s\nlen=strlen(s)&quot;]
+  B --&gt; C{&quot;s==\&quot;0\&quot;?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;printf a\nreturn 0&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;result 初始化\nres_idx=0\nlast_non_zero=-1&quot;]
+  E --&gt; F[&quot;i=0&quot;]
+  F --&gt; G{&quot;i &lt; len?&quot;}
+  G -- &quot;否&quot; --&gt; T[&quot;result[res_idx]='\\0'\nprintf result&quot;]
+  G -- &quot;是&quot; --&gt; H[&quot;d = s[i]-'0'\npos = len-1-i&quot;]
+  H --&gt; I{&quot;d != 0?&quot;}
+  I -- &quot;是&quot; --&gt; J{&quot;last!=-1\n&amp;&amp; last-pos&gt;1?&quot;}
+  J -- &quot;是&quot; --&gt; K[&quot;补零 num[0]\nres_idx++&quot;]
+  J -- &quot;否&quot; --&gt; L
+  K --&gt; L[&quot;写 num[d]\npos&gt;0 写 unit[pos]&quot;]
+  L --&gt; M[&quot;last_non_zero = pos&quot;]
+  M --&gt; N[&quot;i++&quot;]
+  I -- &quot;否&quot; --&gt; O{&quot;pos%4==0\n&amp;&amp; pos&gt;0?&quot;}
+  O -- &quot;否&quot; --&gt; N
+  O -- &quot;是&quot; --&gt; P{&quot;last!=-1\n&amp;&amp; last&gt;pos?&quot;}
+  P -- &quot;是&quot; --&gt; Q[&quot;写 unit[pos] (W/Y)&quot;]
+  P -- &quot;否&quot; --&gt; N
+  Q --&gt; N
+  N --&gt; G
+  T --&gt; U[&quot;return 0&quot;]
+  D --&gt; V[&quot;结束&quot;]
+  U --&gt; V">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;scanf 字符串 s\nlen=strlen(s)&quot;]
+  B --&gt; C{&quot;s==\&quot;0\&quot;?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;printf a\nreturn 0&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;result 初始化\nres_idx=0\nlast_non_zero=-1&quot;]
+  E --&gt; F[&quot;i=0&quot;]
+  F --&gt; G{&quot;i &lt; len?&quot;}
+  G -- &quot;否&quot; --&gt; T[&quot;result[res_idx]='\\0'\nprintf result&quot;]
+  G -- &quot;是&quot; --&gt; H[&quot;d = s[i]-'0'\npos = len-1-i&quot;]
+  H --&gt; I{&quot;d != 0?&quot;}
+  I -- &quot;是&quot; --&gt; J{&quot;last!=-1\n&amp;&amp; last-pos&gt;1?&quot;}
+  J -- &quot;是&quot; --&gt; K[&quot;补零 num[0]\nres_idx++&quot;]
+  J -- &quot;否&quot; --&gt; L
+  K --&gt; L[&quot;写 num[d]\npos&gt;0 写 unit[pos]&quot;]
+  L --&gt; M[&quot;last_non_zero = pos&quot;]
+  M --&gt; N[&quot;i++&quot;]
+  I -- &quot;否&quot; --&gt; O{&quot;pos%4==0\n&amp;&amp; pos&gt;0?&quot;}
+  O -- &quot;否&quot; --&gt; N
+  O -- &quot;是&quot; --&gt; P{&quot;last!=-1\n&amp;&amp; last&gt;pos?&quot;}
+  P -- &quot;是&quot; --&gt; Q[&quot;写 unit[pos] (W/Y)&quot;]
+  P -- &quot;否&quot; --&gt; N
+  Q --&gt; N
+  N --&gt; G
+  T --&gt; U[&quot;return 0&quot;]
+  D --&gt; V[&quot;结束&quot;]
+  U --&gt; V</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入不超过 9 位的非负整数（作为字符串）&quot;]
+  B --&gt; C{&quot;输入 == 0?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;输出 a 结束&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;建立 num[] 数字映射 &amp; unit[] 单位映射&quot;]
+  E --&gt; F[&quot;从高位到低位逐位处理&quot;]
+  F --&gt; G{&quot;当前位数字 != 0?&quot;}
+  G -- &quot;是&quot; --&gt; H{&quot;与上一个非零之间隔位?&quot;}
+  H -- &quot;是&quot; --&gt; I[&quot;先补一个零(a)&quot;]
+  H -- &quot;否&quot; --&gt; J[&quot;写数字 + 对应单位&quot;]
+  I --&gt; J
+  J --&gt; K[&quot;更新 last_non_zero&quot;]
+  K --&gt; L[&quot;下一位&quot;]
+  G -- &quot;否&quot; --&gt; M{&quot;当前位是 万(pos=4)/ 亿(pos=8)?&quot;}
+  M -- &quot;是&quot; --&gt; N{&quot;左侧有非零?&quot;}
+  N -- &quot;是&quot; --&gt; O[&quot;保留 W/Y 大单位&quot;]
+  N -- &quot;否&quot; --&gt; L
+  O --&gt; L
+  M -- &quot;否&quot; --&gt; L
+  L --&gt; P{&quot;处理完毕?&quot;}
+  P -- &quot;否&quot; --&gt; F
+  P -- &quot;是&quot; --&gt; Q[&quot;输出最终结果字符串&quot;]
+  Q --&gt; R[&quot;结束&quot;]
+  D --&gt; R">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入不超过 9 位的非负整数（作为字符串）&quot;]
+  B --&gt; C{&quot;输入 == 0?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;输出 a 结束&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;建立 num[] 数字映射 &amp; unit[] 单位映射&quot;]
+  E --&gt; F[&quot;从高位到低位逐位处理&quot;]
+  F --&gt; G{&quot;当前位数字 != 0?&quot;}
+  G -- &quot;是&quot; --&gt; H{&quot;与上一个非零之间隔位?&quot;}
+  H -- &quot;是&quot; --&gt; I[&quot;先补一个零(a)&quot;]
+  H -- &quot;否&quot; --&gt; J[&quot;写数字 + 对应单位&quot;]
+  I --&gt; J
+  J --&gt; K[&quot;更新 last_non_zero&quot;]
+  K --&gt; L[&quot;下一位&quot;]
+  G -- &quot;否&quot; --&gt; M{&quot;当前位是 万(pos=4)/ 亿(pos=8)?&quot;}
+  M -- &quot;是&quot; --&gt; N{&quot;左侧有非零?&quot;}
+  N -- &quot;是&quot; --&gt; O[&quot;保留 W/Y 大单位&quot;]
+  N -- &quot;否&quot; --&gt; L
+  O --&gt; L
+  M -- &quot;否&quot; --&gt; L
+  L --&gt; P{&quot;处理完毕?&quot;}
+  P -- &quot;否&quot; --&gt; F
+  P -- &quot;是&quot; --&gt; Q[&quot;输出最终结果字符串&quot;]
+  Q --&gt; R[&quot;结束&quot;]
+  D --&gt; R</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-24约分最简分式（C语言实现）.html">← PTA基础编程题目集 7-24约分最简分式（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-22龟兔赛跑（C语言实现）.html">PTA基础编程题目集 7-22龟兔赛跑（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

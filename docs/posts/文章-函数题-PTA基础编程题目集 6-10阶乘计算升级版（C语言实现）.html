@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 6-10阶乘计算升级版（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 6-10阶乘计算升级版（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>3 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E5%87%BD%E6%95%B0%E9%A2%98"># 函数题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 函数题“6-10 阶乘计算升级版”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示用数组模拟大整数乘法解决 N! 超范围问题的思路。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>本题要求实现一个打印非负整数阶乘的函数。</p>
+<h3>函数接口定义：</h3>
+<pre><code class="hljs language-c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Print_Factorial</span> <span class="hljs-params">( <span class="hljs-type">const</span> <span class="hljs-type">int</span> N )</span></span>;
+</code></pre><p>其中<code>N</code>是用户传入的参数，其值不超过1000。如果<code>N</code>是非负整数，则该函数必须在一行中打印出<code>N</code>!的值，否则打印“Invalid input”。</p>
+<h3>裁判测试程序样例：</h3>
+<pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Print_Factorial</span> <span class="hljs-params">( <span class="hljs-type">const</span> <span class="hljs-type">int</span> N )</span></span>;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> N;
+
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;N);
+    <span class="hljs-built_in">Print_Factorial</span>(N);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-comment">/* 你的代码将被嵌在这里 */</span>
+</code></pre><h3>输入样例：</h3>
+<pre><code class="hljs language-in">15
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">1307674368000
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>大整数阶乘</strong>：N 可高达 1000，1000! 有两千多位，远超 C 语言内置整型/长整型范围，必须用&quot;数组按位存储 + 模拟手算竖式乘法&quot;的大整数算法。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>数据范围</strong>：1000! ≈ 4 × 10²⁵⁶⁷，约 2568 位十进制。用 int ret[3000] 足够。</li>
+<li><strong>存储方式</strong>：用 ret[i] 存储结果&quot;从右往左第 i 位&quot;（即个位存在 ret[0]，十位 ret[1]…），这样进位可以自然地向数组下标增长的方向传递。</li>
+<li><strong>竖式乘法模拟</strong>：把当前的大整数（ret 数组）依次乘以 i（从 2 到 N）。每一位乘以 i 再加上低位进位 up，当前位保留 tmp%10，进位 up = tmp/10。</li>
+<li><strong>新最高位产生</strong>：当乘到 ret 最高位后仍有进位 up&gt;0，需要 n++（记录新增了一位），把 up 也继续向前进位。</li>
+</ol>
+<h3>算法原理说明</h3>
+<ol>
+<li>初始化：ret[3000] = {0}，ret[0] = 1，n = 0（当前最高位下标），up = 0。</li>
+<li>若 N &lt; 0：输出 &quot;Invalid input&quot;。</li>
+<li>对 i = 2 到 N：<ul>
+<li>up = 0</li>
+<li>对 j = 0 到 n：<ul>
+<li>tmp = ret[j] * i + up</li>
+<li>ret[j] = tmp % 10</li>
+<li>up = tmp / 10</li>
+<li>若 up &gt; 0 且 j == n → n++（新最高位标记 +1）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>完成后，从 k = n 到 0 依次打印 ret[k]，即得到 N! 的十进制字符串。</li>
+</ol>
+<h3>具体计算步骤</h3>
+<ol>
+<li>校验输入：N&lt;0 → printf(&quot;Invalid input&quot;); return;</li>
+<li>ret[0] = 1，n = 0</li>
+<li>外层 i = 2..N：<ul>
+<li>up = 0</li>
+<li>内层 j = 0..n：<ul>
+<li>tmp = ret[j]*i + up</li>
+<li>ret[j] = tmp%10</li>
+<li>up = tmp/10</li>
+<li>if up&gt;0 &amp;&amp; j==n → n++</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>k 从 n 到 0：printf(&quot;%d&quot;, ret[k])</li>
+</ol>
+<h2>函数部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-comment">/* 6-10 阶乘计算升级版
+ * 函数：Print_Factorial
+ * 功能：按十进制输出 N! 的精确值（N 可到 1000）
+ * 参数：N — 非负整数；负数打印 &quot;Invalid input&quot;
+ * 实现原理：数组模拟大整数乘法（个位存在 ret[0]）。
+ *   - 初值 ret[0]=1，n 标记当前最高位下标
+ *   - 对 i=2..N，把 ret[] 的每一位都乘以 i，并维护进位 up
+ *   - 最后从 ret[n] 倒序打印到 ret[0]
+ * 时间复杂度 O(N × 位数)，空间复杂度 O(位数)
+ */</span>
+<span class="hljs-type">void</span> <span class="hljs-title function_">Print_Factorial</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> N)</span>
+{
+    <span class="hljs-type">int</span> up = <span class="hljs-number">0</span>;              <span class="hljs-comment">/* 进位 */</span>
+    <span class="hljs-type">int</span> tmp = <span class="hljs-number">0</span>;             <span class="hljs-comment">/* 某位 × i + 进位 的临时结果 */</span>
+    <span class="hljs-type">int</span> n = <span class="hljs-number">0</span>;               <span class="hljs-comment">/* 当前结果最高位的下标 */</span>
+    <span class="hljs-type">int</span> ret[<span class="hljs-number">3000</span>] = {<span class="hljs-number">0</span>};     <span class="hljs-comment">/* 按位存 N!，ret[0] 是个位 */</span>
+    ret[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> ( N &lt; <span class="hljs-number">0</span> ){
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Invalid input&quot;</span>);
+    }
+    <span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= N; i++){
+            up = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">for</span> ( <span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= n; j++){
+                tmp = ret[j] * i + up;      <span class="hljs-comment">/* 某位 × i + 来自低位的进位 */</span>
+                ret[j] = tmp % <span class="hljs-number">10</span>;          <span class="hljs-comment">/* 当前位保留个位 */</span>
+                up = tmp / <span class="hljs-number">10</span>;              <span class="hljs-comment">/* 剩余部分作为新的进位 */</span>
+
+                <span class="hljs-keyword">if</span>(up &gt; <span class="hljs-number">0</span> &amp;&amp; j == n){       <span class="hljs-comment">/* 进位到了目前最高位之外 */</span>
+                    n++;                    <span class="hljs-comment">/* 结果位数 +1 */</span>
+                }
+            }
+        }
+        <span class="hljs-keyword">for</span>( <span class="hljs-type">int</span> k = n; k &gt;= <span class="hljs-number">0</span>; k-- ){
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, ret[k]);           <span class="hljs-comment">/* 从最高位到低位顺序打印 */</span>
+        }
+    }
+}
+</code></pre><h2>完整代码实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-comment">/* 6-10 阶乘计算升级版
+ * 题目：实现函数 Print_Factorial(N)，按位从高到低输出 N!（N 可能很大，
+ *       结果远超 long long 范围，因此必须用“大整数”思想）。
+ * 实现原理：用数组 ret[] 按“个位在前”的顺序保存结果的每一位数字，
+ *           模拟手算乘法：
+ *           1) 初值 ret[0]=1，n 表示当前有效数字位数（从 0 开始）。
+ *           2) 对 i=2..N，把 ret 的每一位乘以 i，加上进位 up，
+ *              当前位保留 tmp%10，进位 tmp/10；
+ *              当产生新最高位（up&gt;0 且 j==n）时 n++。
+ *           3) 从最高位 n 倒序打印到 0，即得 N!。
+ * 时间复杂度 O(N * 位数)，空间复杂度 O(位数)。
+ */</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-type">void</span> <span class="hljs-title function_">Print_Factorial</span> <span class="hljs-params">( <span class="hljs-type">const</span> <span class="hljs-type">int</span> N )</span>;
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>
+{
+    <span class="hljs-type">int</span> N;
+
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;N);
+    Print_Factorial(N);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-comment">/* 用数组模拟大整数乘法，逐位打印 N! */</span>
+<span class="hljs-type">void</span> <span class="hljs-title function_">Print_Factorial</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> N)</span>
+{
+    <span class="hljs-type">int</span> up = <span class="hljs-number">0</span>;              <span class="hljs-comment">/* 进位 */</span>
+    <span class="hljs-type">int</span> tmp = <span class="hljs-number">0</span>;             <span class="hljs-comment">/* 中间乘积 */</span>
+    <span class="hljs-type">int</span> n = <span class="hljs-number">0</span>;               <span class="hljs-comment">/* 当前最高位下标 */</span>
+    <span class="hljs-type">int</span> ret[<span class="hljs-number">3000</span>] = {<span class="hljs-number">0</span>};     <span class="hljs-comment">/* 按位存储结果，ret[0] 为个位 */</span>
+    ret[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> ( N &lt; <span class="hljs-number">0</span> ){
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Invalid input&quot;</span>);   <span class="hljs-comment">/* 负数非法 */</span>
+    }
+    <span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= N; i++){
+            up = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">for</span> ( <span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= n; j++){
+                tmp = ret[j] * i + up;
+                ret[j] = tmp % <span class="hljs-number">10</span>;   <span class="hljs-comment">/* 当前位 */</span>
+                up = tmp / <span class="hljs-number">10</span>;     <span class="hljs-comment">/* 进位 */</span>
+
+                <span class="hljs-keyword">if</span>(up &gt; <span class="hljs-number">0</span> &amp;&amp; j == n){
+                    n++;           <span class="hljs-comment">/* 产生了新的最高位 */</span>
+                }
+            }
+        }
+        <span class="hljs-keyword">for</span>( <span class="hljs-type">int</span> k = n; k &gt;= <span class="hljs-number">0</span>; k-- ){
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, ret[k]);  <span class="hljs-comment">/* 从高位到低位输出 */</span>
+        }
+    }
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 输入校验 &amp; 初始化</h3>
+<ul>
+<li>N &lt; 0 → printf(&quot;Invalid input&quot;)</li>
+<li>N ≥ 0 → ret[0] = 1，n = 0，ret[] 清零</li>
+</ul>
+<h3>2. 外层 i = 2..N：大整数乘 i</h3>
+<ul>
+<li>up 重置为 0</li>
+<li>内层 j = 0..n：<ul>
+<li>tmp = ret[j] * i + up</li>
+<li>ret[j] = tmp % 10（保留个位）</li>
+<li>up = tmp / 10（进位）</li>
+<li>若 up&gt;0 且 j==n → n++（扩展一位）</li>
+</ul>
+</li>
+</ul>
+<h3>3. 倒序打印</h3>
+<ul>
+<li>k 从 n 到 0 依次 printf(&quot;%d&quot;, ret[k])</li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nPrint_Factorial(N)&quot;] --&gt; B{&quot;N &lt; 0 ?&quot;}
+  B -- &quot;是&quot; --&gt; C[&quot;输出 Invalid input&quot;]
+  B -- &quot;否&quot; --&gt; D[&quot;ret[3000]={0}, ret[0]=1\nn=0&quot;]
+  D --&gt; E[&quot;i = 2&quot;]
+  E --&gt; F{&quot;i &lt;= N ?&quot;}
+  F -- &quot;是&quot; --&gt; G[&quot;up=0, j=0&quot;]
+  G --&gt; H{&quot;j &lt;= n ?&quot;}
+  H -- &quot;是&quot; --&gt; I[&quot;tmp = ret[j]*i + up&quot;]
+  I --&gt; J[&quot;ret[j] = tmp%10\nup = tmp/10&quot;]
+  J --&gt; K{&quot;up&gt;0 &amp;&amp; j==n ?&quot;}
+  K -- &quot;是&quot; --&gt; L[&quot;n++&quot;]
+  K -- &quot;否&quot; --&gt; M[&quot;j++&quot;]
+  L --&gt; M
+  M --&gt; H
+  H -- &quot;否&quot; --&gt; N[&quot;i++&quot;]
+  N --&gt; F
+  F -- &quot;否&quot; --&gt; O[&quot;k = n\n倒序打印 ret[k..0]&quot;]
+  O --&gt; P[&quot;结束&quot;]
+  C --&gt; P">flowchart TD
+  A[&quot;开始\nPrint_Factorial(N)&quot;] --&gt; B{&quot;N &lt; 0 ?&quot;}
+  B -- &quot;是&quot; --&gt; C[&quot;输出 Invalid input&quot;]
+  B -- &quot;否&quot; --&gt; D[&quot;ret[3000]={0}, ret[0]=1\nn=0&quot;]
+  D --&gt; E[&quot;i = 2&quot;]
+  E --&gt; F{&quot;i &lt;= N ?&quot;}
+  F -- &quot;是&quot; --&gt; G[&quot;up=0, j=0&quot;]
+  G --&gt; H{&quot;j &lt;= n ?&quot;}
+  H -- &quot;是&quot; --&gt; I[&quot;tmp = ret[j]*i + up&quot;]
+  I --&gt; J[&quot;ret[j] = tmp%10\nup = tmp/10&quot;]
+  J --&gt; K{&quot;up&gt;0 &amp;&amp; j==n ?&quot;}
+  K -- &quot;是&quot; --&gt; L[&quot;n++&quot;]
+  K -- &quot;否&quot; --&gt; M[&quot;j++&quot;]
+  L --&gt; M
+  M --&gt; H
+  H -- &quot;否&quot; --&gt; N[&quot;i++&quot;]
+  N --&gt; F
+  F -- &quot;否&quot; --&gt; O[&quot;k = n\n倒序打印 ret[k..0]&quot;]
+  O --&gt; P[&quot;结束&quot;]
+  C --&gt; P</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;读入 N&quot;]
+  B --&gt; C{&quot;N &lt; 0 ?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;输出 Invalid input&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;用数组 ret[] 存大整数，初值 ret[0]=1&quot;]
+  E --&gt; F[&quot;i 从 2 到 N&quot;]
+  F --&gt; G[&quot;ret[] 每位乘以 i，模拟竖式进位&quot;]
+  G --&gt; H[&quot;产生新位则 n++&quot;]
+  H --&gt; F
+  F -- &quot;完成&quot; --&gt; I[&quot;从高位到低位打印 ret[]&quot;]
+  I --&gt; J[&quot;结束&quot;]
+  D --&gt; J">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;读入 N&quot;]
+  B --&gt; C{&quot;N &lt; 0 ?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;输出 Invalid input&quot;]
+  C -- &quot;否&quot; --&gt; E[&quot;用数组 ret[] 存大整数，初值 ret[0]=1&quot;]
+  E --&gt; F[&quot;i 从 2 到 N&quot;]
+  F --&gt; G[&quot;ret[] 每位乘以 i，模拟竖式进位&quot;]
+  G --&gt; H[&quot;产生新位则 n++&quot;]
+  H --&gt; F
+  F -- &quot;完成&quot; --&gt; I[&quot;从高位到低位打印 ret[]&quot;]
+  I --&gt; J[&quot;结束&quot;]
+  D --&gt; J</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-函数题-PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）.html">← PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-函数题-PTA基础编程题目集 6-9统计个位数字（C语言实现）.html">PTA基础编程题目集 6-9统计个位数字（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

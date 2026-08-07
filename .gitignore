@@ -1,0 +1,15 @@
+# 依赖
+node_modules/
+
+# 旧的构建输出目录（当前构建输出到 docs/）
+public/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# WorkBuddy 工作目录
+.workbuddy/

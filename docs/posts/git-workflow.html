@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一套好用的 Git 协作工作流 · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">一套好用的 Git 协作工作流</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 1 日</time>
+        <span class="dot">·</span>
+        <span>1 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#Git"># Git</a> <a class="tag-chip" href="../tags.html#%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5"># 工程实践</a> <a class="tag-chip" href="../tags.html#%E5%8D%8F%E4%BD%9C"># 协作</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<p>团队协作开发中，<strong>清晰一致的 Git 工作流</strong>比任何工具都重要。混乱的分支和随意的提交信息，是代码库腐烂的开始。</p>
+<h2>分支模型</h2>
+<p>我倾向使用简洁的 <code>main</code> + <code>feature</code> 分支模型：</p>
+<pre><code>main  ──●────────●────────●──
+         \      / \      /
+feature   ●──●    ●──●
+</code></pre><ul>
+<li><code>main</code>：永远保持可发布状态</li>
+<li><code>feature/*</code>：新功能、修复都从这里开</li>
+<li><code>release/*</code>：发布前的最后调整</li>
+</ul>
+<h2>提交信息规范</h2>
+<p>使用 Conventional Commits 规范，让历史一目了然：</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># 提交信息格式</span>
+&lt;<span class="hljs-built_in">type</span>&gt;(&lt;scope&gt;): &lt;subject&gt;
+
+<span class="hljs-comment"># 示例</span>
+feat(auth): 新增登录页记住密码功能
+fix(api): 修复用户列表接口返回 500 的问题
+docs(readme): 补充快速开始文档
+refactor(utils): 重构日期格式化工具函数
+</code></pre><p>常用 type：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>feat</code></td>
+<td>新功能</td>
+</tr>
+<tr>
+<td><code>fix</code></td>
+<td>修复 bug</td>
+</tr>
+<tr>
+<td><code>docs</code></td>
+<td>文档变更</td>
+</tr>
+<tr>
+<td><code>refactor</code></td>
+<td>重构（不改变行为）</td>
+</tr>
+<tr>
+<td><code>perf</code></td>
+<td>性能优化</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>测试相关</td>
+</tr>
+<tr>
+<td><code>chore</code></td>
+<td>构建/工具链</td>
+</tr>
+</tbody></table>
+<h2>日常操作模板</h2>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># 开新功能</span>
+git checkout -b feature/login-page
+
+<span class="hljs-comment"># 小步提交</span>
+git add .
+git commit -m <span class="hljs-string">&quot;feat(login): 实现密码加密存储&quot;</span>
+
+<span class="hljs-comment"># 同步主分支</span>
+git fetch origin
+git rebase origin/main
+
+<span class="hljs-comment"># 合并回主分支</span>
+git checkout main
+git merge --no-ff feature/login-page
+</code></pre><h2>几个实用技巧</h2>
+<ol>
+<li><strong>小步提交</strong>：一次提交只做一件事，方便回滚和 review</li>
+<li><strong>写清楚 Why</strong>：提交信息说明「为什么改」，而不是「改了什么」</li>
+<li><strong>善用 rebase</strong>：合并前用 <code>rebase</code> 保持历史线性，但<strong>不要</strong> rebase 已推送的分支</li>
+</ol>
+<blockquote>
+<p>好的提交历史，是代码库最忠实的文档。</p>
+</blockquote>
+<p>工作流没有银弹，关键是<strong>团队一致</strong>。选定一套规则，写进 README，严格执行，收益会随时间复利增长。</p>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/markdown-guide.html">← Markdown 写作完全指南</a>
+      <a class="nav-post next" href="../posts/how-to-test-code.html">如何高效测试你的代码 →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

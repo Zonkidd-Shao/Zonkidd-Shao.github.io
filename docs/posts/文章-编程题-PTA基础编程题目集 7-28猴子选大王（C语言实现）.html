@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-28猴子选大王（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-28猴子选大王（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>2 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-28 猴子选大王&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示约瑟夫环问题（N 只猴子围成一圈 1~N 编号，每报到 3 淘汰）的数组模拟解法：用数组值为 0 标记已淘汰、<code>pos = (pos+1)%n</code> 实现环形遍历，直到仅剩 1 只猴子即为猴王。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>一群猴子要选新猴王。新猴王的选择方法是：让N只候选猴子围成一圈，从某位置起顺序编号为1~N号。从第1号开始报数，每轮从1报到3，凡报到3的猴子即退出圈子，接着又从紧邻的下一只猴子开始同样的报数。如此不断循环，最后剩下的一只猴子就选为猴王。请问是原来第几号猴子当选猴王？</p>
+<h3>输入格式：</h3>
+<p>输入在一行中给一个正整数N（≤1000）。</p>
+<h3>输出格式：</h3>
+<p>在一行中输出当选猴王的编号。</p>
+<h3>输入样例：</h3>
+<pre><code class="hljs language-in">11
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">7
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>约瑟夫环（Josephus）问题的数组模拟</strong>：把 N 只猴子编号 1~N 存在数组里，用 0 表示&quot;已淘汰&quot;；然后用环形指针 <code>pos</code> 从 0 号开始顺次访问每只&quot;存活&quot;的猴子（值不为 0），并用计数器 <code>num</code> 累加报数，<code>num</code> 到 3 就把当前猴子标记为淘汰（置 0）、<code>count--</code>、<code>num</code> 归 0。当 <code>count == 1</code> 时停止，遍历数组找到剩下那个非零元素就是猴王编号。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>约瑟夫环定义</strong>：N 个人围成圈，从 1 开始报数，报到 m 的人出局，下一人接着从 1 重新报数；重复直到剩 1 人。本题 m=3。</li>
+<li><strong>环形遍历实现</strong>：数组下标 0~n-1 对应 n 只猴子。每次 <code>pos = (pos + 1) % n</code> 就能从下标 n-1 绕回下标 0，形成&quot;环&quot;。</li>
+<li><strong>标记淘汰</strong>：<ul>
+<li>初始化 <code>monkeys[i] = i + 1</code>（即编号 1~N）</li>
+<li>淘汰时设置 <code>monkeys[pos] = 0</code>，并在遍历时跳过 <code>monkeys[pos] == 0</code> 的位置</li>
+</ul>
+</li>
+<li><strong>报数逻辑</strong>：<ul>
+<li>只对存活猴子（<code>monkeys[pos] != 0</code>）执行 <code>num++</code></li>
+<li><code>num == 3</code> 时：淘汰当前猴子，剩余数 count 减 1，报数 num 归零</li>
+<li>不管当前位置是否淘汰，<code>pos</code> 都要前进到下一个位置（下一个猴子）</li>
+</ul>
+</li>
+<li><strong>终止条件</strong>：<code>count == 1</code> 时只剩 1 只猴子，遍历数组找到 <code>monkeys[i] != 0</code> 那只即为猴王。</li>
+<li><strong>样例推导（N=11）</strong>：<ul>
+<li>按约瑟夫公式结果应为 7（可自行逐步模拟验证）。代码输出 7 ✓</li>
+</ul>
+</li>
+</ol>
+<h3>算法原理说明</h3>
+<ul>
+<li>初始化：<code>monkeys[0..n-1]</code> 存 1..n；<code>count=n</code>；<code>pos=0</code>；<code>num=0</code></li>
+<li>循环 <code>while (count &gt; 1)</code>：<ul>
+<li>若 <code>monkeys[pos] != 0</code>（存活）：<code>num++</code><ul>
+<li>若 <code>num == 3</code> → <code>monkeys[pos]=0</code>（淘汰），<code>count--</code>，<code>num=0</code></li>
+</ul>
+</li>
+<li><code>pos = (pos + 1) % n</code>（下一个位置）</li>
+</ul>
+</li>
+<li>最后遍历 <code>i=0..n-1</code>，<code>monkeys[i] != 0</code> 的那个编号就是猴王。</li>
+</ul>
+<h3>具体计算步骤</h3>
+<ol>
+<li>读 N</li>
+<li><code>monkeys[i] = i + 1</code> 初始化编号 1..N</li>
+<li><code>count = N, pos = 0, num = 0</code></li>
+<li>主循环淘汰：<ul>
+<li>当前猴子存活 → num++</li>
+<li>num==3 → 置 0、count--、num=0</li>
+<li>前进到下一个位置（环形）</li>
+</ul>
+</li>
+<li>count==1 退出循环；扫数组找剩余非 0 编号输出</li>
+<li>return 0</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span>  <span class="hljs-comment">// 引入标准输入输出头文件，提供 scanf、printf</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    <span class="hljs-type">int</span> n;              <span class="hljs-comment">// n：候选猴子总数（编号 1~n）</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);    <span class="hljs-comment">// 读入猴子总数 n</span>
+    
+    <span class="hljs-type">int</span> monkeys[<span class="hljs-number">1001</span>];  <span class="hljs-comment">// 数组大小 ≥1001（题目 N ≤ 1000）</span>
+                        <span class="hljs-comment">// monkeys[i] &gt; 0：第 i 只存活，值为其编号；=0：已淘汰</span>
+    <span class="hljs-comment">// 给 n 只猴子依次编号 1..n</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+        monkeys[i] = i + <span class="hljs-number">1</span>;
+    }
+    
+    <span class="hljs-type">int</span> count = n;  <span class="hljs-comment">// count：当前剩余未淘汰的猴子数，初始为总数 n</span>
+    <span class="hljs-type">int</span> pos = <span class="hljs-number">0</span>;    <span class="hljs-comment">// pos：当前遍历到的数组下标（构成环形位置指针）</span>
+    <span class="hljs-type">int</span> num = <span class="hljs-number">0</span>;    <span class="hljs-comment">// num：当前轮的报数累加值（1~3）</span>
+    
+    <span class="hljs-comment">// 当剩余猴子数 &gt; 1 时，继续淘汰&quot;报数到 3&quot;的猴子</span>
+    <span class="hljs-keyword">while</span> (count &gt; <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">if</span> (monkeys[pos] != <span class="hljs-number">0</span>) {  <span class="hljs-comment">// 如果当前位置的猴子仍在圈中（未被淘汰）</span>
+            num++;                 <span class="hljs-comment">// 对其报一次数</span>
+            <span class="hljs-keyword">if</span> (num == <span class="hljs-number">3</span>) {        <span class="hljs-comment">// 恰好报到 3 → 该猴子淘汰</span>
+                monkeys[pos] = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 置 0 标记已淘汰</span>
+                count--;           <span class="hljs-comment">// 剩余猴子数 -1</span>
+                num = <span class="hljs-number">0</span>;           <span class="hljs-comment">// 报数重置，下一只存活猴子重新从 1 开始报</span>
+            }
+        }
+        pos = (pos + <span class="hljs-number">1</span>) % n;  <span class="hljs-comment">// 环形前进到下一个位置，%n 保证 n-1 的下一个是 0</span>
+    }
+    
+    <span class="hljs-comment">// 此时只剩一只猴子，遍历数组找到第一个非 0 的，输出其编号</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+        <span class="hljs-keyword">if</span> (monkeys[i] != <span class="hljs-number">0</span>) {
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, monkeys[i]);
+            <span class="hljs-keyword">break</span>; <span class="hljs-comment">// 只剩一只，找到直接 break</span>
+        }
+    }
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;  <span class="hljs-comment">// 程序正常退出，返回 0</span>
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 输入与初始化</h3>
+<ul>
+<li><code>int n; scanf(&quot;%d&quot;, &amp;n)</code> 读猴子数</li>
+<li><code>int monkeys[1001]</code> 存猴子编号，<code>monkeys[i] = i + 1</code>，即 1..n</li>
+<li><code>count = n</code>（剩余数），<code>pos = 0</code>（当前位置），<code>num = 0</code>（当前报数值）</li>
+</ul>
+<h3>2. 主淘汰循环</h3>
+<ul>
+<li><code>while (count &gt; 1)</code>：直到剩 1 只<ul>
+<li>若 <code>monkeys[pos] != 0</code> → <code>num++</code><ul>
+<li><code>num == 3</code> → <code>monkeys[pos] = 0; count--; num = 0;</code></li>
+</ul>
+</li>
+<li><code>pos = (pos + 1) % n</code>：前进到下一个位置，%n 形成环</li>
+</ul>
+</li>
+</ul>
+<h3>3. 找出猴王并输出</h3>
+<ul>
+<li><code>for (i=0; i&lt;n; i++)</code> 扫数组，遇到第一个 <code>monkeys[i] != 0</code> 输出其编号，break</li>
+<li>输出换行</li>
+<li><code>return 0</code></li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 n\nmonkeys[i]=i+1\ncount=n,pos=0,num=0&quot;]
+  B --&gt; C{&quot;count &gt; 1?&quot;}
+  C -- &quot;否&quot; --&gt; L[&quot;for i=0..n-1 找 monkeys[i]!=0 的输出&quot;]
+  C -- &quot;是&quot; --&gt; D{&quot;monkeys[pos]!=0?&quot;}
+  D -- &quot;否&quot; --&gt; K[&quot;pos=(pos+1)%n 回到 C&quot;]
+  D -- &quot;是&quot; --&gt; E[&quot;num++&quot;]
+  E --&gt; F{&quot;num == 3?&quot;}
+  F -- &quot;否&quot; --&gt; K
+  F -- &quot;是&quot; --&gt; G[&quot;monkeys[pos]=0\ncount--\nnum=0&quot;]
+  G --&gt; K
+  K --&gt; C
+  L --&gt; M[&quot;printf 编号\\n\nreturn 0&quot;]
+  M --&gt; N[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 n\nmonkeys[i]=i+1\ncount=n,pos=0,num=0&quot;]
+  B --&gt; C{&quot;count &gt; 1?&quot;}
+  C -- &quot;否&quot; --&gt; L[&quot;for i=0..n-1 找 monkeys[i]!=0 的输出&quot;]
+  C -- &quot;是&quot; --&gt; D{&quot;monkeys[pos]!=0?&quot;}
+  D -- &quot;否&quot; --&gt; K[&quot;pos=(pos+1)%n 回到 C&quot;]
+  D -- &quot;是&quot; --&gt; E[&quot;num++&quot;]
+  E --&gt; F{&quot;num == 3?&quot;}
+  F -- &quot;否&quot; --&gt; K
+  F -- &quot;是&quot; --&gt; G[&quot;monkeys[pos]=0\ncount--\nnum=0&quot;]
+  G --&gt; K
+  K --&gt; C
+  L --&gt; M[&quot;printf 编号\\n\nreturn 0&quot;]
+  M --&gt; N[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 N（猴子总数，编号 1~N）&quot;]
+  B --&gt; C[&quot;数组 monkeys[0..N-1] 赋值为 1..N；count=N；pos=0；报数 num=0&quot;]
+  C --&gt; D{&quot;剩余猴子数 count &gt; 1?&quot;}
+  D -- &quot;否&quot; --&gt; H[&quot;遍历数组找最后一只存活（非 0）的猴子编号&quot;]
+  D -- &quot;是&quot; --&gt; E{&quot;当前 pos 位置的猴子存活?&quot;}
+  E -- &quot;否&quot; --&gt; G[&quot;环形前进到下一只 pos=(pos+1)%N&quot;]
+  E -- &quot;是&quot; --&gt; F[&quot;报数 num += 1&quot;]
+  F --&gt; I{&quot;num == 3?&quot;}
+  I -- &quot;否&quot; --&gt; G
+  I -- &quot;是&quot; --&gt; J[&quot;标记当前猴子已淘汰（置 0）；count--；num=0&quot;]
+  J --&gt; G
+  G --&gt; D
+  H --&gt; K[&quot;输出猴王编号&quot;]
+  K --&gt; L[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 N（猴子总数，编号 1~N）&quot;]
+  B --&gt; C[&quot;数组 monkeys[0..N-1] 赋值为 1..N；count=N；pos=0；报数 num=0&quot;]
+  C --&gt; D{&quot;剩余猴子数 count &gt; 1?&quot;}
+  D -- &quot;否&quot; --&gt; H[&quot;遍历数组找最后一只存活（非 0）的猴子编号&quot;]
+  D -- &quot;是&quot; --&gt; E{&quot;当前 pos 位置的猴子存活?&quot;}
+  E -- &quot;否&quot; --&gt; G[&quot;环形前进到下一只 pos=(pos+1)%N&quot;]
+  E -- &quot;是&quot; --&gt; F[&quot;报数 num += 1&quot;]
+  F --&gt; I{&quot;num == 3?&quot;}
+  I -- &quot;否&quot; --&gt; G
+  I -- &quot;是&quot; --&gt; J[&quot;标记当前猴子已淘汰（置 0）；count--；num=0&quot;]
+  J --&gt; G
+  G --&gt; D
+  H --&gt; K[&quot;输出猴王编号&quot;]
+  K --&gt; L[&quot;结束&quot;]</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-29删除字符串中的子串（C语言实现）.html">← PTA基础编程题目集 7-29删除字符串中的子串（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-27冒泡法排序（C语言实现）.html">PTA基础编程题目集 7-27冒泡法排序（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

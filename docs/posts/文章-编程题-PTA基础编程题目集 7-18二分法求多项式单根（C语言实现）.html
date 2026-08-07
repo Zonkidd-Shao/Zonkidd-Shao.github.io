@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-18二分法求多项式单根（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-18二分法求多项式单根（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>2 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题“7-18 二分法求多项式单根”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示在区间 [a,b] 上连续异号端点时，用中点反复折半直到区间长度 &lt; 阈值，取中点近似根的数值方法。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>二分法求函数根的原理为：如果连续函数f(x)在区间[a,b]的两个端点取值异号，即f(a)f(b)&lt;0，则它在这个区间内至少存在1个根r，即f(r)=0。</p>
+<p>二分法的步骤为：</p>
+<p>检查区间长度，如果小于给定阈值，则停止，输出区间中点(a+b)/2；否则
+如果f(a)f(b)&lt;0，则计算中点的值f((a+b)/2)；
+如果f((a+b)/2)正好为0，则(a+b)/2就是要求的根；否则
+如果f((a+b)/2)与f(a)同号，则说明根在区间[(a+b)/2,b]，令a=(a+b)/2，重复循环；
+如果f((a+b)/2)与f(b)同号，则说明根在区间[a,(a+b)/2]，令b=(a+b)/2，重复循环。</p>
+<p>本题目要求编写程序，计算给定3阶多项式f(x)=a₃x³ + a₂x² + a₁x + a₀在给定区间[a,b]内的根。</p>
+<h3>输入格式：</h3>
+<p>输入在第1行中顺序给出多项式的4个系数a₃、a₂、a₁、a₀，在第2行中顺序给出区间端点a和b。题目保证多项式在给定区间内存在唯一单根。</p>
+<h3>输出格式：</h3>
+<p>在一行中输出该多项式在该区间内的根，精确到小数点后2位。</p>
+<h3>输入样例：</h3>
+<pre><code>3 -1 -3 1
+-0.5 0.5
+</code></pre><h3>输出样例：</h3>
+<pre><code>0.33
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>二分法求函数根</strong>：在函数两端异号的 [a,b] 上不断取中点 mid，判断中点函数值与端点同号来缩小区间，直到区间长度 &lt; 0.001（保证最后四舍五入保留 2 位小数的正确性）。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>函数计算</strong>：直接用 f(x) = a3·x³ + a2·x² + a1·x + a0；可用辅助函数避免重复写。</li>
+<li><strong>同号判定</strong>：fm * fa &gt; 0 表示 f(mid) 与 f(a) 同号 → 根在右半；否则在左半。</li>
+<li><strong>阈值</strong>：要求输出精确到 0.01，取 b-a &lt; 0.001 就足够（因为区间的中点到真实根的距离 &lt; 区间长度一半 &lt; 0.0005，四舍五入到两位小数无误差）。</li>
+<li><strong>特殊情况</strong>：若 fm == 0，mid 就是根，可直接 break。</li>
+</ol>
+<h3>算法原理说明</h3>
+<p>循环缩小区间：</p>
+<ul>
+<li>while (b - a &gt;= 0.001)<ul>
+<li>mid = (a+b)/2</li>
+<li>计算 fa = f(a), fm = f(mid)</li>
+<li>if (fm == 0) break</li>
+<li>else if (fm * fa &gt; 0) → a = mid</li>
+<li>else → b = mid</li>
+</ul>
+</li>
+<li>结果 = (a+b)/2，%.2f 输出</li>
+</ul>
+<h3>具体计算步骤</h3>
+<ol>
+<li>scanf 读 a3, a2, a1, a0；再读 a, b</li>
+<li>while (b - a &gt;= 0.001):<ul>
+<li>mid = (a+b)/2</li>
+<li>fm = f(mid); fa = f(a)</li>
+<li>fm==0 退出</li>
+<li>fm*fa&gt;0 → 根在右半(a=mid)；否则根在左半(b=mid)</li>
+</ul>
+</li>
+<li>printf(&quot;%.2f\n&quot;, (a+b)/2)</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-comment">// 计算多项式f(x) = a3*x^3 + a2*x^2 + a1*x + a0的值</span>
+<span class="hljs-type">double</span> <span class="hljs-title function_">f</span><span class="hljs-params">(<span class="hljs-type">double</span> a3, <span class="hljs-type">double</span> a2, <span class="hljs-type">double</span> a1, <span class="hljs-type">double</span> a0, <span class="hljs-type">double</span> x)</span>
+{
+    <span class="hljs-keyword">return</span> a3 * x * x * x + a2 * x * x + a1 * x + a0; <span class="hljs-comment">// 返回多项式在x处的值</span>
+}
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>
+{
+    <span class="hljs-type">double</span> a3, a2, a1, a0; <span class="hljs-comment">// 多项式的四个系数</span>
+    <span class="hljs-type">double</span> a, b, mid; <span class="hljs-comment">// 区间端点a、b和中点mid</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lf %lf %lf %lf&quot;</span>, &amp;a3, &amp;a2, &amp;a1, &amp;a0); <span class="hljs-comment">// 读取多项式系数</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lf %lf&quot;</span>, &amp;a, &amp;b); <span class="hljs-comment">// 读取区间端点</span>
+    
+    <span class="hljs-keyword">while</span> (b - a &gt;= <span class="hljs-number">0.001</span>) { <span class="hljs-comment">// 当区间长度大于等于0.001时继续二分</span>
+        mid = (a + b) / <span class="hljs-number">2</span>; <span class="hljs-comment">// 计算中点</span>
+        <span class="hljs-type">double</span> fm = f(a3, a2, a1, a0, mid); <span class="hljs-comment">// 计算中点处的函数值</span>
+        <span class="hljs-type">double</span> fa = f(a3, a2, a1, a0, a); <span class="hljs-comment">// 计算左端点处的函数值</span>
+        
+        <span class="hljs-keyword">if</span> (fm == <span class="hljs-number">0</span>) { <span class="hljs-comment">// 中点处函数值为0，找到根</span>
+            <span class="hljs-keyword">break</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fm * fa &gt; <span class="hljs-number">0</span>) { <span class="hljs-comment">// 中点与左端点函数值同号，根在右半区间</span>
+            a = mid; <span class="hljs-comment">// 更新左端点</span>
+        } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// 根在左半区间</span>
+            b = mid; <span class="hljs-comment">// 更新右端点</span>
+        }
+    }
+    
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%.2f\n&quot;</span>, (a + b) / <span class="hljs-number">2</span>); <span class="hljs-comment">// 输出区间中点作为根的近似值，精确到小数点后2位</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 辅助函数 f(x)</h3>
+<ul>
+<li>输入 x：返回 a3<em>x³ + a2</em>x² + a1*x + a0</li>
+</ul>
+<h3>2. 主函数输入</h3>
+<ul>
+<li>先读 a3, a2, a1, a0（四个系数）</li>
+<li>再读 a, b（区间两端点）</li>
+</ul>
+<h3>3. while 迭代缩区</h3>
+<ul>
+<li>终止条件：b - a &lt; 0.001</li>
+<li>每轮：<ul>
+<li>mid = (a+b)/2</li>
+<li>fm = f(mid), fa = f(a)</li>
+<li><strong>fm == 0</strong> → 已找到精确根，break</li>
+<li><strong>fm 与 fa 同号 (fm*fa &gt; 0)</strong> → 根在右半，a = mid</li>
+<li><strong>否则</strong> → 根在左半，b = mid</li>
+</ul>
+</li>
+</ul>
+<h3>4. 输出近似根</h3>
+<ul>
+<li>取当前区间中点 (a+b)/2；%.2f 四舍五入到 2 位小数</li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 4 系数和 [a,b]&quot;]
+  B --&gt; C{&quot;b - a &gt;= 0.001?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;mid = (a+b)/2\nfm=f(mid), fa=f(a)&quot;]
+  D --&gt; E{&quot;fm == 0?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;break（已找到根）&quot;]
+  E -- &quot;否&quot; --&gt; G{&quot;fm*fa &gt; 0?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;a = mid（根在右）&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;b = mid（根在左）&quot;]
+  H --&gt; C
+  I --&gt; C
+  C -- &quot;否&quot; --&gt; J[&quot;近似根 = (a+b)/2&quot;]
+  F --&gt; J
+  J --&gt; K[&quot;printf(\&quot;%.2f\&quot;, root)&quot;]
+  K --&gt; L[&quot;return 0&quot;]
+  L --&gt; M[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 4 系数和 [a,b]&quot;]
+  B --&gt; C{&quot;b - a &gt;= 0.001?&quot;}
+  C -- &quot;是&quot; --&gt; D[&quot;mid = (a+b)/2\nfm=f(mid), fa=f(a)&quot;]
+  D --&gt; E{&quot;fm == 0?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;break（已找到根）&quot;]
+  E -- &quot;否&quot; --&gt; G{&quot;fm*fa &gt; 0?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;a = mid（根在右）&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;b = mid（根在左）&quot;]
+  H --&gt; C
+  I --&gt; C
+  C -- &quot;否&quot; --&gt; J[&quot;近似根 = (a+b)/2&quot;]
+  F --&gt; J
+  J --&gt; K[&quot;printf(\&quot;%.2f\&quot;, root)&quot;]
+  K --&gt; L[&quot;return 0&quot;]
+  L --&gt; M[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 4 系数 &amp; 区间 [a,b]&quot;]
+  B --&gt; C[&quot;while 区间长度 &gt;= 0.001&quot;]
+  C --&gt; D[&quot;取中点 mid，算 f(mid), f(a)&quot;]
+  D --&gt; E{&quot;f(mid)=0?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;mid 即根&quot;]
+  E -- &quot;否&quot; --&gt; G{&quot;f(mid) 与 f(a) 同号?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;根在右半 → a=mid&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;根在左半 → b=mid&quot;]
+  H --&gt; C
+  I --&gt; C
+  C -- &quot;不满足&quot; --&gt; J[&quot;根 ≈ (a+b)/2，保留 2 位小数输出&quot;]
+  F --&gt; J
+  J --&gt; K[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 4 系数 &amp; 区间 [a,b]&quot;]
+  B --&gt; C[&quot;while 区间长度 &gt;= 0.001&quot;]
+  C --&gt; D[&quot;取中点 mid，算 f(mid), f(a)&quot;]
+  D --&gt; E{&quot;f(mid)=0?&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;mid 即根&quot;]
+  E -- &quot;否&quot; --&gt; G{&quot;f(mid) 与 f(a) 同号?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;根在右半 → a=mid&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;根在左半 → b=mid&quot;]
+  H --&gt; C
+  I --&gt; C
+  C -- &quot;不满足&quot; --&gt; J[&quot;根 ≈ (a+b)/2，保留 2 位小数输出&quot;]
+  F --&gt; J
+  J --&gt; K[&quot;结束&quot;]</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-19支票面额（C语言实现）.html">← PTA基础编程题目集 7-19支票面额（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-17爬动的蠕虫（C语言实现）.html">PTA基础编程题目集 7-17爬动的蠕虫（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

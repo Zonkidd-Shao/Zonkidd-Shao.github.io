@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-34通讯录的录入与显示（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-34通讯录的录入与显示（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>3 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-34 通讯录的录入与显示&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 <code>struct Contact</code> 结构体（name、birthday、gender、fixedPhone、mobilePhone）数组一次性录入 N 条通讯录记录，再依次处理 K 次查询，对编号 0~N-1 内按&quot;姓名 固话 手机 性别 生日&quot;格式输出，否则输出 <code>Not Found</code>。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>通讯录中的一条记录包含下述基本信息：朋友的姓名、出生日期、性别、固定电话号码、移动电话号码。
+本题要求编写程序，录入N条记录，并且根据要求显示任意某条记录。</p>
+<h3>输入格式：</h3>
+<p>输入在第一行给出正整数N（≤10）；随后N行，每行按照格式姓名 生日 性别 固话 手机给出一条记录。其中姓名是不超过10个字符、不包含空格的非空字符串；生日按yyyy/mm/dd的格式给出年月日；性别用M表示&quot;男&quot;、F表示&quot;女&quot;；固话和手机均为不超过15位的连续数字，前面有可能出现+。</p>
+<p>在通讯录记录输入完成后，最后一行给出正整数K，并且随后给出K个整数，表示要查询的记录编号（从0到N−1顺序编号）。数字间以空格分隔。</p>
+<h3>输出格式：</h3>
+<p>对每一条要查询的记录编号，在一行中按照姓名 固话 手机 性别 生日的格式输出该记录。若要查询的记录不存在，则输出Not Found。</p>
+<h3>输入样例：</h3>
+<pre><code class="hljs language-in">3
+Chris 1984/03/10 F +86181779452 13707010007
+LaoLao 1967/11/30 F 057187951100 +8618618623333
+QiaoLin 1980/01/01 M 84172333 10086
+2 1 7
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">LaoLao 057187951100 +8618618623333 F 1967/11/30
+Not Found
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>使用 C 语言 struct 结构体定义&quot;通讯录记录&quot;数据类型 + 数组存 N 条记录 + 顺序查询编号并判断越界</strong>。结构体内存 5 个字段（姓名、生日、性别、固话、手机），其中性别是单个字符用 <code>char gender</code>，其余是字符串用 <code>char[]</code> 足够长度存储；输入每条记录时用一个 <code>scanf(&quot;%s %s %c %s %s&quot;, ...)</code> 按顺序读入 5 项（除性别 <code>&amp;c</code> 取地址外，其余数组名退化为指针无需 <code>&amp;</code>）；查询阶段读 K 个编号 idx，若 idx 在 [0, N-1] 内按&quot;姓名 固话 手机 性别 生日&quot;输出，否则 <code>Not Found</code>。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>结构体定义</strong>：<pre><code class="hljs language-c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span>
+    <span class="hljs-type">char</span> name[<span class="hljs-number">11</span>];         <span class="hljs-comment">// 姓名 ≤10 字符 + &#x27;\0&#x27;</span>
+    <span class="hljs-type">char</span> birthday[<span class="hljs-number">11</span>];     <span class="hljs-comment">// yyyy/mm/dd 共 10 字符 + &#x27;\0&#x27;</span>
+    <span class="hljs-type">char</span> gender;           <span class="hljs-comment">// 性别 单字符 M/F</span>
+    <span class="hljs-type">char</span> fixedPhone[<span class="hljs-number">16</span>];   <span class="hljs-comment">// 固话 ≤15 字符(可能含+) + &#x27;\0&#x27;</span>
+    <span class="hljs-type">char</span> mobilePhone[<span class="hljs-number">16</span>];  <span class="hljs-comment">// 手机 ≤15 字符(可能含+) + &#x27;\0&#x27;</span>
+} Contact;
+</code></pre></li>
+<li><strong>录入 N 条记录</strong>：N ≤ 10，<code>Contact contacts[10];</code> 即可。for 循环 N 次，每次 <code>scanf(&quot;%s %s %c %s %s&quot;, name, birthday, &amp;gender, fixed, mobile)</code>。<code>%c</code> 前有个空格可以过滤掉空白（不过上一个 <code>%s</code> 已跳过空白，所以通常没问题）。</li>
+<li><strong>查询 K 次</strong>：先读 K，再 for 循环 K 次读入一个整数 idx：<ul>
+<li>若 <code>idx &gt;= 0 &amp;&amp; idx &lt; N</code> → 合法，输出：
+<code>printf(&quot;%s %s %s %c %s\n&quot;, name, fixedPhone, mobilePhone, gender, birthday)</code>
+注意输出字段顺序和输入顺序不同：<strong>姓名 固话 手机 性别 生日</strong></li>
+<li>否则 → <code>printf(&quot;Not Found\n&quot;)</code></li>
+</ul>
+</li>
+<li><strong>样例对照</strong>：<ul>
+<li>N=3，三条：<ul>
+<li>0: Chris…；1: LaoLao…；2: QiaoLin…</li>
+</ul>
+</li>
+<li>K=2 个查询：1 和 7<ul>
+<li>idx=1 → 合法，输出 LaoLao 固话 手机 性别 生日 ✓（样例第一行输出）</li>
+<li>idx=7 → 超出 [0,2] → Not Found ✓</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3>算法原理说明</h3>
+<ol>
+<li>读 N</li>
+<li>for i=0..N-1：<ul>
+<li>scanf 读 5 个字段 → 写入 contacts[i]</li>
+</ul>
+</li>
+<li>读 K：<ul>
+<li>for i=0..K-1：<ul>
+<li>scanf(&quot;%d&quot;, &amp;idx)</li>
+<li>若 0 ≤ idx &lt; N → 按顺序打印 5 字段（注意输出顺序不同于输入）</li>
+<li>否则 → Not Found</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>return 0</li>
+</ol>
+<h3>具体计算步骤</h3>
+<ol>
+<li>输入 N=3</li>
+<li>录入 3 条记录到 contacts[0..2]</li>
+<li>输入 K=2，再依次读 idx=1 与 idx=7<ul>
+<li>idx=1 ∈ [0,3)：输出 contacts[1] 的&quot;姓名 固话 手机 性别 生日&quot;</li>
+<li>idx=7 ∉ [0,3)：输出 Not Found</li>
+</ul>
+</li>
+<li>结束</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+
+<span class="hljs-comment">// 定义&quot;通讯录记录&quot;结构体：姓名、生日、性别(M/F)、固话、手机</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span>
+    <span class="hljs-type">char</span> name[<span class="hljs-number">11</span>];         <span class="hljs-comment">// 姓名：不超过 10 字符 + 结束符 &#x27;\0&#x27;</span>
+    <span class="hljs-type">char</span> birthday[<span class="hljs-number">11</span>];     <span class="hljs-comment">// 生日：yyyy/mm/dd 形式共 10 字符 + 结束符</span>
+    <span class="hljs-type">char</span> gender;           <span class="hljs-comment">// 性别：单个字符 M 或 F</span>
+    <span class="hljs-type">char</span> fixedPhone[<span class="hljs-number">16</span>];   <span class="hljs-comment">// 固话：不超过 15 字符(可能含 +) + 结束符</span>
+    <span class="hljs-type">char</span> mobilePhone[<span class="hljs-number">16</span>];  <span class="hljs-comment">// 手机：不超过 15 字符(可能含 +) + 结束符</span>
+} Contact;
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    <span class="hljs-type">int</span> n;                    <span class="hljs-comment">// n：通讯录记录总数（≤10）</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);          <span class="hljs-comment">// 第 1 行读入 n</span>
+    
+    Contact contacts[<span class="hljs-number">10</span>];     <span class="hljs-comment">// 结构体数组：最多 10 条通讯录记录</span>
+    <span class="hljs-comment">// 逐行录入 n 条通讯录记录</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+        <span class="hljs-comment">// 按&quot;姓名 生日 性别 固话 手机&quot;的顺序一次读入 5 项</span>
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s %s %c %s %s&quot;</span>, 
+              contacts[i].name,           <span class="hljs-comment">// 姓名字符串</span>
+              contacts[i].birthday,       <span class="hljs-comment">// 生日字符串(含 /)</span>
+              &amp;contacts[i].gender,         <span class="hljs-comment">// 单个字符（需取地址）</span>
+              contacts[i].fixedPhone,     <span class="hljs-comment">// 固话字符串</span>
+              contacts[i].mobilePhone);   <span class="hljs-comment">// 手机字符串</span>
+    }
+    
+    <span class="hljs-type">int</span> k;                    <span class="hljs-comment">// k：查询次数</span>
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;k);          <span class="hljs-comment">// 读入查询次数 k</span>
+    <span class="hljs-comment">// 依次处理 k 个查询编号</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; k; i++) {
+        <span class="hljs-type">int</span> idx;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;idx);    <span class="hljs-comment">// 读入要查询的记录编号（0 ~ n-1）</span>
+        <span class="hljs-keyword">if</span> (idx &gt;= <span class="hljs-number">0</span> &amp;&amp; idx &lt; n) {  <span class="hljs-comment">// 编号在合法范围内</span>
+            <span class="hljs-comment">// 按&quot;姓名 固话 手机 性别 生日&quot;的输出顺序格式化打印</span>
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s %s %s %c %s\n&quot;</span>, 
+                   contacts[idx].name, 
+                   contacts[idx].fixedPhone, 
+                   contacts[idx].mobilePhone, 
+                   contacts[idx].gender, 
+                   contacts[idx].birthday);
+        } <span class="hljs-keyword">else</span> {                <span class="hljs-comment">// 编号越界或负，记录不存在</span>
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Not Found\n&quot;</span>);
+        }
+    }
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 结构体 Contact 定义</h3>
+<ul>
+<li>5 个字段：name[11], birthday[11], gender（char）, fixedPhone[16], mobilePhone[16]</li>
+</ul>
+<h3>2. 输入 N 条记录</h3>
+<ul>
+<li><code>int n; scanf(&quot;%d&quot;, &amp;n);</code></li>
+<li><code>Contact contacts[10];</code></li>
+<li>for i=0..n-1：<ul>
+<li><code>scanf(&quot;%s %s %c %s %s&quot;, ...)</code> 依次写 5 个字段</li>
+</ul>
+</li>
+</ul>
+<h3>3. 查询处理 K 次</h3>
+<ul>
+<li><code>int k; scanf(&quot;%d&quot;, &amp;k);</code></li>
+<li>for i=0..k-1：<ul>
+<li>读 idx</li>
+<li>合法 → 输出顺序：<code>姓名 固话 手机 性别 生日</code>（与输入顺序不同）</li>
+<li>不合法 → <code>Not Found</code></li>
+</ul>
+</li>
+</ul>
+<h3>4. 返回</h3>
+<ul>
+<li><code>return 0</code></li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 n\nContact contacts[10]&quot;]
+  B --&gt; C[&quot;for i=0..n-1\n读入 5 个字段写入 contacts[i]&quot;]
+  C --&gt; D[&quot;读入 k&quot;]
+  D --&gt; E[&quot;i=0&quot;]
+  E --&gt; F{&quot;i&lt;k?&quot;}
+  F -- &quot;否&quot; --&gt; Q[&quot;return 0&quot;]
+  F -- &quot;是&quot; --&gt; G[&quot;读入 idx&quot;]
+  G --&gt; H{&quot;0&lt;=idx&lt;n?&quot;}
+  H -- &quot;是&quot; --&gt; I[&quot;printf：name fixed mobile gender birthday&quot;]
+  H -- &quot;否&quot; --&gt; J[&quot;printf Not Found&quot;]
+  I --&gt; K[&quot;i++ 回到 F&quot;]
+  J --&gt; K
+  K --&gt; F
+  Q --&gt; R[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;读入 n\nContact contacts[10]&quot;]
+  B --&gt; C[&quot;for i=0..n-1\n读入 5 个字段写入 contacts[i]&quot;]
+  C --&gt; D[&quot;读入 k&quot;]
+  D --&gt; E[&quot;i=0&quot;]
+  E --&gt; F{&quot;i&lt;k?&quot;}
+  F -- &quot;否&quot; --&gt; Q[&quot;return 0&quot;]
+  F -- &quot;是&quot; --&gt; G[&quot;读入 idx&quot;]
+  G --&gt; H{&quot;0&lt;=idx&lt;n?&quot;}
+  H -- &quot;是&quot; --&gt; I[&quot;printf：name fixed mobile gender birthday&quot;]
+  H -- &quot;否&quot; --&gt; J[&quot;printf Not Found&quot;]
+  I --&gt; K[&quot;i++ 回到 F&quot;]
+  J --&gt; K
+  K --&gt; F
+  Q --&gt; R[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 N（通讯录条数，≤10）&quot;]
+  B --&gt; C[&quot;定义 Contact 结构体数组 contacts[10]&quot;]
+  C --&gt; D[&quot;按 姓名/生日/性别/固话/手机 的顺序录入 N 条记录&quot;]
+  D --&gt; E[&quot;输入 K（查询次数）及 K 个编号 idx&quot;]
+  E --&gt; F[&quot;逐个处理 idx&quot;]
+  F --&gt; G{&quot;idx ∈ [0, N-1] ?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;按 姓名 固话 手机 性别 生日 的格式输出 contacts[idx]&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;输出 Not Found&quot;]
+  H --&gt; J{&quot;所有查询处理完?&quot;}
+  I --&gt; J
+  J -- &quot;否&quot; --&gt; F
+  J -- &quot;是&quot; --&gt; K[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;输入 N（通讯录条数，≤10）&quot;]
+  B --&gt; C[&quot;定义 Contact 结构体数组 contacts[10]&quot;]
+  C --&gt; D[&quot;按 姓名/生日/性别/固话/手机 的顺序录入 N 条记录&quot;]
+  D --&gt; E[&quot;输入 K（查询次数）及 K 个编号 idx&quot;]
+  E --&gt; F[&quot;逐个处理 idx&quot;]
+  F --&gt; G{&quot;idx ∈ [0, N-1] ?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;按 姓名 固话 手机 性别 生日 的格式输出 contacts[idx]&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;输出 Not Found&quot;]
+  H --&gt; J{&quot;所有查询处理完?&quot;}
+  I --&gt; J
+  J -- &quot;否&quot; --&gt; F
+  J -- &quot;是&quot; --&gt; K[&quot;结束&quot;]</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-35有理数均值（C语言实现）.html">← PTA基础编程题目集 7-35有理数均值（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-33有理数加法（C语言实现）.html">PTA基础编程题目集 7-33有理数加法（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

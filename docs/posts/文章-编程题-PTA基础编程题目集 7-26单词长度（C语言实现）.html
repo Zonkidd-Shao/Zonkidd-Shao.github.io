@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA基础编程题目集 7-26单词长度（C语言实现） · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">PTA基础编程题目集 7-26单词长度（C语言实现）</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>2 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#PTA"># PTA</a> <a class="tag-chip" href="../tags.html#C%E8%AF%AD%E8%A8%80"># C语言</a> <a class="tag-chip" href="../tags.html#%E7%BC%96%E7%A8%8B%E9%A2%98"># 编程题</a> <a class="tag-chip" href="../tags.html#%E7%AE%97%E6%B3%95"># 算法</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-26 单词长度&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 <code>scanf(&quot;%c&quot;)</code> 逐字符读取直到遇到 <code>.</code> 为止，并通过长度计数器 <code>len</code> 和首项标志 <code>first</code> 实现：按空格切分单词、跳过连续空格、输出每个单词长度且行末无多余空格的方法。</p>
+</blockquote>
+<h2>题目描述</h2>
+<p>你的程序要读入一行文本，其中以空格分隔为若干个单词，以.结束。你要输出每个单词的长度。这里的单词与语言无关，可以包括各种符号，比如it&#39;s算一个单词，长度为4。注意，行中可能出现连续的空格；最后的.不计算在内。</p>
+<h3>输入格式：</h3>
+<p>输入在一行中给出一行文本，以.结束</p>
+<p>提示：用scanf(&quot;%c&quot;,...);来读入一个字符，直到读到.为止。</p>
+<h3>输出格式：</h3>
+<p>在一行中输出这行文本对应的单词的长度，每个长度之间以空格隔开，行末没有最后的空格。</p>
+<h3>输入样例：</h3>
+<pre><code class="hljs language-in">It&#x27;s great to see you here.
+</code></pre><h3>输出样例：</h3>
+<pre><code class="hljs language-out">4 5 2 3 3 4
+</code></pre><h2>解题思路</h2>
+<p>这道题的核心是<strong>逐字符状态机（读字符 → 空格/非空格切换计数） + 切分条件 + 空格分隔格式控制</strong>：用 <code>scanf(&quot;%c&quot;)</code> 循环读直到读到 <code>.</code>；非空格字符 <code>len++</code> 累加当前单词长度；遇到空格时若 <code>len&gt;0</code> 则&quot;输出 len 并清零&quot;（跳过连续空格由 <code>len&gt;0</code> 保证）；循环结束后还要处理最后一个单词（避免 <code>.</code> 前无空格导致最后一个单词没输出）。</p>
+<h3>核心问题分析</h3>
+<ol>
+<li><strong>结束条件</strong>：遇到字符 <code>&#39;.&#39;</code> 立即停止读取。<code>scanf(&quot;%c&quot;, &amp;c)</code> 每次只读一个字符（含空格、标点、换行等），配合判断 <code>c != &#39;.&#39;</code> 正好满足要求。</li>
+<li><strong>单词切分规则</strong>：<ul>
+<li>一个&quot;单词&quot;是连续非空格、非 <code>.</code> 的字符序列。</li>
+<li>连续空格不产生空单词：当遇到空格时，只有 <code>len &gt; 0</code>（即前一个字符属于某个单词）才输出当前长度并重置 len=0。连续空格会使 len 已经为 0，于是跳过输出，避免多余的 0 长度。</li>
+</ul>
+</li>
+<li><strong>末尾单词处理</strong>：输入以 <code>.</code> 结束，而最后一个单词与 <code>.</code> 之间没有空格（如样例 <code>here.</code>），因此当循环退出时，若 <code>len &gt; 0</code> 还需再输出一次最后那个单词的长度。</li>
+<li><strong>格式控制（行末无多余空格）</strong>：使用首项标志 <code>first</code>：<ul>
+<li>第一个长度输出前不加空格，然后置 <code>first=0</code></li>
+<li>从第二个长度起，先输出空格再输出数字</li>
+<li>行末自然无多余空格</li>
+</ul>
+</li>
+</ol>
+<h3>算法原理说明</h3>
+<p>变量：<code>char c</code>（当前字符）、<code>int len = 0</code>（当前单词长度）、<code>int first = 1</code>（是否第一个输出项）</p>
+<ul>
+<li>循环 <code>while (scanf(&quot;%c&quot;,&amp;c) &amp;&amp; c != &#39;.&#39;)</code>：<ul>
+<li>若 <code>c == &#39; &#39;</code> 且 <code>len &gt; 0</code> → 按 first 控制格式输出 len → len=0 → first=0</li>
+<li>若 <code>c != &#39; &#39;</code>（非空格）→ <code>len++</code></li>
+</ul>
+</li>
+<li>循环结束（读到 <code>.</code>）后：若 <code>len &gt; 0</code> → 再输出一次最后那个单词长度</li>
+<li>换行返回</li>
+</ul>
+<p>以输入 <code>It&#39;s great to see you here.</code> 为例：</p>
+<ul>
+<li>读到空格分隔符时依次输出 4, 5, 2, 3, 3</li>
+<li>读到 <code>.</code> 退出循环，此时 len=4(<code>here</code>)，补充输出最后一个 4</li>
+<li>最终：<code>4 5 2 3 3 4</code></li>
+</ul>
+<h3>具体计算步骤</h3>
+<ol>
+<li>初始化 <code>len = 0; first = 1;</code></li>
+<li>逐字符读：<ul>
+<li>读 <code>I</code> <code>t</code> <code>&#39;</code> <code>s</code> → len 累加到 4</li>
+<li>读空格 → len=4&gt;0 → 输出 4，len=0，first=0</li>
+<li>读 <code>g r e a t</code> → len=5，空格时输出 5，len=0</li>
+<li>读 <code>t o</code> → len=2，空格时输出 2，len=0</li>
+<li>读 <code>s e e</code> → len=3，空格时输出 3，len=0</li>
+<li>读 <code>y o u</code> → len=3，空格时输出 3，len=0</li>
+<li>读 <code>h e r e</code> → len=4，然后读到 <code>.</code> → 退出循环</li>
+</ul>
+</li>
+<li>循环结束 len=4&gt;0 → 最后输出 4</li>
+<li>换行</li>
+</ol>
+<h2>代码部分实现</h2>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span>  <span class="hljs-comment">// 引入标准输入输出头文件，提供 scanf、printf</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> {
+    <span class="hljs-type">char</span> c;          <span class="hljs-comment">// 字符变量 c：每次读入的一个字符</span>
+    <span class="hljs-type">int</span> len = <span class="hljs-number">0</span>;     <span class="hljs-comment">// len：当前正在累加的单词长度计数器，初始 0</span>
+    <span class="hljs-type">int</span> first = <span class="hljs-number">1</span>;   <span class="hljs-comment">// first：首项输出标志，1 表示下一个长度是第一个（前面不加空格）</span>
+    
+    <span class="hljs-comment">// 逐字符读入，直到读到 &#x27;.&#x27; 为止</span>
+    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%c&quot;</span>, &amp;c) == <span class="hljs-number">1</span> &amp;&amp; c != <span class="hljs-string">&#x27;.&#x27;</span>) {
+        <span class="hljs-keyword">if</span> (c == <span class="hljs-string">&#x27; &#x27;</span>) {           <span class="hljs-comment">// 当前字符是空格（可能的单词分隔点）</span>
+            <span class="hljs-keyword">if</span> (len &gt; <span class="hljs-number">0</span>) {        <span class="hljs-comment">// 只有当前长度&gt;0才说明是&quot;刚结束一个单词&quot;（过滤连续空格）</span>
+                <span class="hljs-keyword">if</span> (!first) {     <span class="hljs-comment">// 若不是第一个输出项 → 先打印空格分隔</span>
+                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; &quot;</span>);
+                }
+                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, len); <span class="hljs-comment">// 输出刚结束的这个单词长度</span>
+                len = <span class="hljs-number">0</span>;           <span class="hljs-comment">// 重置长度计数器，准备下一个单词</span>
+                first = <span class="hljs-number">0</span>;         <span class="hljs-comment">// 之后再有长度输出就不是第一个了</span>
+            }
+        } <span class="hljs-keyword">else</span> {                  <span class="hljs-comment">// 当前字符非空格（属于某个单词的一部分）</span>
+            len++;                <span class="hljs-comment">// 单词长度 +1（含符号，如 it&#x27;s 的撇号也算长度）</span>
+        }
+    }
+    <span class="hljs-comment">// 循环结束（读到 &#x27;.&#x27;）：若最后一个字符到 &#x27;.&#x27; 之间没有空格，</span>
+    <span class="hljs-comment">// 则最后一个单词还未输出，需要补输出一次</span>
+    <span class="hljs-keyword">if</span> (len &gt; <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">if</span> (!first) {             <span class="hljs-comment">// 如果之前已有输出项 → 先空格</span>
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; &quot;</span>);
+        }
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, len);        <span class="hljs-comment">// 输出最后一个单词的长度</span>
+    }
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>); <span class="hljs-comment">// 所有长度输出完毕，换行</span>
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;  <span class="hljs-comment">// 程序正常退出，返回 0</span>
+}
+</code></pre><h2>代码流程说明</h2>
+<h3>1. 变量初始化</h3>
+<ul>
+<li><code>char c</code>：保存每次读入的一个字符</li>
+<li><code>int len = 0</code>：当前单词的长度计数器</li>
+<li><code>int first = 1</code>：首项标志（1 表示下一次输出是第 1 项，无需前置空格）</li>
+</ul>
+<h3>2. 主循环逐字符处理</h3>
+<ul>
+<li><code>while (scanf(&quot;%c&quot;, &amp;c) == 1 &amp;&amp; c != &#39;.&#39;)</code>：成功读入 1 个字符且不是 <code>.</code> 就继续<ul>
+<li><strong>遇空格</strong>：<code>c == &#39; &#39;</code> 且 <code>len &gt; 0</code> → 按 first 规则输出 len，清零 len，置 first=0<ul>
+<li><code>len == 0</code> 表示连续空格，什么都不做</li>
+</ul>
+</li>
+<li><strong>遇非空格</strong>：<code>len++</code>，该字符计入当前单词长度</li>
+</ul>
+</li>
+</ul>
+<h3>3. 处理最后一个单词（循环结束后）</h3>
+<ul>
+<li>若 <code>len &gt; 0</code> → 说明 <code>.</code> 前还有一个单词未输出，按格式输出</li>
+<li>若 <code>len == 0</code>（如 <code>hello .</code>）→ 无需额外输出</li>
+</ul>
+<h3>4. 换行返回</h3>
+<ul>
+<li><code>printf(&quot;\n&quot;); return 0;</code></li>
+</ul>
+<h2>代码流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;初始化 len=0\nfirst=1&quot;]
+  B --&gt; C[&quot;scanf %c 读入 c&quot;]
+  C --&gt; D{&quot;读成功 &amp;&amp; c!='.'?&quot;}
+  D -- &quot;否&quot; --&gt; L{&quot;len&gt;0?&quot;}
+  D -- &quot;是&quot; --&gt; E{&quot;c==' '?&quot;}
+  E -- &quot;是&quot; --&gt; F{&quot;len&gt;0?&quot;}
+  F -- &quot;否&quot; --&gt; C
+  F -- &quot;是&quot; --&gt; G{&quot;!first?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;printf 空格&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;printf len\nlen=0\nfirst=0&quot;]
+  H --&gt; I
+  I --&gt; C
+  E -- &quot;否&quot; --&gt; J[&quot;len++&quot;]
+  J --&gt; C
+  L -- &quot;是&quot; --&gt; M{&quot;!first?&quot;}
+  L -- &quot;否&quot; --&gt; O[&quot;printf 换行\nreturn 0&quot;]
+  M -- &quot;是&quot; --&gt; N[&quot;printf 空格&quot;]
+  M -- &quot;否&quot; --&gt; P[&quot;printf len&quot;]
+  N --&gt; P
+  P --&gt; O
+  O --&gt; Q[&quot;结束&quot;]">flowchart TD
+  A[&quot;开始\nmain()&quot;] --&gt; B[&quot;初始化 len=0\nfirst=1&quot;]
+  B --&gt; C[&quot;scanf %c 读入 c&quot;]
+  C --&gt; D{&quot;读成功 &amp;&amp; c!='.'?&quot;}
+  D -- &quot;否&quot; --&gt; L{&quot;len&gt;0?&quot;}
+  D -- &quot;是&quot; --&gt; E{&quot;c==' '?&quot;}
+  E -- &quot;是&quot; --&gt; F{&quot;len&gt;0?&quot;}
+  F -- &quot;否&quot; --&gt; C
+  F -- &quot;是&quot; --&gt; G{&quot;!first?&quot;}
+  G -- &quot;是&quot; --&gt; H[&quot;printf 空格&quot;]
+  G -- &quot;否&quot; --&gt; I[&quot;printf len\nlen=0\nfirst=0&quot;]
+  H --&gt; I
+  I --&gt; C
+  E -- &quot;否&quot; --&gt; J[&quot;len++&quot;]
+  J --&gt; C
+  L -- &quot;是&quot; --&gt; M{&quot;!first?&quot;}
+  L -- &quot;否&quot; --&gt; O[&quot;printf 换行\nreturn 0&quot;]
+  M -- &quot;是&quot; --&gt; N[&quot;printf 空格&quot;]
+  M -- &quot;否&quot; --&gt; P[&quot;printf len&quot;]
+  N --&gt; P
+  P --&gt; O
+  O --&gt; Q[&quot;结束&quot;]</div>
+<h2>解题流程图</h2>
+<div class="mermaid" data-source="flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;初始化 len=0，首项标志 first=1&quot;]
+  B --&gt; C[&quot;逐字符读取输入（直到遇到 '.' 为止）&quot;]
+  C --&gt; D{&quot;当前字符是空格?&quot;}
+  D -- &quot;是&quot; --&gt; E{&quot;len &gt; 0?（上一个是单词结尾?）&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;输出该单词长度（首项不加空格）；len=0；first=0&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;跳过，继续读下一个字符（连续空格）&quot;]
+  F --&gt; H[&quot;继续读下一个字符&quot;]
+  G --&gt; H
+  D -- &quot;否&quot; --&gt; I[&quot;当前字符为单词内容，len += 1&quot;]
+  I --&gt; H
+  H --&gt; J{&quot;读到 '.' ?&quot;}
+  J -- &quot;否&quot; --&gt; C
+  J -- &quot;是&quot; --&gt; K{&quot;len &gt; 0?（最后还有未输出的单词?）&quot;}
+  K -- &quot;是&quot; --&gt; L[&quot;输出最后一个单词长度&quot;]
+  K -- &quot;否&quot; --&gt; M[&quot;换行结束&quot;]
+  L --&gt; M">flowchart TD
+  A[&quot;开始&quot;] --&gt; B[&quot;初始化 len=0，首项标志 first=1&quot;]
+  B --&gt; C[&quot;逐字符读取输入（直到遇到 '.' 为止）&quot;]
+  C --&gt; D{&quot;当前字符是空格?&quot;}
+  D -- &quot;是&quot; --&gt; E{&quot;len &gt; 0?（上一个是单词结尾?）&quot;}
+  E -- &quot;是&quot; --&gt; F[&quot;输出该单词长度（首项不加空格）；len=0；first=0&quot;]
+  E -- &quot;否&quot; --&gt; G[&quot;跳过，继续读下一个字符（连续空格）&quot;]
+  F --&gt; H[&quot;继续读下一个字符&quot;]
+  G --&gt; H
+  D -- &quot;否&quot; --&gt; I[&quot;当前字符为单词内容，len += 1&quot;]
+  I --&gt; H
+  H --&gt; J{&quot;读到 '.' ?&quot;}
+  J -- &quot;否&quot; --&gt; C
+  J -- &quot;是&quot; --&gt; K{&quot;len &gt; 0?（最后还有未输出的单词?）&quot;}
+  K -- &quot;是&quot; --&gt; L[&quot;输出最后一个单词长度&quot;]
+  K -- &quot;否&quot; --&gt; M[&quot;换行结束&quot;]
+  L --&gt; M</div>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/文章-编程题-PTA基础编程题目集 7-27冒泡法排序（C语言实现）.html">← PTA基础编程题目集 7-27冒泡法排序（C语言实现）</a>
+      <a class="nav-post next" href="../posts/文章-编程题-PTA基础编程题目集 7-25念数字（C语言实现）.html">PTA基础编程题目集 7-25念数字（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>

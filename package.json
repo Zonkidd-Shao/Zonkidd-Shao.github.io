@@ -1,0 +1,15 @@
+{
+  "name": "zonkidd-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Zonkidd 的个人技术博客",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "npx serve docs"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "marked": "^18.0.9",
+    "marked-highlight": "^2.2.4"
+  }
+}

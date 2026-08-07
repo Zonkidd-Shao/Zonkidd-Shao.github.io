@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>如何高效测试你的代码 · Zonkidd</title>
+<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">&lt;/&gt;</span>
+      <span class="brand-name">Zonkidd</span>
+    </a>
+    <nav class="site-nav"><a class="nav-link " href="../index.html">首页</a><a class="nav-link " href="../projects.html">项目</a><a class="nav-link " href="../reading.html">读书笔记</a><a class="nav-link " href="../categories.html">分类</a><a class="nav-link " href="../tags.html">标签</a><a class="nav-link " href="../about.html">关于</a></nav>
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main class="site-main">
+<article class="post-page">
+  <div class="container post-container">
+    <header class="post-header">
+      <h1 class="post-title">如何高效测试你的代码</h1>
+      <div class="post-meta">
+        <time>2026 年 8 月 7 日</time>
+        <span class="dot">·</span>
+        <span>1 分钟阅读</span>
+      </div>
+      <div class="post-tags"><a class="tag-chip" href="../tags.html#%E6%B5%8B%E8%AF%95"># 测试</a> <a class="tag-chip" href="../tags.html#%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5"># 工程实践</a> <a class="tag-chip" href="../tags.html#%E8%B4%A8%E9%87%8F"># 质量</a></div>
+    </header>
+    <div class="post-content markdown-body">
+<blockquote>
+<p>本文属于「测试栏目」分类下的示例文章，用于验证博客的分类功能。</p>
+</blockquote>
+<p>很多开发者把测试当成&quot;上线前的负担&quot;，但实际上，<strong>测试是开发流程的一部分</strong>——它帮你提前暴露问题、建立信心、让重构变得安全。</p>
+<h2>测试金字塔</h2>
+<p>经典的测试策略是&quot;金字塔&quot;结构：</p>
+<pre><code>        /\
+       /  \        端到端测试（少）
+      /    \
+     /------\
+    /        \     集成测试（适中）
+   /          \
+  /------------\
+ /              \  单元测试（多）
+/----------------\
+</code></pre><ul>
+<li><strong>底层（单元测试）</strong>：最多、最快、最稳定，测试单个函数/组件</li>
+<li><strong>中层（集成测试）</strong>：验证模块间协作</li>
+<li><strong>顶层（端到端测试）</strong>：最少、最慢，模拟真实用户路径</li>
+</ul>
+<h2>一个可落地的测试示例</h2>
+<p>以 JavaScript 为例，用单元测试验证一个工具函数：</p>
+<pre><code class="hljs language-js"><span class="hljs-comment">// utils/format.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">formatPrice</span>(<span class="hljs-params">value</span>) {
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> value !== <span class="hljs-string">&#x27;number&#x27;</span> || !<span class="hljs-title class_">Number</span>.<span class="hljs-built_in">isFinite</span>(value)) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TypeError</span>(<span class="hljs-string">&#x27;price must be a finite number&#x27;</span>);
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`¥<span class="hljs-subst">${value.toFixed(<span class="hljs-number">2</span>)}</span>`</span>;
+}
+</code></pre><pre><code class="hljs language-js"><span class="hljs-comment">// utils/format.test.js</span>
+<span class="hljs-keyword">import</span> { describe, it, expect } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vitest&#x27;</span>;
+<span class="hljs-keyword">import</span> { formatPrice } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./format&#x27;</span>;
+
+<span class="hljs-title function_">describe</span>(<span class="hljs-string">&#x27;formatPrice&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">&#x27;格式化为两位小数&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">expect</span>(<span class="hljs-title function_">formatPrice</span>(<span class="hljs-number">9.5</span>)).<span class="hljs-title function_">toBe</span>(<span class="hljs-string">&#x27;¥9.50&#x27;</span>);
+  });
+
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">&#x27;处理整数&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">expect</span>(<span class="hljs-title function_">formatPrice</span>(<span class="hljs-number">100</span>)).<span class="hljs-title function_">toBe</span>(<span class="hljs-string">&#x27;¥100.00&#x27;</span>);
+  });
+
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">&#x27;非法输入抛出异常&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-title function_">expect</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">formatPrice</span>(<span class="hljs-string">&#x27;9.5&#x27;</span>)).<span class="hljs-title function_">toThrow</span>(<span class="hljs-title class_">TypeError</span>);
+  });
+});
+</code></pre><h2>测试的黄金法则</h2>
+<table>
+<thead>
+<tr>
+<th>法则</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>先写测试</strong></td>
+<td>用测试驱动开发（TDD），先定义&quot;正确&quot;再实现</td>
+</tr>
+<tr>
+<td><strong>测试行为，而非实现</strong></td>
+<td>别依赖内部细节，否则改代码就崩测试</td>
+</tr>
+<tr>
+<td><strong>覆盖关键路径</strong></td>
+<td>边界条件、错误分支、主流程至少各一个用例</td>
+</tr>
+<tr>
+<td><strong>保持快速</strong></td>
+<td>慢的测试会被跳过，快的测试才会被运行</td>
+</tr>
+</tbody></table>
+<h2>什么时候测什么</h2>
+<ul>
+<li><strong>工具函数</strong>：单元测试，覆盖输入输出</li>
+<li><strong>接口</strong>：集成测试，验证数据流</li>
+<li><strong>页面流程</strong>：端到端测试，走关键用户路径</li>
+</ul>
+<blockquote>
+<p>测试的投入产出比极高——修复一个线上 bug 的成本，往往是写测试的十倍。</p>
+</blockquote>
+<p>最后，让测试成为 CI 的一部分：每次提交自动运行，失败就阻断合并。<strong>让质量成为默认选项，而不是例外。</strong></p>
+
+    </div>
+    <nav class="post-pager">
+      <a class="nav-post prev" href="../posts/git-workflow.html">← 一套好用的 Git 协作工作流</a>
+      <a class="nav-post next" href="../posts/文章-函数题-PTA基础编程题目集 6-13折半查找（C语言实现）.html">PTA基础编程题目集 6-13折半查找（C语言实现） →</a>
+    </nav>
+  </div>
+</article></main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
+    <p class="footer-links">
+      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.mermaid) {
+      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+        sequence: { useMaxWidth: true },
+        gantt: { useMaxWidth: true }
+      });
+    }
+  });
+</script>
+<script src="../assets/main.js"></script>
+</body>
+</html>
