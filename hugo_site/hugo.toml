@@ -1,0 +1,38 @@
+baseURL                = "https://zonkidd-shao.github.io/"
+locale                 = "zh-cn"
+title                  = "Zonkidd 的技术博客"
+theme                  = "hugo-theme-stack"
+hasCJKLanguage         = true
+enableEmoji            = true
+
+[pagination]
+  pagerSize = 10
+
+[permalinks]
+  post = "/p/:slug/"
+  page = "/:slug/"
+
+[params]
+  mainSections   = ["post"]
+  rssFullContent = true
+  favicon        = ""
+
+  [params.footer]
+    since = 2025
+
+  [params.sidebar]
+    emoji    = "🚀"
+    subtitle = "记录代码、探索技术、分享思考"
+
+  [params.article]
+    [params.article.license]
+      enabled = false
+
+  [params.widgets]
+    homepage = [
+      { type = "search" },
+      { type = "categories", params = { limit = 20 } },
+      { type = "archives", params = { limit = 5 } },
+      { type = "tag-cloud", params = { limit = 20 } },
+    ]
+    page = [{ type = "toc" }]

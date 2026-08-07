@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文是 PTA 编程题“7-19 支票面额”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示根据题意列不定方程 98f − 199y = n 并通过枚举 y,f ∈ [0,99] 求整数解的穷举法。">
+<title>PTA基础编程题目集 7-19支票面额（C语言实现）</title>
+
+
+<link rel="canonical" href="https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-19%E6%94%AF%E7%A5%A8%E9%9D%A2%E9%A2%9Dc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/scss/style.min.59c5eb617b2b83358d0baf163162325d5249a2be44239b430beb29a87c1ddbe4.css"><meta property='og:title' content="PTA基础编程题目集 7-19支票面额（C语言实现）">
+<meta property='og:description' content="本文是 PTA 编程题“7-19 支票面额”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示根据题意列不定方程 98f − 199y = n 并通过枚举 y,f ∈ [0,99] 求整数解的穷举法。">
+<meta property='og:url' content='https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-19%E6%94%AF%E7%A5%A8%E9%9D%A2%E9%A2%9Dc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/'>
+<meta property='og:site_name' content='Zonkidd 的技术博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PTA' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='编程题' /><meta property='article:tag' content='算法' /><meta property='article:published_time' content='2026-08-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-08-07T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="PTA基础编程题目集 7-19支票面额（C语言实现）">
+<meta name="twitter:description" content="本文是 PTA 编程题“7-19 支票面额”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示根据题意列不定方程 98f − 199y = n 并通过枚举 y,f ∈ [0,99] 求整数解的穷举法。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Zonkidd 的技术博客</a></h1>
+            <h2 class="site-description">记录代码、探索技术、分享思考</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav class="toc-nav" id="TableOfContents">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-变量与输入">1. 变量与输入</a></li>
+        <li><a href="#2-双重穷举">2. 双重穷举</a></li>
+        <li><a href="#3-判无解">3. 判无解</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-19%E6%94%AF%E7%A5%A8%E9%9D%A2%E9%A2%9Dc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-19支票面额（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-19 支票面额”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示根据题意列不定方程 98f − 199y = n 并通过枚举 y,f ∈ [0,99] 求整数解的穷举法。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        3 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+
+    
+    <aside class="article-toc">
+        <details>
+            <summary>
+                <div class="article-toc-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    <span>Table of contents</span>
+                </div>
+            </summary>
+            <nav class="toc-nav">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-变量与输入">1. 变量与输入</a></li>
+        <li><a href="#2-双重穷举">2. 双重穷举</a></li>
+        <li><a href="#3-判无解">3. 判无解</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </details>
+    </aside>
+    
+
+    <section class="article-content">
+    
+    
+    
+    <blockquote>
+        <p><strong>摘要</strong>：本文是 PTA 编程题“7-19 支票面额”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示根据题意列不定方程 98f − 199y = n 并通过枚举 y,f ∈ [0,99] 求整数解的穷举法。</p>
+
+    </blockquote>
+<h2 id="题目描述">题目描述
+</h2><p>一个采购员去银行兑换一张y元f分的支票，结果出纳员错给了f元y分。采购员用去了n分之后才发觉有错，于是清点了余额尚有2y元2f分，问该支票面额是多少？</p>
+<h3 id="输入格式">输入格式：
+</h3><p>输入在一行中给出小于100的正整数n。</p>
+<h3 id="输出格式">输出格式：
+</h3><p>在一行中按格式y.f输出该支票的原始面额。如果无解，则输出No Solution。</p>
+<h3 id="输入样例">输入样例：
+</h3><pre tabindex="0"><code>23
+</code></pre><pre tabindex="0"><code>22
+</code></pre><h3 id="输出样例">输出样例：
+</h3><pre tabindex="0"><code>25.51
+</code></pre><pre tabindex="0"><code>No Solution
+</code></pre><h2 id="解题思路">解题思路
+</h2><p>这道题的核心是<strong>建立数学方程后枚举求解</strong>：原始面额 y 元 f 分 = 100y+f 分；错兑为 f 元 y 分 = 100f+y 分；用去 n 分后剩余 = 2y 元 2f 分 = 100·2y + 2f = 200y+2f。列方程后化简为线性丢番图方程：98·f − 199·y = n。</p>
+<h3 id="核心问题分析">核心问题分析
+</h3><ol>
+<li><strong>建模</strong>：
+<ul>
+<li>支票面额（分）：100y + f</li>
+<li>实际收到（分）：100f + y</li>
+<li>用去 n 分后余（分）：(100f + y) − n = 200y + 2f</li>
+<li>移项：98f − 199y = n</li>
+</ul>
+</li>
+<li><strong>范围</strong>：
+<ul>
+<li>题目未直接给 y 范围，但 f 是分，因此 0 ≤ f ≤ 99；同样，输出时 0 ≤ y ≤ 99 是合理猜测（方程 98f=199y+n，而 n&lt;100，f≤99 → 199y ≤ 98·99+99 ≈ 9801 → y≤49）。代码直接把 y,f 都枚举 0 到 99 即可。</li>
+</ul>
+</li>
+<li><strong>判无解</strong>：双层循环都跑完 found=0 → No Solution。</li>
+</ol>
+<h3 id="算法原理说明">算法原理说明
+</h3><p>两重 for 枚举 (y, f) ∈ [0,99]×[0,99]，一旦 98f-199y==n，立即按 y.f 格式打印，置 found 并退出循环；全没找到输出 No Solution。</p>
+<h3 id="具体计算步骤">具体计算步骤
+</h3><ol>
+<li>scanf(&quot;%d&quot;, &amp;n); found=0</li>
+<li>for (y=0..99):
+<ul>
+<li>for (f=0..99):
+<ul>
+<li>if (98<em>f - 199</em>y == n):
+<ul>
+<li>printf(&quot;%d.%d\n&quot;, y, f); found=1; break;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>if (found) break;</li>
+</ul>
+</li>
+<li>if (!found) printf(&ldquo;No Solution\n&rdquo;)</li>
+</ol>
+<h2 id="代码部分实现">代码部分实现
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n, y, f, found <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// n为用去的分数，y为元数，f为分数，found标记是否找到解
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>n); <span style="color:#75715e">// 读取用去的分数
+</span></span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 枚举所有可能的元数y和分数f
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; y <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100</span>; y<span style="color:#f92672">++</span>) { <span style="color:#75715e">// 枚举元数y（0-99）
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (f <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; f <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100</span>; f<span style="color:#f92672">++</span>) { <span style="color:#75715e">// 枚举分数f（0-99）
+</span></span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 根据题意列方程：98*f - 199*y = n
+</span></span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 原始支票为y元f分，错兑为f元y分，用去n分后剩余2y元2f分
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">98</span> <span style="color:#f92672">*</span> f <span style="color:#f92672">-</span> <span style="color:#ae81ff">199</span> <span style="color:#f92672">*</span> y <span style="color:#f92672">==</span> n) {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%d.%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, y, f); <span style="color:#75715e">// 输出支票面额
+</span></span></span><span style="display:flex;"><span>                found <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// 标记已找到解
+</span></span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>; <span style="color:#75715e">// 跳出内层循环
+</span></span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (found) <span style="color:#66d9ef">break</span>; <span style="color:#75715e">// 找到解后跳出外层循环
+</span></span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>found) { <span style="color:#75715e">// 未找到解
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;No Solution</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>); <span style="color:#75715e">// 输出无解提示
+</span></span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="代码流程说明">代码流程说明
+</h2><h3 id="1-变量与输入">1. 变量与输入
+</h3><ul>
+<li>int n：用去的 n 分；int y, f：支票面额的元和分</li>
+<li>int found = 0：是否找到解的标志</li>
+<li>scanf(&quot;%d&quot;, &amp;n)</li>
+</ul>
+<h3 id="2-双重穷举">2. 双重穷举
+</h3><ul>
+<li>外层 y 从 0 到 99</li>
+<li>内层 f 从 0 到 99</li>
+<li>若 98·f - 199·y == n：
+<ul>
+<li>立即 printf(&quot;%d.%d&quot;, y, f)</li>
+<li>found = 1，break 内层</li>
+</ul>
+</li>
+<li>外层每轮结束若 found=1，break 外层</li>
+</ul>
+<h3 id="3-判无解">3. 判无解
+</h3><ul>
+<li>若 found 仍为 0 → printf(&ldquo;No Solution&rdquo;)</li>
+</ul>
+<h2 id="代码流程图">代码流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始\nmain()"] --> B["读入 n\nfound=0"]
+  B --> C["y∈0..99"]
+  C --> D{"found=1?"}
+  D -- "是" --> I
+  D -- "否" --> E["f∈0..99"]
+  E --> F{"98f-199y == n?"}
+  F -- "是" --> G["printf(y.f)\nfound=1\nbreak 内层"]
+  F -- "否" --> H["下一个 f"]
+  H --> E
+  E -- "结束" --> I["break 外层?"]
+  G --> C
+  C -- "结束" --> J{"found==0?"}
+  J -- "是" --> K["printf No Solution"]
+  J -- "否" --> L["return 0"]
+  K --> L
+  L --> M["结束"]</pre><h2 id="解题流程图">解题流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始"] --> B["输入 n（用去 n 分）"]
+  B --> C["列方程：98f - 199y = n"]
+  C --> D["双重枚举 y,f ∈ [0,99]"]
+  D --> E{"找到整数解?"}
+  E -- "是" --> F["输出 y.f"]
+  E -- "否" --> G["输出 No Solution"]
+  F --> H["结束"]
+  G --> H</pre>
+</section>
+
+
+    <footer class="article-meta article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pta/">PTA</a>
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/">编程题</a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside>
+    <h2 class="section-title">Related content</h2>
+    <div class="subsection-list">
+        <div class="article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-10%E8%AE%A1%E7%AE%97%E5%B7%A5%E8%B5%84c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-10计算工资（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-11%E5%88%86%E6%AE%B5%E8%AE%A1%E7%AE%97%E5%B1%85%E6%B0%91%E6%B0%B4%E8%B4%B9c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-11分段计算居民水费（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-12%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9A%84%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97%E5%99%A8c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-12两个数的简单计算器（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-13%E6%97%A5k%E8%9C%A1%E7%83%9B%E5%9B%BEc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-13日K蜡烛图（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-14%E6%B1%82%E6%95%B4%E6%95%B0%E6%AE%B5%E5%92%8Cc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-14求整数段和（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+
+        <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Zonkidd 的技术博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+
+
+
+<script type="module">
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script>
+
+    <div class="mermaid-modal" id="mermaid-modal">
+    <div class="mermaid-modal-header">
+        <div class="mermaid-modal-controls">
+            <button data-zoom="-1">− Zoom Out</button>
+            <button data-zoom="0">Reset (100%)</button>
+            <button data-zoom="1">+ Zoom In</button>
+            <button data-zoom="fit">Fit to Screen</button>
+        </div>
+        <button class="mermaid-modal-close" id="mermaid-modal-close">✕ Close (Esc)</button>
+    </div>
+    <div class="mermaid-modal-body" id="mermaid-modal-body">
+        <div class="mermaid-modal-content" id="mermaid-modal-content"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script type="module">
+import { initMermaidPage } from '\/ts\/mermaid.js';
+initMermaidPage({"darkTheme":"dark","darkThemeVariables":{},"htmlLabels":true,"lightTheme":"default","lightThemeVariables":{},"look":"classic","securityLevel":"strict","transparentBackground":false});
+</script>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/ts/main.1ff1e5fdc4e178ed422e50aa407526dc552f26342d729343fded19416194382c.js" defer></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文是 PTA 编程题“7-7 12-24 小时制”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示带冒号分隔的时间读取与 24 小时制到 12 小时制加 AM/PM 的分支转换。">
+<title>PTA基础编程题目集 7-7 12-24小时制（C语言实现）</title>
+
+
+<link rel="canonical" href="https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-7-12-24%E5%B0%8F%E6%97%B6%E5%88%B6c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/scss/style.min.59c5eb617b2b83358d0baf163162325d5249a2be44239b430beb29a87c1ddbe4.css"><meta property='og:title' content="PTA基础编程题目集 7-7 12-24小时制（C语言实现）">
+<meta property='og:description' content="本文是 PTA 编程题“7-7 12-24 小时制”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示带冒号分隔的时间读取与 24 小时制到 12 小时制加 AM/PM 的分支转换。">
+<meta property='og:url' content='https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-7-12-24%E5%B0%8F%E6%97%B6%E5%88%B6c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/'>
+<meta property='og:site_name' content='Zonkidd 的技术博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PTA' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='编程题' /><meta property='article:tag' content='算法' /><meta property='article:published_time' content='2026-08-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-08-07T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="PTA基础编程题目集 7-7 12-24小时制（C语言实现）">
+<meta name="twitter:description" content="本文是 PTA 编程题“7-7 12-24 小时制”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示带冒号分隔的时间读取与 24 小时制到 12 小时制加 AM/PM 的分支转换。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Zonkidd 的技术博客</a></h1>
+            <h2 class="site-description">记录代码、探索技术、分享思考</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav class="toc-nav" id="TableOfContents">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-读取输入含冒号">1. 读取输入（含冒号）</a></li>
+        <li><a href="#2-按-hour-值分-4-支输出">2. 按 hour 值分 4 支输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-7-12-24%E5%B0%8F%E6%97%B6%E5%88%B6c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-7 12-24小时制（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-7 12-24 小时制”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示带冒号分隔的时间读取与 24 小时制到 12 小时制加 AM/PM 的分支转换。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        3 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+
+    
+    <aside class="article-toc">
+        <details>
+            <summary>
+                <div class="article-toc-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    <span>Table of contents</span>
+                </div>
+            </summary>
+            <nav class="toc-nav">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-读取输入含冒号">1. 读取输入（含冒号）</a></li>
+        <li><a href="#2-按-hour-值分-4-支输出">2. 按 hour 值分 4 支输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </details>
+    </aside>
+    
+
+    <section class="article-content">
+    
+    
+    
+    <blockquote>
+        <p><strong>摘要</strong>：本文是 PTA 编程题“7-7 12-24 小时制”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示带冒号分隔的时间读取与 24 小时制到 12 小时制加 AM/PM 的分支转换。</p>
+
+    </blockquote>
+<h2 id="题目描述">题目描述
+</h2><p>编写一个程序，要求用户输入24小时制的时间，然后显示12小时制的时间。</p>
+<h3 id="输入格式">输入格式：
+</h3><p>输入在一行中给出带有中间的:符号（半角的冒号）的24小时制的时间，如12:34表示12点34分。当小时或分钟数小于10时，均没有前导的零，如5:6表示5点零6分。</p>
+<p>提示：在scanf的格式字符串中加入:，让scanf来处理这个冒号。</p>
+<h3 id="输出格式">输出格式：
+</h3><p>在一行中输出这个时间对应的12小时制的时间，数字部分格式与输入的相同，然后跟上空格，再跟上表示上午的字符串AM或表示下午的字符串PM。如5:6 PM表示下午5点零6分。注意，在英文的习惯中，中午12点被认为是下午，所以24小时制的12:00就是12小时制的12:0 PM；而0点被认为是第二天的时间，所以是0:0 AM。</p>
+<h3 id="输入样例">输入样例：
+</h3><pre tabindex="0"><code class="language-in" data-lang="in">21:11
+</code></pre><h3 id="输出样例">输出样例：
+</h3><pre tabindex="0"><code class="language-out" data-lang="out">9:11 PM
+</code></pre><h2 id="解题思路">解题思路
+</h2><p>这道题的核心是<strong>按冒号拆分 24 小时制时间，并按小时范围分情况转换为 12 小时制 + AM/PM</strong>。</p>
+<h3 id="核心问题分析">核心问题分析
+</h3><p>对应关系（按 24 制小时范围）：</p>
+<ul>
+<li>hour == 0 → 0:mm AM（如 0:30 AM）</li>
+<li>1 &lt;= hour &lt;= 11 → hour:mm AM（如 5:6 AM）</li>
+<li>hour == 12 → 12:mm PM（中午 12 点归下午）</li>
+<li>13 &lt;= hour &lt;= 23 → (hour-12):mm PM（如 21:11 → 9:11 PM）</li>
+</ul>
+<h3 id="算法原理说明">算法原理说明
+</h3><p>scanf(&quot;%d:%d&quot;, &amp;hour, &amp;minute) 让 scanf 自动跳过输入里的冒号，直接把两个数字读入 hour/minute。然后按上面的 4 条分支分别 printf 对应结果。</p>
+<h3 id="具体计算步骤">具体计算步骤
+</h3><ol>
+<li>scanf(&quot;%d:%d&quot;, &amp;hour, &amp;minute)</li>
+<li>按 hour 分支：
+<ul>
+<li>hour==0 → &ldquo;0:%d AM&rdquo;</li>
+<li>hour&lt;12 → &ldquo;%d:%d AM&rdquo;</li>
+<li>hour==12 → &ldquo;12:%d PM&rdquo;</li>
+<li>其它 → &ldquo;%d:%d PM&rdquo; 并输出 hour-12</li>
+</ul>
+</li>
+</ol>
+<h2 id="代码部分实现">代码部分实现
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> hour, minute;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用scanf直接处理冒号分隔的输入
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d:%d&#34;</span>, <span style="color:#f92672">&amp;</span>hour, <span style="color:#f92672">&amp;</span>minute);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 处理时间转换逻辑
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (hour <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;0:%d AM&#34;</span>, minute);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (hour <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">12</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%d:%d AM&#34;</span>, hour, minute);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (hour <span style="color:#f92672">==</span> <span style="color:#ae81ff">12</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;12:%d PM&#34;</span>, minute);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> { <span style="color:#75715e">// hour 13-23
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%d:%d PM&#34;</span>, hour <span style="color:#f92672">-</span> <span style="color:#ae81ff">12</span>, minute);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="代码流程说明">代码流程说明
+</h2><h3 id="1-读取输入含冒号">1. 读取输入（含冒号）
+</h3><ul>
+<li>scanf(&quot;%d:%d&quot;, &amp;hour, &amp;minute)：格式串里直接写 <code>:</code>，scanf 会自动匹配并吞掉输入中的冒号。</li>
+</ul>
+<h3 id="2-按-hour-值分-4-支输出">2. 按 hour 值分 4 支输出
+</h3><ul>
+<li><strong>分支 1 hour==0</strong> → 0:mm AM（凌晨零点）</li>
+<li><strong>分支 2 1≤hour≤11</strong> → 原样 hour:mm AM（上午）</li>
+<li><strong>分支 3 hour==12</strong> → 12:mm PM（正午归下午）</li>
+<li><strong>分支 4 13≤hour≤23</strong> → (hour-12):mm PM（下午小时减 12）</li>
+</ul>
+<h2 id="代码流程图">代码流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始\nmain()"] --> B["scanf(\"%d:%d\", &hour, &minute)"]
+  B --> C{"hour == 0 ?"}
+  C -- "是" --> D["printf \"0:mm AM\""]
+  C -- "否" --> E{"hour < 12 ?"}
+  E -- "是" --> F["printf \"hour:mm AM\""]
+  E -- "否" --> G{"hour == 12 ?"}
+  G -- "是" --> H["printf \"12:mm PM\""]
+  G -- "否" --> I["printf \"(hour-12):mm PM\""]
+  D --> J["return 0"]
+  F --> J
+  H --> J
+  I --> J
+  J --> K["结束"]</pre><h2 id="解题流程图">解题流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始"] --> B["读入 hour:minute（用 scanf 处理冒号）"]
+  B --> C{"hour 是 0 吗？"}
+  C -- "是" --> D["0:mm AM"]
+  C -- "否" --> E{"hour < 12 吗？"}
+  E -- "是" --> F["原样 hour:mm AM"]
+  E -- "否" --> G{"hour == 12 吗？"}
+  G -- "是" --> H["12:mm PM"]
+  G -- "否" --> I["hour-12:mm PM"]
+  D --> J["输出结果"]
+  F --> J
+  H --> J
+  I --> J
+  J --> K["结束"]</pre>
+</section>
+
+
+    <footer class="article-meta article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pta/">PTA</a>
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/">编程题</a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside>
+    <h2 class="section-title">Related content</h2>
+    <div class="subsection-list">
+        <div class="article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-10%E8%AE%A1%E7%AE%97%E5%B7%A5%E8%B5%84c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-10计算工资（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-11%E5%88%86%E6%AE%B5%E8%AE%A1%E7%AE%97%E5%B1%85%E6%B0%91%E6%B0%B4%E8%B4%B9c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-11分段计算居民水费（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-12%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9A%84%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97%E5%99%A8c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-12两个数的简单计算器（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-13%E6%97%A5k%E8%9C%A1%E7%83%9B%E5%9B%BEc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-13日K蜡烛图（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-14%E6%B1%82%E6%95%B4%E6%95%B0%E6%AE%B5%E5%92%8Cc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-14求整数段和（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+
+        <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Zonkidd 的技术博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+
+
+
+<script type="module">
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script>
+
+    <div class="mermaid-modal" id="mermaid-modal">
+    <div class="mermaid-modal-header">
+        <div class="mermaid-modal-controls">
+            <button data-zoom="-1">− Zoom Out</button>
+            <button data-zoom="0">Reset (100%)</button>
+            <button data-zoom="1">+ Zoom In</button>
+            <button data-zoom="fit">Fit to Screen</button>
+        </div>
+        <button class="mermaid-modal-close" id="mermaid-modal-close">✕ Close (Esc)</button>
+    </div>
+    <div class="mermaid-modal-body" id="mermaid-modal-body">
+        <div class="mermaid-modal-content" id="mermaid-modal-content"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script type="module">
+import { initMermaidPage } from '\/ts\/mermaid.js';
+initMermaidPage({"darkTheme":"dark","darkThemeVariables":{},"htmlLabels":true,"lightTheme":"default","lightThemeVariables":{},"look":"classic","securityLevel":"strict","transparentBackground":false});
+</script>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/ts/main.1ff1e5fdc4e178ed422e50aa407526dc552f26342d729343fded19416194382c.js" defer></script>
+
+
+    </body>
+</html>

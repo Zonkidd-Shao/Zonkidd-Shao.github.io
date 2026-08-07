@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文是 PTA 编程题'7-31 字符串循环左移'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `fgets` 读取含空格字符串并去除换行、对左移位数 `N %= len` 处理 N≥长度的情况，最终通过'先打印 [n, len) 再打印 [0, n)'两段直接拼接输出循环左移结果的巧妙方法。">
+<title>PTA基础编程题目集 7-31字符串循环左移（C语言实现）</title>
+
+
+<link rel="canonical" href="https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-31%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BE%AA%E7%8E%AF%E5%B7%A6%E7%A7%BBc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/scss/style.min.59c5eb617b2b83358d0baf163162325d5249a2be44239b430beb29a87c1ddbe4.css"><meta property='og:title' content="PTA基础编程题目集 7-31字符串循环左移（C语言实现）">
+<meta property='og:description' content="本文是 PTA 编程题'7-31 字符串循环左移'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `fgets` 读取含空格字符串并去除换行、对左移位数 `N %= len` 处理 N≥长度的情况，最终通过'先打印 [n, len) 再打印 [0, n)'两段直接拼接输出循环左移结果的巧妙方法。">
+<meta property='og:url' content='https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-31%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BE%AA%E7%8E%AF%E5%B7%A6%E7%A7%BBc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/'>
+<meta property='og:site_name' content='Zonkidd 的技术博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PTA' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='编程题' /><meta property='article:tag' content='算法' /><meta property='article:published_time' content='2026-08-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-08-07T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="PTA基础编程题目集 7-31字符串循环左移（C语言实现）">
+<meta name="twitter:description" content="本文是 PTA 编程题'7-31 字符串循环左移'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `fgets` 读取含空格字符串并去除换行、对左移位数 `N %= len` 处理 N≥长度的情况，最终通过'先打印 [n, len) 再打印 [0, n)'两段直接拼接输出循环左移结果的巧妙方法。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Zonkidd 的技术博客</a></h1>
+            <h2 class="site-description">记录代码、探索技术、分享思考</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav class="toc-nav" id="TableOfContents">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-读取并清理字符串">1. 读取并清理字符串</a></li>
+        <li><a href="#2-读-n-并归一化">2. 读 n 并归一化</a></li>
+        <li><a href="#3-两段拼接输出">3. 两段拼接输出</a></li>
+        <li><a href="#4-换行返回">4. 换行返回</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-31%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BE%AA%E7%8E%AF%E5%B7%A6%E7%A7%BBc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-31字符串循环左移（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题&#39;7-31 字符串循环左移&#39;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `fgets` 读取含空格字符串并去除换行、对左移位数 `N %= len` 处理 N≥长度的情况，最终通过&#39;先打印 [n, len) 再打印 [0, n)&#39;两段直接拼接输出循环左移结果的巧妙方法。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        4 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+
+    
+    <aside class="article-toc">
+        <details>
+            <summary>
+                <div class="article-toc-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    <span>Table of contents</span>
+                </div>
+            </summary>
+            <nav class="toc-nav">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-读取并清理字符串">1. 读取并清理字符串</a></li>
+        <li><a href="#2-读-n-并归一化">2. 读 n 并归一化</a></li>
+        <li><a href="#3-两段拼接输出">3. 两段拼接输出</a></li>
+        <li><a href="#4-换行返回">4. 换行返回</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </details>
+    </aside>
+    
+
+    <section class="article-content">
+    
+    
+    
+    <blockquote>
+        <p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-31 字符串循环左移&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 <code>fgets</code> 读取含空格字符串并去除换行、对左移位数 <code>N %= len</code> 处理 N≥长度的情况，最终通过&quot;先打印 [n, len) 再打印 [0, n)&ldquo;两段直接拼接输出循环左移结果的巧妙方法。</p>
+
+    </blockquote>
+<h2 id="题目描述">题目描述
+</h2><p>输入一个字符串和一个非负整数N，要求将字符串循环左移N次。</p>
+<h3 id="输入格式">输入格式：
+</h3><p>输入在第1行中给出一个不超过100个字符长度的、以回车结束的非空字符串；第2行给出非负整数N。</p>
+<h3 id="输出格式">输出格式：
+</h3><p>在一行中输出循环左移N次后的字符串。</p>
+<h3 id="输入样例">输入样例：
+</h3><pre tabindex="0"><code class="language-in" data-lang="in">Hello World!
+2
+</code></pre><h3 id="输出样例">输出样例：
+</h3><pre tabindex="0"><code class="language-out" data-lang="out">llo World!He
+</code></pre><h2 id="解题思路">解题思路
+</h2><p>这道题的核心是**&ldquo;取模等效 + 两段输出拼接&rdquo;**避免实际搬移字符：循环左移 N 次等价于左移 <code>N % len</code> 次（长度 len 次左移刚好回到原样）；结果字符串可以看作&quot;原字符串的下标 N 到末尾&quot;拼接&quot;原字符串下标 0 到 N-1&rdquo;。直接按这两段 <code>printf(&quot;%c&quot;, ...)</code> 逐字符输出即可，无需真正修改数组。</p>
+<h3 id="核心问题分析">核心问题分析
+</h3><ol>
+<li><strong>读含空格的字符串</strong>：样例输入 <code>&quot;Hello World!&quot;</code> 有空格，不能用 <code>%s</code>（到空格就停），要用 <code>fgets(s, 101, stdin)</code> 读一行（最多 100 字符+结束符）。<code>fgets</code> 会把末尾的 <code>\n</code> 也读入，所以长度减 1 后手动把 <code>\n</code> 改成 <code>\0</code>。</li>
+<li><strong>左移位数取模</strong>：循环左移 len 次（len 是字符串长度）等于没移。令 <code>n = n % len</code>，无论 N 多大都归一化到 [0, len-1]，避免越界和无意义的重复。
+<ul>
+<li>例：len=12、N=2 → n=2</li>
+<li>若 N=14 → n=14%12=2，结果与 N=2 相同</li>
+</ul>
+</li>
+<li><strong>循环左移的数学等价</strong>：原字符串 s[0..len-1]，左移 n 位后，第 k 个字符变为原字符串中第 (k+n) mod len 个字符。换一种输出方式：
+<ul>
+<li>先输出 s[n], s[n+1], &hellip;, s[len-1]（后半段，即被移出后从最前绕到后面的那些字符之前的部分）</li>
+<li>再输出 s[0], s[1], &hellip;, s[n-1]（前 n 个字符，它们被左移&quot;挤出&quot;左端后绕回到右端）</li>
+<li>例：<code>&quot;Hello World!&quot;</code> len=12, n=2
+<ul>
+<li>先输出 s[2..11]：<code>llo World!</code></li>
+<li>再输出 s[0..1]：<code>He</code></li>
+<li>拼接：<code>llo World!He</code> ✓</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>特殊情况 n=0</strong>（N 是 len 的倍数或 N=0）：两段就是&quot;全部 + 空串&quot;，输出即原字符串，代码无需特判即可正确。</li>
+</ol>
+<h3 id="算法原理说明">算法原理说明
+</h3><ol>
+<li><code>fgets</code> 读字符串 → 去 <code>\n</code> → len=strlen(s)</li>
+<li><code>scanf(&quot;%d&quot;, &amp;n); n = n % len;</code> 归一化左移位数</li>
+<li>两段输出：
+<ul>
+<li><code>for (i=n; i&lt;len; i++) printf(&quot;%c&quot;, s[i]);</code></li>
+<li><code>for (i=0; i&lt;n; i++) printf(&quot;%c&quot;, s[i]);</code></li>
+</ul>
+</li>
+<li>输出换行</li>
+</ol>
+<h3 id="具体计算步骤">具体计算步骤
+</h3><ol>
+<li>第 1 行 <code>fgets(s, 101, stdin)</code> 读字符串；去掉末尾换行</li>
+<li>第 2 行 <code>scanf(&quot;%d&quot;, &amp;n)</code> 读左移位数</li>
+<li><code>n %= len</code>（把大数归约到 0 ≤ n &lt; len）</li>
+<li>输出后半段 s[n..len-1]</li>
+<li>输出前半段 s[0..n-1]</li>
+<li>换行</li>
+</ol>
+<h2 id="代码部分实现">代码部分实现
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;   // 引入标准输入输出头文件，提供 fgets、scanf、printf</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;  // 引入字符串处理头文件，提供 strlen</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> s[<span style="color:#ae81ff">101</span>];       <span style="color:#75715e">// 字符数组：最多 100 个有效字符 + 1 个 &#39;\0&#39;（共 101）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fgets</span>(s, <span style="color:#ae81ff">101</span>, stdin);  <span style="color:#75715e">// 读入第 1 行字符串（含空格，最多 100 字符）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#a6e22e">strlen</span>(s);   <span style="color:#75715e">// 计算当前长度（含 fgets 读入的换行符）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// fgets 会把行尾的 &#39;\n&#39; 也读入，去掉该换行并更新 len
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (s[len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>) { s[len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>; len<span style="color:#f92672">--</span>; }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n;             <span style="color:#75715e">// n：循环左移的次数
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>n);   <span style="color:#75715e">// 读入第 2 行的非负整数 n
+</span></span></span><span style="display:flex;"><span>    n <span style="color:#f92672">=</span> n <span style="color:#f92672">%</span> len;       <span style="color:#75715e">// 对 len 取模，n≥len 时等效于 n%len（左移 len 次回到原样）
+</span></span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 输出循环左移 n 位后的字符串：
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第 1 段：原串从下标 n 到末尾（被整体搬到新串最前）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%c&#34;</span>, s[i]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第 2 段：原串从 0 到 n-1（左端被挤出的部分被接到末尾）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%c&#34;</span>, s[i]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);      <span style="color:#75715e">// 输出结束换行
+</span></span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// 程序正常退出，返回 0
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="代码流程说明">代码流程说明
+</h2><h3 id="1-读取并清理字符串">1. 读取并清理字符串
+</h3><ul>
+<li><code>char s[101]</code> 存字符串</li>
+<li><code>fgets(s, 101, stdin)</code> 读整行</li>
+<li><code>len = strlen(s)</code>；若末尾是 <code>\n</code> 改为 <code>\0</code>，len&ndash;</li>
+</ul>
+<h3 id="2-读-n-并归一化">2. 读 n 并归一化
+</h3><ul>
+<li><code>scanf(&quot;%d&quot;, &amp;n)</code>；<code>n = n % len</code>（避免越界，减少循环次数）</li>
+</ul>
+<h3 id="3-两段拼接输出">3. 两段拼接输出
+</h3><ul>
+<li>段 1：<code>i = n; i &lt; len</code> → 打印 s[n..len-1]</li>
+<li>段 2：<code>i = 0; i &lt; n</code> → 打印 s[0..n-1]</li>
+<li>两段拼接即为&quot;循环左移 n 位&quot;的结果</li>
+</ul>
+<h3 id="4-换行返回">4. 换行返回
+</h3><ul>
+<li><code>printf(&quot;\n&quot;); return 0;</code></li>
+</ul>
+<h2 id="代码流程图">代码流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始\nmain()"] --> B["fgets 读 s[101]\nlen=strlen"]
+  B --> C{"末尾是\\n?"}
+  C -- "是" --> D["置\\0\nlen--"]
+  C -- "否" --> E["scanf n"]
+  D --> E
+  E --> F["n = n % len"]
+  F --> G["for i=n..len-1\nprintf %c s[i]"]
+  G --> H["for i=0..n-1\nprintf %c s[i]"]
+  H --> I["printf 换行\nreturn 0"]
+  I --> J["结束"]</pre><h2 id="解题流程图">解题流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始"] --> B["读入字符串 s（可能含空格），去掉末尾换行，记长度 len"]
+  B --> C["读入非负整数 N（左移次数）"]
+  C --> D["n = N % len（归约到真正需要左移的次数）"]
+  D --> E["先输出 s[n..len-1] 这一段（移到最前面）"]
+  E --> F["再输出 s[0..n-1] 这一段（接在末尾）"]
+  F --> G["两段拼接即循环左移 n 次的结果；换行"]
+  G --> H["结束"]</pre>
+</section>
+
+
+    <footer class="article-meta article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pta/">PTA</a>
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/">编程题</a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside>
+    <h2 class="section-title">Related content</h2>
+    <div class="subsection-list">
+        <div class="article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-10%E8%AE%A1%E7%AE%97%E5%B7%A5%E8%B5%84c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-10计算工资（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-11%E5%88%86%E6%AE%B5%E8%AE%A1%E7%AE%97%E5%B1%85%E6%B0%91%E6%B0%B4%E8%B4%B9c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-11分段计算居民水费（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-12%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9A%84%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97%E5%99%A8c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-12两个数的简单计算器（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-13%E6%97%A5k%E8%9C%A1%E7%83%9B%E5%9B%BEc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-13日K蜡烛图（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-14%E6%B1%82%E6%95%B4%E6%95%B0%E6%AE%B5%E5%92%8Cc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-14求整数段和（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+
+        <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Zonkidd 的技术博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+
+
+
+<script type="module">
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script>
+
+    <div class="mermaid-modal" id="mermaid-modal">
+    <div class="mermaid-modal-header">
+        <div class="mermaid-modal-controls">
+            <button data-zoom="-1">− Zoom Out</button>
+            <button data-zoom="0">Reset (100%)</button>
+            <button data-zoom="1">+ Zoom In</button>
+            <button data-zoom="fit">Fit to Screen</button>
+        </div>
+        <button class="mermaid-modal-close" id="mermaid-modal-close">✕ Close (Esc)</button>
+    </div>
+    <div class="mermaid-modal-body" id="mermaid-modal-body">
+        <div class="mermaid-modal-content" id="mermaid-modal-content"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script type="module">
+import { initMermaidPage } from '\/ts\/mermaid.js';
+initMermaidPage({"darkTheme":"dark","darkThemeVariables":{},"htmlLabels":true,"lightTheme":"default","lightThemeVariables":{},"look":"classic","securityLevel":"strict","transparentBackground":false});
+</script>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/ts/main.1ff1e5fdc4e178ed422e50aa407526dc552f26342d729343fded19416194382c.js" defer></script>
+
+
+    </body>
+</html>

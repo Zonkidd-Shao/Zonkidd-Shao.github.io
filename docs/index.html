@@ -1,404 +1,1113 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zonkidd 的技术博客</title>
-<meta name="description" content="Zonkidd 的个人技术博客 —— 分享编程、开发实践与技术思考。">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
-</head>
-<body>
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="index.html">
-      <span class="brand-mark">&lt;/&gt;</span>
-      <span class="brand-name">Zonkidd</span>
-    </a>
-    <nav class="site-nav"><a class="nav-link active" href="index.html">首页</a><a class="nav-link " href="projects.html">项目</a><a class="nav-link " href="reading.html">读书笔记</a><a class="nav-link " href="categories.html">分类</a><a class="nav-link " href="tags.html">标签</a><a class="nav-link " href="about.html">关于</a></nav>
-    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题" title="切换亮/暗色主题">
-      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
-  </div>
-</header>
-<main class="site-main">
-<section class="hero">
-  <div class="container">
-    <div class="hero-glow"></div>
-    <p class="hero-kicker">HELLO, WORLD 👋</p>
-    <h1 class="hero-title">Zonkidd</h1>
-    <p class="hero-subtitle">记录代码、探索技术、分享思考</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#posts">阅读文章</a>
-      <a class="btn btn-ghost" href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub →</a>
-    </div>
-  </div>
-</section>
-<section class="section" id="posts">
-  <div class="container">
-    <h2 class="section-title">最新文章 <span class="section-count">55</span></h2>
-    <div class="post-grid">
-  <article class="post-card">
-  <div class="card-meta"><span class="pinned-badge" title="置顶文章">📌 置顶</span><time>2026 年 8 月 7 日</time><span class="card-category" title="博客"><span class="cc-seg">博客</span></span></div>
-  <h2 class="card-title"><a href="posts/hello-world.html">博客上线啦！欢迎来到 Zonkidd 的代码世界</a></h2>
-  <p class="card-summary">我的个人技术博客正式上线了，基于 GitHub Pages 免费托管，零成本、零维护。这篇文章分享一下博客的搭建思路。</p>
-  <div class="card-tags"><span class="card-tag">博客</span><span class="card-tag">GitHub Pages</span><span class="card-tag">前端</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-1厘米换算英尺英寸（C语言实现）.html">PTA基础编程题目集 7-1厘米换算英尺英寸（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-1 厘米换算英尺英寸”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示厘米转英制英尺英寸的换算方法与浮点到整型的截断处理。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-2然后是几点（C语言实现）.html">PTA基础编程题目集 7-2然后是几点（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-2 然后是几点”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示 4 位整数时分格式的拆解与&quot;加/减分钟数&quot;的统一处理方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-3逆序的三位数（C语言实现）.html">PTA基础编程题目集 7-3逆序的三位数（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-3 逆序的三位数”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示百位/十位/个位数字拆分与逆序重组，并自然消除前导零的方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-4BCD解密（C语言实现）.html">PTA基础编程题目集 7-4BCD解密（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-4 BCD 解密”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示把&quot;被误当成二进制解析的十进制整数&quot;还原回正确 BCD 表示的思路。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-5表格输出（C语言实现）.html">PTA基础编程题目集 7-5表格输出（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-5 表格输出”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 printf 严格对齐输出多行列表内容的格式控制。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-6混合类型数据格式化输入（C语言实现）.html">PTA基础编程题目集 7-6混合类型数据格式化输入（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-6 混合类型数据格式化输入”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示按格式读取不同类型数据、再按指定顺序与小数位输出的方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-7 12-24小时制（C语言实现）.html">PTA基础编程题目集 7-7 12-24小时制（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-7 12-24 小时制”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示带冒号分隔的时间读取与 24 小时制到 12 小时制加 AM/PM 的分支转换。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-8超速判断（C语言实现）.html">PTA基础编程题目集 7-8超速判断（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-8 超速判断”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示用简单 if-else 分支判断车速是否超过 60 mph 并按指定格式输出。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-9用天平找小球（C语言实现）.html">PTA基础编程题目集 7-9用天平找小球（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-9 用天平找小球”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示三球中通过两两相等比较唯一找出&quot;重量不同者&quot;的最简分支法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-10计算工资（C语言实现）.html">PTA基础编程题目集 7-10计算工资（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-10 计算工资”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示按&quot;新/老职工&quot;确定时薪，再按&quot;是否超时&quot;计加班工资 1.5 倍的分段计费思路。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-11分段计算居民水费（C语言实现）.html">PTA基础编程题目集 7-11分段计算居民水费（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-11 分段计算居民水费”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示两段式阶梯水价的条件分支计算与两位小数格式化输出。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-12两个数的简单计算器（C语言实现）.html">PTA基础编程题目集 7-12两个数的简单计算器（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-12 两个数的简单计算器”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示用多分支 if-else 链识别运算符并执行对应运算、非法符号报错的处理。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-13日K蜡烛图（C语言实现）.html">PTA基础编程题目集 7-13日K蜡烛图（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-13 日K蜡烛图”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示基于 Open/High/Low/Close 四个价格判断蜡烛颜色类型及上下影线有无的多重比较方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-14求整数段和（C语言实现）.html">PTA基础编程题目集 7-14求整数段和（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-14 求整数段和”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示整数段循环遍历、按 5 个一行右对齐格式化输出及累加求和的完整流程。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-15计算圆周率（C语言实现）.html">PTA基础编程题目集 7-15计算圆周率（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-15 计算圆周率”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示利用级数递推公式求 π/2 近似值，直到单项小于阈值的迭代方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-16求符合给定条件的整数集（C语言实现）.html">PTA基础编程题目集 7-16求符合给定条件的整数集（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-16 求符合给定条件的整数集”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示从 4 个连续数字中全排列取 3 位组成无重复三位数，并按 6 个一行、行末无多余空格的格式化输出。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-17爬动的蠕虫（C语言实现）.html">PTA基础编程题目集 7-17爬动的蠕虫（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-17 爬动的蠕虫”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示模拟&quot;上爬 U 寸 → 未出则休息下滑 D 寸 → 时间累加&quot;循环直到蠕虫爬出井口的过程。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-18二分法求多项式单根（C语言实现）.html">PTA基础编程题目集 7-18二分法求多项式单根（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-18 二分法求多项式单根”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示在区间 [a,b] 上连续异号端点时，用中点反复折半直到区间长度 &lt; 阈值，取中点近似根的数值方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-19支票面额（C语言实现）.html">PTA基础编程题目集 7-19支票面额（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题“7-19 支票面额”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示根据题意列不定方程 98f − 199y = n 并通过枚举 y,f ∈ [0,99] 求整数解的穷举法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-20打印九九口诀表（C语言实现）.html">PTA基础编程题目集 7-20打印九九口诀表（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-20 打印九九口诀表&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用双层循环输出下三角乘法口诀表，以及使用 `%-4d` 格式控制符实现等号右边数字左对齐占 4 位的格式化输出方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现）.html">PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-21 求特殊方程的正整数解&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过双重枚举 X、Y（满足 X≤Y 且 X²,Y²≤N）寻找所有满足 X²+Y²=N 的正整数解的穷举法，并处理无解时输出 No Solution。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-22龟兔赛跑（C语言实现）.html">PTA基础编程题目集 7-22龟兔赛跑（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-22 龟兔赛跑&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过逐分钟模拟（乌龟匀速前进、兔子每跑 10 分钟检查一次并可能休息 30 分钟）的过程模拟法，最终比较 T 分钟后两者距离并按格式输出胜者及距离。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-24约分最简分式（C语言实现）.html">PTA基础编程题目集 7-24约分最简分式（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-24 约分最简分式&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `scanf(&quot;%d/%d&quot;)` 解析&quot;分子/分母&quot;格式输入，并通过辗转相除法（欧几里得算法）求最大公约数 gcd，再将分子分母同除以 gcd 得到最简分式的方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-25念数字（C语言题解）.html">PTA基础编程题目集 7-25念数字（C语言题解）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-25 念数字&quot;的深度题解（C 语言），涵盖题目描述、输入输出格式及 C 语言实现，讲解如何将整数以字符串读入、利用字符数组编码特性建立数字到拼音的映射表 `pinyin[10]`，并通过 `first` 标志统一处理正/负/零以及&quot;行末不出多余空格&quot;的格式控制；文末附复杂度分析、常见易错点与多组测试用例。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-25念数字（C语言实现）.html">PTA基础编程题目集 7-25念数字（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-25 念数字&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将整数按字符串读入，使用拼音映射表（0→ling、1→yi…9→jiu）逐位查表输出，并处理负号&quot;fu&quot;与行末无多余空格的格式化控制方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-26单词长度（C语言实现）.html">PTA基础编程题目集 7-26单词长度（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-26 单词长度&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `scanf(&quot;%c&quot;)` 逐字符读取直到遇到 `.` 为止，并通过长度计数器 `len` 和首项标志 `first` 实现：按空格切分单词、跳过连续空格、输出每个单词长度且行末无多余空格的方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-27冒泡法排序（C语言实现）.html">PTA基础编程题目集 7-27冒泡法排序（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-27 冒泡法排序&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示冒泡排序算法进行 K 趟扫描（每趟将一个最大元素&quot;冒泡&quot;到末尾）的过程，并输出执行完第 K 趟扫描后的中间数组结果。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-28猴子选大王（C语言实现）.html">PTA基础编程题目集 7-28猴子选大王（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-28 猴子选大王&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示约瑟夫环问题（N 只猴子围成一圈 1~N 编号，每报到 3 淘汰）的数组模拟解法：用数组值为 0 标记已淘汰、`pos = (pos+1)%n` 实现环形遍历，直到仅剩 1 只猴子即为猴王。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-29删除字符串中的子串（C语言实现）.html">PTA基础编程题目集 7-29删除字符串中的子串（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-29 删除字符串中的子串&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示用 `fgets` 读取含空格的两行字符串 S1/S2，通过外层循环反复查找+内层前移覆盖的方式，重复删除 S1 中所有出现的子串 S2，直到 S1 中再无 S2 为止的朴素删除算法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-30字符串的冒泡排序（C语言实现）.html">PTA基础编程题目集 7-30字符串的冒泡排序（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-30 字符串的冒泡排序&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将冒泡排序从整数扩展到字符串：使用二维字符数组存储 N 个字符串，用 `strcmp` 比较相邻字符串大小、用 `strcpy` 完成字符串交换，并在执行 K 趟扫描后按行输出中间排序结果。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-31字符串循环左移（C语言实现）.html">PTA基础编程题目集 7-31字符串循环左移（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-31 字符串循环左移&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `fgets` 读取含空格字符串并去除换行、对左移位数 `N %= len` 处理 N≥长度的情况，最终通过&quot;先打印 [n, len) 再打印 [0, n)&quot;两段直接拼接输出循环左移结果的巧妙方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-32说反话-加强版（C语言实现）.html">PTA基础编程题目集 7-32说反话-加强版（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-32 说反话-加强版&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示大数据规模（50 万字符）下一次线性扫描用两个数组 `words[]`/`wordLens[]` 记录每个单词的起始位置与长度，再从最后一个单词开始倒序逐个 `putchar` 输出字符，单词间只输出一个空格的高效实现。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-33有理数加法（C语言实现）.html">PTA基础编程题目集 7-33有理数加法（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-33 有理数加法&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示用 `scanf(&quot;%d/%d %d/%d&quot;)` 解析两个分数输入、通分相加 `(a1*b2+a2*b1) / (b1*b2)`，再通过辗转相除法 gcd 约分为最简分数，最后根据分母是否为 1 决定是否省略分母的格式控制方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-34通讯录的录入与显示（C语言实现）.html">PTA基础编程题目集 7-34通讯录的录入与显示（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-34 通讯录的录入与显示&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 `struct Contact` 结构体（name、birthday、gender、fixedPhone、mobilePhone）数组一次性录入 N 条通讯录记录，再依次处理 K 次查询，对编号 0~N-1 内按&quot;姓名 固话 手机 性别 生日&quot;格式输出，否则输出 `Not Found`。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-35有理数均值（C语言实现）.html">PTA基础编程题目集 7-35有理数均值（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-35 有理数均值&quot;的题解，涵盖题目描述、输入输出格式及纯 C 语言实现，展示逐个读入分数字符串、按 '/' 是否存在把有理数解析为 (分子,分母) 长整数对，通过通分累加并逐步约分；最终将总和分母 ×N 求平均值，再用辗转相除法 gcd 约成最简，保证分母为正、分母为 1 仅输出分子。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-36复数四则运算（C语言实现）.html">PTA基础编程题目集 7-36复数四则运算（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-36 复数四则运算&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示将两个复数 C1=a1+b1i、C2=a2+b2i 按 +、−、×、÷ 四则运算公式计算结果，并通过 `printComplex` 函数按&quot;保留一位小数、实部虚部接近 0 时省略、全 0 时输出 0.0&quot;的格式化规则输出完整运算表达式。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-37整数分解为若干项之和（C语言实现）.html">PTA基础编程题目集 7-37整数分解为若干项之和（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-37 整数分解为若干项之和&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用深度优先搜索（DFS）生成所有&quot;每项不小于前一项&quot;的整数 N 分解序列（递增顺序保证字典序），并通过两次 DFS：第一次先计数所有合法方案总数 total，第二次按格式输出，实现&quot;每 4 个式子换行、式子间用 ; 分隔、每 4 个或最后一个不加 ; 而换行&quot;的严格格式控制。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 编程题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">编程题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-编程题-PTA基础编程题目集 7-38数列求和-加强版（C语言实现）.html">PTA基础编程题目集 7-38数列求和-加强版（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 编程题&quot;7-38 数列求和-加强版&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过&quot;竖式加法逐位统计进位&quot;的大整数加法思路：共 N 项 A、AA、AAA…、AA…A（N 个 A），从右往左第 i 位上共有 i 个 A 相加，第 i 位值 = i·A + 上一步进位，模 10 记位、整除 10 作新进位；最后如果仍有进位则作为最高位，整体输出结果数组。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">编程题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-2多项式求值（C语言实现）.html">PTA基础编程题目集 6-2多项式求值（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-2 多项式求值”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示多项式逐项累加求值的实现思路与复杂度分析。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-3简单求和（C语言实现）.html">PTA基础编程题目集 6-3简单求和（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-3 简单求和”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示线性遍历数组进行累加求和的基础算法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-4求自定类型元素的平均（C语言实现）.html">PTA基础编程题目集 6-4求自定类型元素的平均（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-4 求自定类型元素的平均”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示先求和后除法求均值，并使用 double 类型避免精度丢失。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-5求自定类型元素的最大值（C语言实现）.html">PTA基础编程题目集 6-5求自定类型元素的最大值（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-5 求自定类型元素的最大值”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示一次遍历数组打擂台求最大值的经典算法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-6求单链表结点的阶乘和（C语言实现）.html">PTA基础编程题目集 6-6求单链表结点的阶乘和（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-6 求单链表结点的阶乘和”的题解，涵盖题目描述、函数接口定义、单链表结构及 C 语言实现，展示链表遍历与阶乘计算的综合应用。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-7统计某类完全平方数（C语言实现）.html">PTA基础编程题目集 6-7统计某类完全平方数（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-7 统计某类完全平方数”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示整数各位拆分、完全平方数判定与重复数字检测的综合思路。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-8简单阶乘计算（C语言实现）.html">PTA基础编程题目集 6-8简单阶乘计算（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-8 简单阶乘计算”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示连乘法计算阶乘并处理边界条件（0! = 1、负数输入非法）。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-9统计个位数字（C语言实现）.html">PTA基础编程题目集 6-9统计个位数字（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-9 统计个位数字”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示&quot;除 10 取余法&quot;逐位统计数字出现次数的技巧。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-10阶乘计算升级版（C语言实现）.html">PTA基础编程题目集 6-10阶乘计算升级版（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-10 阶乘计算升级版”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示用数组模拟大整数乘法解决 N! 超范围问题的思路。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）.html">PTA基础编程题目集 6-11求自定类型元素序列的中位数（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-11 求自定类型元素序列的中位数”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示希尔排序后取中间元素求中位数的实现方法。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-12判断奇偶性（C语言实现）.html">PTA基础编程题目集 6-12判断奇偶性（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-12 判断奇偶性”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示利用&quot;整数对 2 取余&quot;判断奇偶并处理负数、零等边界情况。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="PTA基础编程题目集 / 函数题 / C语言实现"><span class="cc-seg">PTA基础编程题目集</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">函数题</span><span class="cc-sep" aria-hidden="true">/</span><span class="cc-seg">C语言实现</span></span></div>
-  <h2 class="card-title"><a href="posts/文章-函数题-PTA基础编程题目集 6-13折半查找（C语言实现）.html">PTA基础编程题目集 6-13折半查找（C语言实现）</a></h2>
-  <p class="card-summary">本文是 PTA 函数题“6-13 折半查找（二分查找）”的题解，涵盖题目描述、函数接口定义及 C 语言实现，展示有序顺序表上经典的二分查找算法与复杂度分析。</p>
-  <div class="card-tags"><span class="card-tag">PTA</span><span class="card-tag">C语言</span><span class="card-tag">函数题</span><span class="card-tag">算法</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 7 日</time><span class="card-category" title="测试栏目"><span class="cc-seg">测试栏目</span></span></div>
-  <h2 class="card-title"><a href="posts/how-to-test-code.html">如何高效测试你的代码</a></h2>
-  <p class="card-summary">测试不是任务，而是开发流程的一部分。分享一套实用的测试分层策略与落地方法。</p>
-  <div class="card-tags"><span class="card-tag">测试</span><span class="card-tag">工程实践</span><span class="card-tag">质量</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 8 月 1 日</time><span class="card-category" title="技术"><span class="cc-seg">技术</span></span></div>
-  <h2 class="card-title"><a href="posts/git-workflow.html">一套好用的 Git 协作工作流</a></h2>
-  <p class="card-summary">团队协作中，一套清晰一致的 Git 工作流能省去大量沟通成本。分享我常用的分支模型和提交规范。</p>
-  <div class="card-tags"><span class="card-tag">Git</span><span class="card-tag">工程实践</span><span class="card-tag">协作</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 7 月 20 日</time><span class="card-category" title="技术"><span class="cc-seg">技术</span></span></div>
-  <h2 class="card-title"><a href="posts/markdown-guide.html">Markdown 写作完全指南</a></h2>
-  <p class="card-summary">Markdown 是技术写作的事实标准。从基础语法到进阶技巧，一篇文章带你掌握这门「以内容为中心」的写作语言。</p>
-  <div class="card-tags"><span class="card-tag">Markdown</span><span class="card-tag">写作</span><span class="card-tag">效率</span></div>
-</article>
-  <article class="post-card">
-  <div class="card-meta"><time>2026 年 7 月 15 日</time><span class="card-category" title="技术"><span class="cc-seg">技术</span></span></div>
-  <h2 class="card-title"><a href="posts/github-pages-deploy.html">用 GitHub Pages 免费托管你的个人网站</a></h2>
-  <p class="card-summary">GitHub Pages 提供免费、稳定的静态网站托管，带宽和 HTTPS 全包。这篇文章是完整的零基础部署教程。</p>
-  <div class="card-tags"><span class="card-tag">GitHub Pages</span><span class="card-tag">部署</span><span class="card-tag">前端</span></div>
-</article>
-    </div>
-  </div>
-</section></main>
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <p>© 2026 Zonkidd · Powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></p>
-    <p class="footer-links">
-      <a href="https://github.com/Zonkidd-Shao" target="_blank" rel="noopener">GitHub</a>
-      <a href="mailto:zonkidd.shao@foxmail.com">Email</a>
-    </p>
-  </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    if (window.mermaid) {
-      var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: theme,
-        securityLevel: 'loose',
-        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
-        sequence: { useMaxWidth: true },
-        gantt: { useMaxWidth: true }
-      });
-    }
-  });
+<html lang="zh-cn" dir="ltr">
+    <head>
+	<meta name="generator" content="Hugo 0.164.0"><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="记录代码、探索技术、分享思考">
+<title>首页</title>
+
+
+<link rel="canonical" href="https://zonkidd-shao.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/scss/style.min.59c5eb617b2b83358d0baf163162325d5249a2be44239b430beb29a87c1ddbe4.css"><meta property='og:title' content="首页">
+<meta property='og:description' content="记录代码、探索技术、分享思考">
+<meta property='og:url' content='https://zonkidd-shao.github.io/'>
+<meta property='og:site_name' content='Zonkidd 的技术博客'>
+<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-08-07T00:00:00&#43;00:00 '/>
+<meta name="twitter:title" content="首页">
+<meta name="twitter:description" content="记录代码、探索技术、分享思考"><link rel="alternate" type="application/rss&#43;xml" href="https://zonkidd-shao.github.io/index.xml">
+    </head>
+    <body class="">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
 </script>
-<script src="assets/main.js"></script>
-</body>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Zonkidd 的技术博客</a></h1>
+            <h2 class="site-description">记录代码、探索技术、分享思考</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                <form action="/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
+        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+            
+        
+            
+                
+<section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">
+        
+            <a href="/categories/">
+                Categories
+            </a>
+        
+    </h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E5%87%BD%E6%95%B0%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+                PTA基础编程题目集/函数题/C语言实现
+            </a>
+        
+    </div>
+</section>
+
+            
+        
+            
+                <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">
+            <a href="/archives/">
+                Archives
+            </a>
+        </h2>
+
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2026">
+                        
+                            <span class="year">2026</span>
+                            <span class="count">50</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+            
+        
+            
+                
+<section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">
+        
+            <a href="/tags/">
+                Tags
+            </a>
+        
+    </h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">
+                C语言
+            </a>
+        
+            <a href="/tags/pta/">
+                PTA
+            </a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                算法
+            </a>
+        
+            <a href="/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/">
+                编程题
+            </a>
+        
+            <a href="/tags/%E5%87%BD%E6%95%B0%E9%A2%98/">
+                函数题
+            </a>
+        
+    </div>
+</section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width"><section class="article-list">
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-1%E5%8E%98%E7%B1%B3%E6%8D%A2%E7%AE%97%E8%8B%B1%E5%B0%BA%E8%8B%B1%E5%AF%B8c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-1厘米换算英尺英寸（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-1 厘米换算英尺英寸”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示厘米转英制英尺英寸的换算方法与浮点到整型的截断处理。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        3 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-2%E7%84%B6%E5%90%8E%E6%98%AF%E5%87%A0%E7%82%B9c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-2然后是几点（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-2 然后是几点”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示 4 位整数时分格式的拆解与&#39;加/减分钟数&#39;的统一处理方法。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        4 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-3%E9%80%86%E5%BA%8F%E7%9A%84%E4%B8%89%E4%BD%8D%E6%95%B0c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-3逆序的三位数（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-3 逆序的三位数”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示百位/十位/个位数字拆分与逆序重组，并自然消除前导零的方法。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        2 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-4bcd%E8%A7%A3%E5%AF%86c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-4BCD解密（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-4 BCD 解密”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示把&#39;被误当成二进制解析的十进制整数&#39;还原回正确 BCD 表示的思路。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        3 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-5%E8%A1%A8%E6%A0%BC%E8%BE%93%E5%87%BAc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-5表格输出（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-5 表格输出”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示使用 printf 严格对齐输出多行列表内容的格式控制。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        2 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-6%E6%B7%B7%E5%90%88%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%85%A5c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-6混合类型数据格式化输入（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-6 混合类型数据格式化输入”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示按格式读取不同类型数据、再按指定顺序与小数位输出的方法。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        3 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-7-12-24%E5%B0%8F%E6%97%B6%E5%88%B6c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-7 12-24小时制（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-7 12-24 小时制”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示带冒号分隔的时间读取与 24 小时制到 12 小时制加 AM/PM 的分支转换。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        3 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-8%E8%B6%85%E9%80%9F%E5%88%A4%E6%96%ADc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-8超速判断（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-8 超速判断”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示用简单 if-else 分支判断车速是否超过 60 mph 并按指定格式输出。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        2 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-9%E7%94%A8%E5%A4%A9%E5%B9%B3%E6%89%BE%E5%B0%8F%E7%90%83c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-9用天平找小球（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-9 用天平找小球”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示三球中通过两两相等比较唯一找出&#39;重量不同者&#39;的最简分支法。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        2 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-10%E8%AE%A1%E7%AE%97%E5%B7%A5%E8%B5%84c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-10计算工资（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题“7-10 计算工资”的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示按&#39;新/老职工&#39;确定时薪，再按&#39;是否超时&#39;计加班工资 1.5 倍的分段计费思路。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        3 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+    </section><nav
+        class="pagination"
+        role="navigation"
+        aria-label="pagination"
+        data-total="5"
+        data-first-url="/"
+        data-format-url="/page/2/"><a
+            class="page-link disabled"aria-disabled="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
+        </a><a
+            class="page-link current"
+            aria-label="Page 1"aria-current="page">
+            1
+        </a><a
+                    class="page-link  "href="/page/2/"
+                    aria-label="Page 2">
+                    2
+                </a><a
+                    class="page-link  hide-on-mobile"href="/page/3/"
+                    aria-label="Page 3">
+                    3
+                </a><a
+                    class="page-link  hide-on-mobile"href="/page/4/"
+                    aria-label="Page 4">
+                    4
+                </a><a
+            class="page-link "href="/page/5/"aria-label="Page 5">
+            5
+        </a><a
+            class="page-link "href="/page/2/"
+                aria-label="Next page">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+        </a>
+    </nav>
+
+    <dialog id="pagination-jump-dialog" aria-labelledby="pagination-jump-title">
+        <form method="dialog" class="pagination-jump-form">
+            <header>
+                <label id="pagination-jump-title" class="title" for="pagination-jump-input">
+                    Jump to page
+                </label>
+                <span class="subtitle">(1 - 5)</span>
+            </header>
+            <div class="pagination-jump-input-group">
+                <input
+                    type="number"
+                    id="pagination-jump-input"
+                    min="1"
+                    max="5"
+                    autofocus
+                    autocomplete="off"
+                    required>
+                <button type="submit" class="btn btn-primary">
+                    Go
+                </button>
+            </div>
+            <div class="pagination-jump-hint">
+                <kbd>Enter</kbd>
+                <span>Press Enter to jump</span>
+            </div>
+        </form>
+    </dialog><footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Zonkidd 的技术博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/ts/main.1ff1e5fdc4e178ed422e50aa407526dc552f26342d729343fded19416194382c.js" defer></script>
+
+
+    </body>
 </html>

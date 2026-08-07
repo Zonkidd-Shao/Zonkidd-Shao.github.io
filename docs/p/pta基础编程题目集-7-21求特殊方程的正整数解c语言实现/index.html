@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文是 PTA 编程题'7-21 求特殊方程的正整数解'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过双重枚举 X、Y（满足 X≤Y 且 X²,Y²≤N）寻找所有满足 X²+Y²=N 的正整数解的穷举法，并处理无解时输出 No Solution。">
+<title>PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现）</title>
+
+
+<link rel="canonical" href="https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-21%E6%B1%82%E7%89%B9%E6%AE%8A%E6%96%B9%E7%A8%8B%E7%9A%84%E6%AD%A3%E6%95%B4%E6%95%B0%E8%A7%A3c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/scss/style.min.59c5eb617b2b83358d0baf163162325d5249a2be44239b430beb29a87c1ddbe4.css"><meta property='og:title' content="PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现）">
+<meta property='og:description' content="本文是 PTA 编程题'7-21 求特殊方程的正整数解'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过双重枚举 X、Y（满足 X≤Y 且 X²,Y²≤N）寻找所有满足 X²+Y²=N 的正整数解的穷举法，并处理无解时输出 No Solution。">
+<meta property='og:url' content='https://zonkidd-shao.github.io/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-21%E6%B1%82%E7%89%B9%E6%AE%8A%E6%96%B9%E7%A8%8B%E7%9A%84%E6%AD%A3%E6%95%B4%E6%95%B0%E8%A7%A3c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/'>
+<meta property='og:site_name' content='Zonkidd 的技术博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='PTA' /><meta property='article:tag' content='C语言' /><meta property='article:tag' content='编程题' /><meta property='article:tag' content='算法' /><meta property='article:published_time' content='2026-08-07T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-08-07T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现）">
+<meta name="twitter:description" content="本文是 PTA 编程题'7-21 求特殊方程的正整数解'的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过双重枚举 X、Y（满足 X≤Y 且 X²,Y²≤N）寻找所有满足 X²+Y²=N 的正整数解的穷举法，并处理无解时输出 No Solution。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Zonkidd 的技术博客</a></h1>
+            <h2 class="site-description">记录代码、探索技术、分享思考</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav class="toc-nav" id="TableOfContents">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-变量声明与输入">1. 变量声明与输入</a></li>
+        <li><a href="#2-双重枚举求正整数解">2. 双重枚举求正整数解</a></li>
+        <li><a href="#3-无解判断">3. 无解判断</a></li>
+        <li><a href="#4-返回">4. 返回</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86/%E7%BC%96%E7%A8%8B%E9%A2%98/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" style="background-color: hsl(243, 60%, 84%); color: hsl(243, 60%, 15%);">
+                PTA基础编程题目集/编程题/C语言实现
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-21%E6%B1%82%E7%89%B9%E6%AE%8A%E6%96%B9%E7%A8%8B%E7%9A%84%E6%AD%A3%E6%95%B4%E6%95%B0%E8%A7%A3c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">PTA基础编程题目集 7-21求特殊方程的正整数解（C语言实现）</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            本文是 PTA 编程题&#39;7-21 求特殊方程的正整数解&#39;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过双重枚举 X、Y（满足 X≤Y 且 X²,Y²≤N）寻找所有满足 X²&#43;Y²=N 的正整数解的穷举法，并处理无解时输出 No Solution。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-08-07T00:00:00Z'>Friday, August 7, 2026</time>
+                
+
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                    <time class="article-time--reading">
+                        4 minutes read
+                    </time>
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+
+    
+    <aside class="article-toc">
+        <details>
+            <summary>
+                <div class="article-toc-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    <span>Table of contents</span>
+                </div>
+            </summary>
+            <nav class="toc-nav">
+                
+  <ul>
+    <li><a href="#题目描述">题目描述</a>
+      <ul>
+        <li><a href="#输入格式">输入格式：</a></li>
+        <li><a href="#输出格式">输出格式：</a></li>
+        <li><a href="#输入样例">输入样例：</a></li>
+        <li><a href="#输出样例">输出样例：</a></li>
+      </ul>
+    </li>
+    <li><a href="#解题思路">解题思路</a>
+      <ul>
+        <li><a href="#核心问题分析">核心问题分析</a></li>
+        <li><a href="#算法原理说明">算法原理说明</a></li>
+        <li><a href="#具体计算步骤">具体计算步骤</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码部分实现">代码部分实现</a></li>
+    <li><a href="#代码流程说明">代码流程说明</a>
+      <ul>
+        <li><a href="#1-变量声明与输入">1. 变量声明与输入</a></li>
+        <li><a href="#2-双重枚举求正整数解">2. 双重枚举求正整数解</a></li>
+        <li><a href="#3-无解判断">3. 无解判断</a></li>
+        <li><a href="#4-返回">4. 返回</a></li>
+      </ul>
+    </li>
+    <li><a href="#代码流程图">代码流程图</a></li>
+    <li><a href="#解题流程图">解题流程图</a></li>
+  </ul>
+
+            </nav>
+        </details>
+    </aside>
+    
+
+    <section class="article-content">
+    
+    
+    
+    <blockquote>
+        <p><strong>摘要</strong>：本文是 PTA 编程题&quot;7-21 求特殊方程的正整数解&quot;的题解，涵盖题目描述、输入输出格式及 C 语言实现，展示通过双重枚举 X、Y（满足 X≤Y 且 X²,Y²≤N）寻找所有满足 X²+Y²=N 的正整数解的穷举法，并处理无解时输出 No Solution。</p>
+
+    </blockquote>
+<h2 id="题目描述">题目描述
+</h2><p>本题要求对任意给定的正整数N，求方程X² + Y² = N的全部正整数解。</p>
+<h3 id="输入格式">输入格式：
+</h3><p>输入在一行中给出正整数N（≤10000）。</p>
+<h3 id="输出格式">输出格式：
+</h3><p>输出方程X² + Y² = N的全部正整数解，其中X≤Y。每组解占1行，两数字间以1空格分隔，按X的递增顺序输出。如果没有解，则输出No Solution。</p>
+<h3 id="输入样例">输入样例：
+</h3><pre tabindex="0"><code>884
+</code></pre><pre tabindex="0"><code>11
+</code></pre><h3 id="输出样例">输出样例：
+</h3><pre tabindex="0"><code>10 28
+20 22
+</code></pre><pre tabindex="0"><code>No Solution
+</code></pre><h2 id="解题思路">解题思路
+</h2><p>这道题的核心是<strong>双重枚举 + 范围约束 + X≤Y 去重</strong>：X 和 Y 都是正整数且 X≤Y，因此 X 的上界是 √N，Y 的下界是 X、上界也是 √N（因为当 Y&gt;√N 时 Y²&gt;N，X²≥1 所以 X²+Y²&gt;N，无解）。枚举范围设为 X,Y ∈ [1, √N]，再判断 X²+Y² 是否等于 N 即可。</p>
+<h3 id="核心问题分析">核心问题分析
+</h3><ol>
+<li><strong>枚举上界</strong>：X² ≤ N → X ≤ √N；同理 Y² ≤ N → Y ≤ √N。N 最大 10000，√10000=100，因此循环最多 100×100=10⁴ 次，效率足够。</li>
+<li><strong>X≤Y 约束</strong>：令内层循环 Y 从 X 开始（而非从 1 开始），天然满足 X≤Y，避免 (X,Y) 和 (Y,X) 重复输出，同时按 X 递增自然满足输出顺序要求。</li>
+<li><strong>正整数</strong>：X、Y 必须 ≥1，因此循环从 1 开始而不是从 0 开始。</li>
+<li><strong>判无解</strong>：用标志变量 <code>found</code>，若整个双重循环结束仍为 0，则输出 No Solution。</li>
+</ol>
+<h3 id="算法原理说明">算法原理说明
+</h3><p>双重 for 枚举 X∈[1, √N]，对每个 X 再枚举 Y∈[X, √N]，若 X²+Y²==N 则立即输出并将 found 置 1。由于 X 从小到大、Y 从 X 开始，输出天然按 X 递增、X≤Y 的要求。</p>
+<h3 id="具体计算步骤">具体计算步骤
+</h3><ol>
+<li><code>scanf(&quot;%d&quot;, &amp;N);</code> 读入 N，初始化 <code>found=0</code></li>
+<li><code>for (X=1; X*X &lt;= N; X++)</code>：
+<ul>
+<li><code>for (Y=X; Y*Y &lt;= N; Y++)</code>：
+<ul>
+<li>若 <code>X*X + Y*Y == N</code> → <code>printf(&quot;%d %d\n&quot;, X, Y); found = 1;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>双重循环结束后：若 <code>!found</code> → <code>printf(&quot;No Solution\n&quot;);</code></li>
+<li>return 0</li>
+</ol>
+<h2 id="代码部分实现">代码部分实现
+</h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt; // 引入标准输入输出头文件，提供 scanf、printf</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) <span style="color:#75715e">// 主函数入口，void 表示无命令行参数
+</span></span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> N, X, Y, found <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// N 为给定的正整数；X、Y 为方程 X²+Y²=N 的解；found 标记是否找到解（1有/0无）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>N); <span style="color:#75715e">// 从标准输入读取正整数 N
+</span></span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 枚举 X、Y 的所有可能取值，寻找满足 X²+Y²=N 且 X≤Y 的正整数解
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (X <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; X <span style="color:#f92672">*</span> X <span style="color:#f92672">&lt;=</span> N; X<span style="color:#f92672">++</span>) { <span style="color:#75715e">// 外层枚举 X：X²≤N → X≤√N，X 从 1 开始保证正整数
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (Y <span style="color:#f92672">=</span> X; Y <span style="color:#f92672">*</span> Y <span style="color:#f92672">&lt;=</span> N; Y<span style="color:#f92672">++</span>) { <span style="color:#75715e">// 内层枚举 Y：从 X 开始保证 X≤Y，Y²≤N 限制上界
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (X <span style="color:#f92672">*</span> X <span style="color:#f92672">+</span> Y <span style="color:#f92672">*</span> Y <span style="color:#f92672">==</span> N) { <span style="color:#75715e">// 判断当前 (X,Y) 是否满足方程
+</span></span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%d %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, X, Y); <span style="color:#75715e">// 按格式输出一组解
+</span></span></span><span style="display:flex;"><span>                found <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// 标记至少找到一组解
+</span></span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>found) { <span style="color:#75715e">// 双重循环结束后 found 仍为 0 → 无解
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;No Solution</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>); <span style="color:#75715e">// 输出无解提示
+</span></span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// 程序正常结束，返回 0
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="代码流程说明">代码流程说明
+</h2><h3 id="1-变量声明与输入">1. 变量声明与输入
+</h3><ul>
+<li><code>int N</code>：给定的正整数（≤10000）</li>
+<li><code>int X, Y</code>：方程的两个未知数，要求 1≤X≤Y</li>
+<li><code>int found = 0</code>：是否找到解的标志，0 表示暂无解</li>
+<li><code>scanf(&quot;%d&quot;, &amp;N)</code> 读取 N</li>
+</ul>
+<h3 id="2-双重枚举求正整数解">2. 双重枚举求正整数解
+</h3><ul>
+<li><strong>外层 X 循环</strong>：<code>X=1; X*X&lt;=N; X++</code>，X 从 1 到 √N
+<ul>
+<li><strong>内层 Y 循环</strong>：<code>Y=X; Y*Y&lt;=N; Y++</code>，Y 从 X 到 √N，保证 X≤Y 且不重复</li>
+<li><strong>判断方程</strong>：<code>X*X + Y*Y == N</code> 成立则输出该组解并 <code>found=1</code></li>
+</ul>
+</li>
+<li>由于 X 从小到大、Y 从 X 开始，输出自动按 X 递增，且 X≤Y</li>
+</ul>
+<h3 id="3-无解判断">3. 无解判断
+</h3><ul>
+<li>双重循环结束后，若 <code>found</code> 仍为 0，则输出 <code>No Solution</code></li>
+</ul>
+<h3 id="4-返回">4. 返回
+</h3><ul>
+<li><code>return 0</code></li>
+</ul>
+<h2 id="代码流程图">代码流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始\nmain()"] --> B["读入 N\nfound=0"]
+  B --> C["X=1"]
+  C --> D{"X*X <= N?"}
+  D -- "否" --> J{"!found?"}
+  D -- "是" --> E["Y=X"]
+  E --> F{"Y*Y <= N?"}
+  F -- "否" --> I["X++\n回到 D"]
+  F -- "是" --> G{"X*X+Y*Y == N?"}
+  G -- "是" --> H["printf X Y\nfound=1"]
+  G -- "否" --> H2["Y++\n回到 F"]
+  H --> H2
+  H2 --> F
+  I --> D
+  J -- "是" --> K["printf No Solution"]
+  J -- "否" --> L["return 0"]
+  K --> L
+  L --> M["结束"]</pre><h2 id="解题流程图">解题流程图
+</h2><pre class="mermaid" style="visibility:hidden">flowchart TD
+  A["开始"] --> B["输入正整数 N（≤10000）"]
+  B --> C["建立方程：X² + Y² = N，X≤Y，X,Y≥1"]
+  C --> D["X 从 1 到 √N 枚举"]
+  D --> E["对每个 X，Y 从 X 到 √N 枚举"]
+  E --> F{"X² + Y² == N?"}
+  F -- "是" --> G["输出 X Y（按 X 递增）"]
+  F -- "否" --> H["继续下一组枚举"]
+  G --> H
+  H --> I{"枚举完毕?"}
+  I -- "否" --> D
+  I -- "是" --> J{"是否找到解?"}
+  J -- "是" --> K["结束"]
+  J -- "否" --> L["输出 No Solution"]
+  L --> K</pre>
+</section>
+
+
+    <footer class="article-meta article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pta/">PTA</a>
+        
+            <a href="/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+            <a href="/tags/%E7%BC%96%E7%A8%8B%E9%A2%98/">编程题</a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside>
+    <h2 class="section-title">Related content</h2>
+    <div class="subsection-list">
+        <div class="article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-10%E8%AE%A1%E7%AE%97%E5%B7%A5%E8%B5%84c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-10计算工资（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-11%E5%88%86%E6%AE%B5%E8%AE%A1%E7%AE%97%E5%B1%85%E6%B0%91%E6%B0%B4%E8%B4%B9c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-11分段计算居民水费（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-12%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%9A%84%E7%AE%80%E5%8D%95%E8%AE%A1%E7%AE%97%E5%99%A8c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-12两个数的简单计算器（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-13%E6%97%A5k%E8%9C%A1%E7%83%9B%E5%9B%BEc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-13日K蜡烛图（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/pta%E5%9F%BA%E7%A1%80%E7%BC%96%E7%A8%8B%E9%A2%98%E7%9B%AE%E9%9B%86-7-14%E6%B1%82%E6%95%B4%E6%95%B0%E6%AE%B5%E5%92%8Cc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PTA基础编程题目集 7-14求整数段和（C语言实现）</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+
+        <div class="disqus-container">
+    
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 Zonkidd 的技术博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+
+
+
+<script type="module">
+    import gallery from '\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script>
+
+    <div class="mermaid-modal" id="mermaid-modal">
+    <div class="mermaid-modal-header">
+        <div class="mermaid-modal-controls">
+            <button data-zoom="-1">− Zoom Out</button>
+            <button data-zoom="0">Reset (100%)</button>
+            <button data-zoom="1">+ Zoom In</button>
+            <button data-zoom="fit">Fit to Screen</button>
+        </div>
+        <button class="mermaid-modal-close" id="mermaid-modal-close">✕ Close (Esc)</button>
+    </div>
+    <div class="mermaid-modal-body" id="mermaid-modal-body">
+        <div class="mermaid-modal-content" id="mermaid-modal-content"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script type="module">
+import { initMermaidPage } from '\/ts\/mermaid.js';
+initMermaidPage({"darkTheme":"dark","darkThemeVariables":{},"htmlLabels":true,"lightTheme":"default","lightThemeVariables":{},"look":"classic","securityLevel":"strict","transparentBackground":false});
+</script>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/ts/main.1ff1e5fdc4e178ed422e50aa407526dc552f26342d729343fded19416194382c.js" defer></script>
+
+
+    </body>
+</html>

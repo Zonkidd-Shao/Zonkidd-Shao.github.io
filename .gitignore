@@ -13,3 +13,8 @@ Thumbs.db
 
 # WorkBuddy 工作目录
 .workbuddy/
+
+# Hugo 可执行文件（通过 GitHub Actions 安装）
+hugo.exe
+hugo.zip
+hugo_new.zip
